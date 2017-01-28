@@ -7,13 +7,14 @@ package org.usfirst.frc.team1895.robot;
  * floating around.
  */
 
-/**
+/*
  * Changelog:
  * 
  * 1/27/2017: Created ports for the six motors on the drivetrain. All of the ports are set to zero until the
  *            CANTalon ids are set.
  *            Added ports for the two arcade joysticks.
  *            (Ethan Passmore)
+ * 1/28/2017: Changed port numbers to what is set up on the electronics board.
  *
  */
 
@@ -29,12 +30,12 @@ public class RobotMap {
 	// public static final int rangefinderModule = 1;
 	
 	//CAN Bus
-		public static final int  LEFT_MOTOR_1_PORT = 0;
-		public static final int  LEFT_MOTOR_2_PORT = 0;
-		public static final int  LEFT_MOTOR_3_PORT = 0;
-		public static final int RIGHT_MOTOR_1_PORT = 0;
-		public static final int RIGHT_MOTOR_2_PORT = 0;
-		public static final int RIGHT_MOTOR_3_PORT = 0;
+		public static final int  LEFT_MOTOR_1_PORT = 4;
+		public static final int  LEFT_MOTOR_2_PORT = 5;
+		public static final int  LEFT_MOTOR_3_PORT = 6;
+		public static final int RIGHT_MOTOR_1_PORT = 1;
+		public static final int RIGHT_MOTOR_2_PORT = 2;
+		public static final int RIGHT_MOTOR_3_PORT = 3;
 		
 	//Driver's Station IO
 		public static final int  LEFT_JOYSTICK_PORT = 0;
