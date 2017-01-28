@@ -2,8 +2,6 @@ package org.usfirst.frc.team1895.robot.commands.climbing;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc.team1895.robot.Robot;
-
 /**
  * This command handles the motorized control of the climbing motor. 
  */
