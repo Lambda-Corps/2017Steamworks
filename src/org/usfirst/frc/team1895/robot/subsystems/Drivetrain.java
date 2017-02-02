@@ -86,11 +86,9 @@ public class Drivetrain extends Subsystem {
 	
 	
 	// A basic tank drive method. The two parameters are expected to be within the range -1.0 to 1.0
-	// If not, they are limited to be within that range (to be added after MVP) The parameters
+	// If not, they are limited to be within that range. The parameters
 	// will set their respective side of robot to the given value.
 	public void tankDrive(double fuelside, double gearside) {
-		// Motors need to be in the range [-1.0, 1.0], so check to see if they are NOT
-		// If they aren't, then limit the value to be the maximum value.
 		if(fuelside >  1.0) fuelside =  1.0;
 		if(fuelside < -1.0) fuelside = -1.0;
 		if(gearside >  1.0) gearside =  1.0;
