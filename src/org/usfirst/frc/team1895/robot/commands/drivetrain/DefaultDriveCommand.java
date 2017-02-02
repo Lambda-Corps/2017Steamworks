@@ -9,18 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * As of right now, this Command is set up as the MVP, and is to be changed and added to.
  */
 
-/**
- * Changelog:
- * 
- * 1/27/2017: Call the drivetrain method 'tankdrive', passing the y-axis value
- *            of the left joysick and the y-axis value of the right joystick
- *            from Robot.oi
- *            (Ethan Passmore)
- *
- */
-
-public class DefaultDrive extends Command {
-	public DefaultDrive() {
+public class DefaultDriveCommand extends Command {
+	public DefaultDriveCommand() {
 		// Use requires() here to declare subsystem dependencies.
 		// Since this Command only needs to access motors from the drivetrain,
 		// we call requires to block other commands from using the same

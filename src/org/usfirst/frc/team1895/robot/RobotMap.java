@@ -29,14 +29,28 @@ public class RobotMap {
 	// public static final int rangefinderPort = 1;
 	// public static final int rangefinderModule = 1;
 	
+	//Analog IO
+		public static final int RANGEFINDER_PORT = 1;
+		public static final int GYRO_PORT = 2;
+	
 	//CAN Bus
-		public static final int  LEFT_MOTOR_1_PORT = 4;
-		public static final int  LEFT_MOTOR_2_PORT = 5;
-		public static final int  LEFT_MOTOR_3_PORT = 6;
-		public static final int RIGHT_MOTOR_1_PORT = 1;
-		public static final int RIGHT_MOTOR_2_PORT = 2;
-		public static final int RIGHT_MOTOR_3_PORT = 3;
-		
+		public static final int FS_MOTOR1_PORT = 4;
+		public static final int FS_MOTOR2_PORT = 5;
+		public static final int FS_MOTOR3_PORT = 6;
+		public static final int GS_MOTOR1_PORT = 1;
+		public static final int GS_MOTOR2_PORT = 2;
+		public static final int GS_MOTOR3_PORT = 3;
+	
+	//Digital IO
+		public static final int FS_GEARBOX_ENCODER_A_PORT = 1;
+		public static final int FS_GEARBOX_ENCODER_B_PORT = 2;
+		public static final int GS_GEARBOX_ENCODER_A_PORT = 3;
+		public static final int GS_GEARBOX_ENCODER_B_PORT = 4;
+		public static final int WINCH_ENCODER_A_PORT = 5;
+		public static final int WINCH_ENCODER_B_PORT = 6;
+		public static final int SHOOTER_ENCODER_A_PORT = 7;
+		public static final int SHOOTER_ENCODER_B_PORT = 8;
+	
 	//Driver's Station IO
 		public static final int  LEFT_JOYSTICK_PORT = 0;
 		public static final int RIGHT_JOYSTICK_PORT = 1;
