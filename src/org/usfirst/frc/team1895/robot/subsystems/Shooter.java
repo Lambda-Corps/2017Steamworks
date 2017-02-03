@@ -16,7 +16,7 @@ public class Shooter extends Subsystem {
     }
     
     public void moveIntake() {
-    	
+    	//Show maddy some cool shtuffs
     }
     
     
