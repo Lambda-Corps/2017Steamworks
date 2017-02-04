@@ -106,7 +106,7 @@ There are great examples of commands, workflows, and the git basics.  Any questi
 
 	Now lets create a new feature branch for making our tank drive.
 	> git branch tankdrive
-	> git branch --list
+	> branch --list
 			* master
 			  tankdrive
 
