@@ -38,7 +38,7 @@ public class DefaultDrive extends Command {
 	protected void execute() {
 		// Call the tankDrive() method of the drivetrain class, using the y-axis
 		// value of the left joysick and the y-axis value of the right joystick
-		Robot.drivetrain.tankDrive(Robot.oi.leftArcadeJoystick.getY(), Robot.oi.rightArcadeJoystick.getY());
+		Robot.drivetrain.tankDrive(-Robot.oi.leftArcadeJoystick.getRawAxis(1)*0.75, Robot.oi.rightArcadeJoystick.getRawAxis(1)*0.75);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

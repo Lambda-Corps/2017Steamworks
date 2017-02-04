@@ -67,6 +67,8 @@ public class Drivetrain extends Subsystem {
 		rightMotor1.set(right);
 		rightMotor2.set(right);
 		rightMotor3.set(right);
+		System.out.printf("1: %f\t2: %f\t3: %f\t\n"
+				,rightMotor1.getOutputCurrent(), rightMotor2.getOutputCurrent(), rightMotor3.getOutputCurrent());
 	}
 	
     public void initDefaultCommand() {
