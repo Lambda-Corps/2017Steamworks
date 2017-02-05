@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
+package org.usfirst.frc.team1895.robot.commands.gears;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
@@ -7,15 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Changelog:
  * 2/4/2017 (Maddy Seputro)
- * 		Description: Uses the camera to drive toward a specific target. If the robot drifts from the target the robot will adjust itself. 
- * 			- Desired arguments: TBD 
+ * 		Description: Use camera to detect the lift, then drive up to it using the cameras. The middle front rangefinder 
+ * 		can be used to help the robot determine whether it has reached its destination or not. Will be PID-controlled.
+ * 			- Desired arguments: speed? (or do we want it to be hardcoded)
  * 		To do still:
  * 			- Fill in execute method and other methods if needed
  * 	Added: requires statement
  */
-public class DriveWithCamera extends Command {
+public class AlignToLift extends Command {
 
-    public DriveWithCamera() {
+    public AlignToLift() {
         requires(Robot.drivetrain);
     }
 

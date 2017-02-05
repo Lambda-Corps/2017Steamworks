@@ -1,15 +1,22 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
+package org.usfirst.frc.team1895.robot.commands.climbing;
+
+import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * The command drives straight.
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: sets the motor to zero so it doesn't run unless other commands are called
+ * 			- Desired arguments: speed
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
-public class DriveStraight extends Command {
+public class DefaultWinch extends Command {
 
-    public DriveStraight() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public DefaultWinch() {
+        requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time

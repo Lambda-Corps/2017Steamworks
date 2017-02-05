@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
+package org.usfirst.frc.team1895.robot.commands.climbing;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
@@ -7,16 +7,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Changelog:
  * 2/4/2017 (Maddy Seputro)
- * 		Description: Uses the camera to drive toward a specific target. If the robot drifts from the target the robot will adjust itself. 
- * 			- Desired arguments: TBD 
+ * 		Description: Move the winch slowly so that the rope has a change to be caught in the winch's spindle. Once 
+ * 		the rope has been caught, the current level will exceed a certain threshold and we will know it has reached 
+ * 		the top and the motors will stop.
+ * 			- Desired arguments: speed? (or do we want it to be hardcoded)
  * 		To do still:
  * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ * 	Added: requires statement, renamed Command from MoveWinch to CatchRope
  */
-public class DriveWithCamera extends Command {
+public class CatchRope extends Command {
 
-    public DriveWithCamera() {
-        requires(Robot.drivetrain);
+    public CatchRope() {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time
