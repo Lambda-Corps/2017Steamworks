@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Switches between low and high gears at the push of a button. Low gear allows for more torque and less speed.
+ * 		High gear allows for less torque but more speed.
+ * 			- Desired arguments: none
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
 public class SwitchGears extends Command {
 
     public SwitchGears() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time

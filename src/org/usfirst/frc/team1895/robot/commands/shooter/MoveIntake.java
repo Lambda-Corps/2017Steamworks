@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.shooter;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Will move the indexer to allow fuel to be shot one at a time. Encoders could be used to 
+ * 		control how much the indexer motor moves when shooting or count revolutions needed to shoot one fuel
+ * 			- Desired arguments: flywheel_speed, indexer_speed
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
 public class MoveIntake extends Command {
 
     public MoveIntake() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time

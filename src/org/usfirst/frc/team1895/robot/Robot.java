@@ -20,23 +20,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
+ * 
+ *  List of all sensors used:
+ *  
+ *  List of what's displayed to SmartDashboard:
+ *  
+ *  
  */
 public class Robot extends IterativeRobot {
 
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Shooter shooter = new Shooter();
-	public static final Winch winch = new Winch();
+	public static Drivetrain drivetrain;
+	public static Shooter shooter;
+	public static Winch winch;
+	public static GearHolder gearholder;
 	public static OI oi;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
 	@Override
 	public void robotInit() {
+		drivetrain = new Drivetrain();
+		shooter = new Shooter();
+		winch = new Winch();
+		gearholder = new GearHolder();
 		oi = new OI();
 		chooser.addDefault("Default Auto", new Climb());
 		// chooser.addObject("My Auto", new MyAutoCommand());

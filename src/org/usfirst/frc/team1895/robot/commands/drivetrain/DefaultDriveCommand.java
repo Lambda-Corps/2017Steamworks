@@ -4,23 +4,19 @@ import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * This Command is where the user input is being used to set the robot's drivetrain motors.
- * As of right now, this Command is set up as the MVP, and is to be changed and added to.
- */
-
-/**
+/** 
  * Changelog:
- * 
- * 1/27/2017: Call the drivetrain method 'tankdrive', passing the y-axis value
- *            of the left joysick and the y-axis value of the right joystick
- *            from Robot.oi
- *            (Ethan Passmore)
- *
+ * (Maddy Seputro)
+ * 		Description: Where the user can pick whether to drive tank or arcade drive. Also where the axes for 
+ * 		driving can be picked to match the driver's preferences. 
+ * 			- Desired arguments: speed, distance
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 			- Add arcade drive and gamepad use
  */
 
-public class DefaultDrive extends Command {
-	public DefaultDrive() {
+public class DefaultDriveCommand extends Command {
+	public DefaultDriveCommand() {
 		// Use requires() here to declare subsystem dependencies.
 		// Since this Command only needs to access motors from the drivetrain,
 		// we call requires to block other commands from using the same
@@ -28,12 +24,10 @@ public class DefaultDrive extends Command {
 		requires(Robot.drivetrain);
 	}
 
-	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
 		// Call the tankDrive() method of the drivetrain class, using the y-axis

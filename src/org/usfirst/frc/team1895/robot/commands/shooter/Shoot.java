@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.shooter;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Set indexer_motor and flywheel_motor to desired speed. It will be called when the robot presses the 
+ * 		button for shooting (which is still TBD)
+ * 			- Desired arguments: flywheel_speed, indexer_speed
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
 public class Shoot extends Command {
 
     public Shoot() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
