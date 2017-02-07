@@ -4,18 +4,21 @@ import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Uses the camera to drive toward a specific target. If the robot drifts from the target the robot will adjust itself. 
- * 			- Desired arguments: TBD 
+/** Changelog: 
+ * 2/4/2017: (Maddy Seputro)
+ * 		Description: Uses the camera and 3 long-range rangefinders to drive toward the boiler at a given speed chosen by the user.
+ * 		Will adjust as the robot goes using the values given by the rangefinders, and stop once a certain threshold has been reached 
+ * 		and the two corner rangedfinders are within the accepted margin of error.
+ * 			- Desired arguments: speed? 
  * 		To do still:
  * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ * 	Added: requires statement, moved from Shooter Commands Package to the Drivetrain Commands Package because it requires 
+ * sensors that would be used in drivetrain. Corresponding method also moved to drivetrain subsystem.
+ *
  */
-public class DriveWithCamera extends Command {
+public class AlignToHighGoal extends Command {
 
-    public DriveWithCamera() {
+    public AlignToHighGoal() {
         requires(Robot.drivetrain);
     }
 

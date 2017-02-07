@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Uses the camera and gyro to turn a given heading chosen by the user at a given speed chosen by the user. 
+ * 		Will finish once the heading has been reached.  
+ * 			- Desired arguments: speed, heading
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
 public class TurnWithCamera extends Command {
 
     public TurnWithCamera() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time

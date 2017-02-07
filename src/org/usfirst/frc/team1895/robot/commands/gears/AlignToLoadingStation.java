@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.gears;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Use camera to detect the loading station, then drive up to it using the cameras. The middle front rangefinder 
+ * 		can be used to help the robot determine whether it has reached its destination or not. Will be PID-controlled.
+ * 			- Desired arguments: speed? (or do we want it to be hardcoded)
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
 public class AlignToLoadingStation extends Command {
 
     public AlignToLoadingStation() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time

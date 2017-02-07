@@ -1,15 +1,22 @@
-package org.usfirst.frc.team1895.robot.commands.gears;
+package org.usfirst.frc.team1895.robot.commands.shooter;
+
+import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Set flywheel_motor on but indexer_motor off so fuel isn't shot
+ * 			- Desired arguments: flywheel_speed, indexer_speed
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
-public class AlignForGearPlacement extends Command {
+public class DefaultShooter extends Command {
 
-    public AlignForGearPlacement() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public DefaultShooter() {
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time

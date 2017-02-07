@@ -1,15 +1,24 @@
-package org.usfirst.frc.team1895.robot.commands.climbing;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
+
+import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This command deploys and retracts the winch system for climbing, assuming it is able to move.
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Uses left and right motorgroup encoders to drive a given distance at a given speed. Once the distance has been reached, stop. 
+ * 		The methods used will be PID-controlled.
+ * 			- Desired arguments: speed, distance
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
+ * 
  */
-public class MoveWinch extends Command {
+public class DriveStraightSetDistance extends Command {
 
-    public MoveWinch() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public DriveStraightSetDistance() {
+        requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time

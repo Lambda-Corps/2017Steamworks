@@ -1,15 +1,23 @@
 package org.usfirst.frc.team1895.robot.commands.gears;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Changelog:
+ * 2/4/2017 (Maddy Seputro)
+ * 		Description: Detects if gear is in the slot or not using a short-range rangefinder. If the 
+ * 		gear was detected to be present, return true. Otherwise return false.
+ * 			- Desired arguments: none
+ * 		To do still:
+ * 			- Fill in execute method and other methods if needed
+ * 	Added: requires statement
  */
-public class GearDetection extends Command {
+public class GetGearPresence extends Command {
 
-    public GearDetection() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public GetGearPresence() {
+        requires(Robot.gearholder);
     }
 
     // Called just before this Command runs the first time
