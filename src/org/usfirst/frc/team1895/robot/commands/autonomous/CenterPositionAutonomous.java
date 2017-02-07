@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			4. After it is confirmed to be attached, GetGearPresence Command should return false. 
  * 			5. Use RetractGearHolder method to pull the gearholder back.
  * 			6. Back away [] feet using DriveStraightSeteDistance Command. 
- * 			7. Turn left 45 degrees using TurnWithGyro Command.
+ * 			7. Turn left 30 degrees using TurnWithGyro Command.
  * 			8. Use DriveStraightSeteDistance Command to drive [] feet.
- * 			9. Turn right 45 degrees to the right using TurnWithGyro Command so that you're facing forward again.
+ * 			9. Turn right 30 degrees to the right using TurnWithGyro Command so that you're facing forward again.
  * 			10. Use ShiftGears Command to shift into high gear to allow for faster movement.
  * 			11. Use DriveStraightSeteDistance Command to drive [] feet to pass the baseline and head into 
  * 				the neutral zone. 

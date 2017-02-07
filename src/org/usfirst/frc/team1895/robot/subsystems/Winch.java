@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * 			- Test
  * Added: Moved alignToRope command from here to the drivetrain subsystem. Standardized comments, added default command, motors, and encoders. 
  * Renamed moveWinch method to catchRope method.
+ * 
  */
 public class Winch extends Subsystem {
 
