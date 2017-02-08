@@ -1,23 +1,36 @@
 package org.usfirst.frc.team1895.robot.ledstrip;
 public class LEDStripDriver {
 	
-	public static final boolean isHardware = false;
+	private boolean isInstanciated = false;
 	
-	public static void main(String[] args) {
+	private LEDStrip strip;
+	
+	public void main(String[] args) {
 		
 		try {
-			LEDStrip l = new LEDStrip(64, isHardware);
 			
-			l.gradient(  0,  l.length/3, 255,   0,   0,   0, 255,   0);
-			l.gradient( l.length/3, 2*l.length/3,   0, 255,   0,   0,   0, 255);
-			l.gradient(2*l.length/3, l.length,   0,   0, 255, 255,   0,   0);
+			
+			strip.gradient(  0,  strip.length/3, 255,   0,   0,   0, 255,   0);
+			strip.gradient( strip.length/3, 2*strip.length/3,   0, 255,   0,   0,   0, 255);
+			strip.gradient(2*strip.length/3, strip.length,   0,   0, 255, 255,   0,   0);
 			while(true) {
-				l.shiftLayer(-1);
-				l.update();
+				strip.shiftLayer(-1);
+				strip.update();
 				Thread.sleep(60);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void create() {
+		if(!isInstanciated) {
+			isInstanciated = true;
+			strip = new LEDStrip(64);
+		}
+	}
+	
+	public LEDStrip.getInstance() {
+		if()
 	}
 }

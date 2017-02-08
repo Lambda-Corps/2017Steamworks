@@ -1,12 +1,5 @@
 package org.usfirst.frc.team1895.robot.ledstrip;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import com.pi4j.wiringpi.Spi;
 
 public class LEDStrip {
 
@@ -17,8 +10,6 @@ public class LEDStrip {
 	private int numberOfLayers = 1;
 	private LED[] strip;
 	private ArrayList<LED[]> save_data = new ArrayList<LED[]>();
-	private final boolean isHardware;
-	private Simulator simulator;
 	
 	public final int length;
 	
@@ -33,27 +24,13 @@ public class LEDStrip {
 	 * LEDStrip can handle normal color setting along with transparancy and layers. Transparancy is only effective on layers other than the first layer (layer 0).
 	 * Layers will overwrite colors on lower layers unless given a transparancy, in which case it will blend the colors. :D
 	 * */
-	public LEDStrip(int numberOfLEDs, boolean isHardware) {
-		this.isHardware = isHardware;
+	public LEDStrip(int numberOfLEDs) {
 		this.numberOfLEDs = numberOfLEDs;
 		length = numberOfLEDs;
 		strip = new LED[numberOfLEDs];
 		for(int i = 0; i < numberOfLEDs; i++) {
 			strip[i] = new LED();
 		}
-		if(isHardware) {
-			Spi.wiringPiSPISetup(0, 10000000);
-		} else {
-			simulator = new Simulator(this);
-		}
-	}
-
-	/**
-	 * LEDStrip can handle normal color setting along with transparancy and layers. Transparancy is only effective on layers other than the first layer (layer 0).
-	 * Layers will overwrite colors on lower layers unless given a transparancy, in which case it will blend the colors.
-	 * */
-	public LEDStrip(int numberOfLEDs) {
-		this(numberOfLEDs, true);
 	}
 	
 	/**Sets the color of an individual LED*/
@@ -176,20 +153,15 @@ public class LEDStrip {
 	}
 
 	/**Must be called if a color is changed. This will write to the SPI interface as well as update the simulator graphics.*/
-	public void update() {
-		final byte packet[] = new byte[numberOfLEDs * 3];
+	public byte[] update() {
+		final byte packet[] = new byte[numberOfLEDs * 3 + 1];
 		for(int i = 0; i < numberOfLEDs; i++) {
 			packet[(i * 3)    ] = (byte) strip[i].getGreen();
 			packet[(i * 3) + 1] = (byte) strip[i].getRed();
 			packet[(i * 3) + 2] = (byte) strip[i].getBlue();
 		}
-		if(isHardware) {
-			byte[] endPacket = { 0x00};
-			Spi.wiringPiSPIDataRW(0, packet, packet.length);
-			Spi.wiringPiSPIDataRW(0, endPacket, 1);
-		} else {
-			simulator.repaint();
-		}
+		packet[packet.length - 1] = 0x00;
+		return packet;
 	}
 
 	/**Ovverides Object.toString() {...}*/
@@ -276,36 +248,5 @@ public class LEDStrip {
 		private short getRed()   { return GAMMA[red  ];}
 		private short getGreen() { return GAMMA[green];}
 		private short getBlue()  { return GAMMA[blue ];}
-		private Color getColor() { return new Color(red, green, blue);}
-	}
-	
-	/**
-	 * The Simulator class is not created by the programmer. If isHardware is false, a new Simulator object is created.
-	 * This displays a series of colored boxes on the screen, simulating what the LED strip would be showing physically.
-	 * */
-	private class Simulator extends JPanel {
-		
-		private static final long serialVersionUID = 1L;
-		private JFrame panel;
-		
-		private Simulator(LEDStrip strip) {
-			panel = new JFrame();
-			panel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			panel.add(this);
-			panel.setSize(30+(numberOfLEDs*30), 83);
-			panel.setVisible(true);
-		}
-
-		/**Overrides JPanel.paintComponent(Graphics g) {...}*/
-		@Override
-		public void paintComponent(Graphics g) {
-			int LEDspacing = 30;
-			super.paintComponent(g);
-
-			for (int i = 0; i < numberOfLEDs; i++) {
-				g.setColor(strip[i].getColor());
-				g.fillRect((10 +(i*LEDspacing)), 10, 25, 25);
-			}
-		}
 	}
 }
