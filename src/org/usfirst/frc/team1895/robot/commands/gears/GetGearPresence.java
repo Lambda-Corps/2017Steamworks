@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
  * 		To do still:
  * 			- Fill in execute method and other methods if needed
  * 	Added: requires statement
+ * 2/8/2017(Zachary Nowak)
+ *  Added: getGearPresence method from GearHolder subsystem
  */
 public class GetGearPresence extends Command {
 
@@ -26,6 +28,8 @@ public class GetGearPresence extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.gearholder.getGearPresence();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
