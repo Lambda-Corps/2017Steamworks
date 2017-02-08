@@ -221,3 +221,132 @@ There are great examples of commands, workflows, and the git basics.  Any questi
 
 
 
+
+============================================================================
+
+	2)  PUSHING MY LOCAL BRANCH TO CREATE A REMOTE BRANCH
+
+	There may be a case where you have code that is not ready to be merged into the mainline branch, but you want it to be backed up or shared through Github.  For a detailed explanation (with pictures!) of remotes with Git see the following URL:
+		https://git-scm.com/book/ch5-2.html
+
+	Going through the instructions in section 1,
+	visually, your branching would look like this:
+	NOTE:  The 'X' characters represent the individual commits made along the way in the development of the feature branches.
+
+		Github (remote/origin)  *master HEAD			  * master HEAD  (github side)
+									|---------------------X
+									|
+									|
+		Local Repo					|---------------------X---------------
+									 \					 /|
+									  \					/ |
+									   \----X----X----X/  |
+									   					  |
+									   					  * master HEAD (local side)
+
+	Only, in our scenario, we don't want to have our branch pushed yet.  What we would rather have is the following visual branching:	
+														  * feature branch HEAD	
+		Github (remote/origin)  *master HEAD			  |
+										|  /----X----X----X
+										| /
+										|/
+			Local Repo					|-------------------------------------
+										|\					 
+										| \					
+						feature_branch	|  \----X----X----X
+										* master HEAD 	  |
+										   				  |
+										   				  |
+										   				  *  feature branch HEAD	
+
+	The way we make this happen is to set an upstream (github is the upstream) tracking marker for a local feature branch.  
+
+	The assumption here is that you are at a command prompt in your 2017Steamworks directory on your local filesystem.
+
+	The basic steps to get that done are as follows (github commands :
+
+		- Create the named feature branch in your local repository using the HEAD of master as the basis for the local branch.	
+			>  git status
+				On branch master
+				Your branch is up-to-date with 'origin/master'.
+				nothing to commit, working tree clean
+
+			>  git checkout -b feature_branch
+				Switched to a new branch 'feature_branch'
+
+		- Open eclipse, make your additions/changes to the code and commit them to the local repository.
+			>  git status
+				On branch feature_branch
+				Changes not staged for commit:
+				  (use "git add <file>..." to update what will be committed)
+				  (use "git checkout -- <file>..." to discard changes in working directory)
+
+					modified:   GIT_README.txt
+
+				Untracked files:
+				  (use "git add <file>..." to include in what will be committed)
+
+					empty_example_file	
+
+			>  git add empty_example_file 
+			>  git status
+				On branch feature_branch
+				Changes to be committed:
+				  (use "git reset HEAD <file>..." to unstage)
+
+					new file:   empty_example_file
+
+				Changes not staged for commit:
+				  (use "git add <file>..." to update what will be committed)
+				  (use "git checkout -- <file>..." to discard changes in working directory)
+
+					modified:   GIT_README.txt
+
+			>  git commit -m "example commit"
+				[feature_branch 4a68bfd] example commit
+				 1 file changed, 0 insertions(+), 0 deletions(-)
+				 create mode 100644 empty_example_file
+							   				   
+		- Check whether or not we will have a clean push when we execute the command.  The --dry-run command argument can always be used as a precaution.
+			>  git push --dry-run --set-upstream origin feature_branch
+				To https://github.com/Lambda-Corps/2017Steamworks.git
+				 * [new branch]      feature_branch -> feature_branch
+				Would set upstream of 'feature_branch' to 'feature_branch' of 'origin'	
+				
+		- There were no error messages or for the --dry-run command, so we can push the branch to the remote side.
+			>  git push --set-upstream origin feature_branch
+				Counting objects: 3, done.
+				Delta compression using up to 8 threads.
+				Compressing objects: 100% (2/2), done.
+				Writing objects: 100% (3/3), 283 bytes | 0 bytes/s, done.
+				Total 3 (delta 1), reused 0 (delta 0)
+				remote: Resolving deltas: 100% (1/1), completed with 1 local objects.
+				To https://github.com/Lambda-Corps/2017Steamworks.git
+				 * [new branch]      feature_branch -> feature_branch
+				Branch feature_branch set up to track remote branch feature_branch from origin.
+
+		- Just to verify, here is the output showing the remote branch existing up at Github
+			>  git remote show origin
+				* remote origin
+				  Fetch URL: https://github.com/Lambda-Corps/2017Steamworks.git
+				  Push  URL: https://github.com/Lambda-Corps/2017Steamworks.git
+				  HEAD branch: master
+				  Remote branches:
+				    feature_branch tracked
+				    ledstrip       tracked
+				    ls             tracked
+				    master         tracked
+				    motor_groups   tracked
+				    mvp            tracked
+				  Local branches configured for 'git pull':
+				    feature_branch merges with remote feature_branch
+				    master         merges with remote master
+				  Local refs configured for 'git push':
+				    feature_branch pushes to feature_branch (up to date)
+				    master         pushes to master         (up to date)
+
+			NOTE:  From the command output, you can see our feature_branch exists out in our origin (Github is our origin) as a remote branch named 'feature_branch'
+
+
+
+	There isn't any limit to the number of remote branches we carry, so it's fine to have a bunch.  We can always delete and manage them through Github when we need.  The remote push should be considered temporary though, we want to make sure that all of our code we want to keep for the long term makes it into Github.
