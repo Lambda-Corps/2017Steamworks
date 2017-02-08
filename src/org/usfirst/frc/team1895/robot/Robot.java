@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.*;
-import org.usfirst.frc.team1895.robot.subsystems.*;
-import org.usfirst.frc.team1895.robot.commands.climbing.*;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.*;
-import org.usfirst.frc.team1895.robot.commands.gears.*;
-import org.usfirst.frc.team1895.robot.commands.shooter.*;
+import org.usfirst.frc.team1895.robot.commands.climbing.Climb;
+import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
+import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
+import org.usfirst.frc.team1895.robot.subsystems.Shooter;
+import org.usfirst.frc.team1895.robot.subsystems.Winch;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Winch winch;
 	public static GearHolder gearholder;
+	public static LEDSubsystem led;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		winch = new Winch();
 		gearholder = new GearHolder();
+		led = new LEDSubsystem();
 		oi = new OI();
 		chooser.addDefault("Default Auto", new Climb());
 		// chooser.addObject("My Auto", new MyAutoCommand());
