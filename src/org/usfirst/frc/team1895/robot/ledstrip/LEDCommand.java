@@ -17,7 +17,7 @@ public class LEDCommand extends Command {
 	
 	@Override
 	protected void execute() {
-		
+		Robot.led.draw();
 	}
 	
 	@Override
