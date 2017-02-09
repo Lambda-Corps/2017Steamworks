@@ -8,7 +8,8 @@ public class LEDSubsystem extends Subsystem {
 	SPI spi = new SPI(SPI.Port.kOnboardCS0);
 	
 	public void draw() {
-		byte[] test = new byte[]{ (byte) 255, 0x00};
+		byte[] test = new byte[]{ (byte) 255, (byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,0x00};
+		System.out.println("akwejvbrh");
 		spi.write(test, test.length);
 	}
 	
