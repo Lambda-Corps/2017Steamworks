@@ -1,16 +1,36 @@
 package org.usfirst.frc.team1895.robot.ledstrip;
 
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LEDSubsystem extends Subsystem {
 
-	SPI spi = new SPI(SPI.Port.kOnboardCS0);
+	public LEDStrip ledStrip;
+	public AnalogGyro gyro;
+	
+	public LEDSubsystem() {
+		ledStrip = new LEDStrip(4);
+		gyro = new AnalogGyro(0);
+	}
 	
 	public void draw() {
-		byte[] test = new byte[]{ (byte) 255, (byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,(byte) 255,0x00};
-		System.out.println("akwejvbrh");
-		spi.write(test, test.length);
+		
+		double angle = gyro.getAngle();
+		
+		if(angle < 0.0) {
+			angle *= -1;
+		}
+		
+		if(angle >= 0 && angle <  90) {
+			ledStrip.fill(0, ledStrip.length, 255,   0,   0);
+		} else if(angle >=  90 && angle < 180) {
+			ledStrip.fill(0, ledStrip.length,   0, 255,   0);
+		} else if(angle >= 180 && angle < 270) {
+			ledStrip.fill(0, ledStrip.length,   0,   0, 255);
+		} else if(angle >= 270 && angle < 360) {
+			ledStrip.fill(0, ledStrip.length, 255, 255, 255);
+		}
+		
 	}
 	
 	@Override
