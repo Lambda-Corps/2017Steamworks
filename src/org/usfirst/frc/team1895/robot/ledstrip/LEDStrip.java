@@ -31,24 +31,33 @@ public class LEDStrip {
 		for(int i = 0; i < numberOfLEDs; i++) {
 			strip[i] = new LED();
 		}
+		LEDStripDriver.getInstance().addStrip(this, numberOfLEDs);
 	}
 	
-	/**Sets the color of an individual LED*/
+	/**
+	 * Sets the color of an individual LED
+	 * */
 	public void paint(int id, int red, int green, int blue) {
 		paint(id, red, green, blue, 255);
 	}
 
-	/**Sets the color of an individual LED*/
+	/**
+	 * Sets the color of an individual LED
+	 * */
 	public void paint(int id, int red, int green, int blue, int alpha) {
 		strip[id].set(red, green, blue, alpha);
 	}
 
-	/**Fills the LEDs from start to end with a solid color*/
+	/**
+	 * Fills the LEDs from start to end with a solid color
+	 * */
 	public void fill(int start, int end, int red, int green, int blue) {
 		fill(start, end, red, green, blue, 255);
 	}
 
-	/**Fills the LEDs from start to end with a solid color*/
+	/**
+	 * Fills the LEDs from start to end with a solid color
+	 * */
 	public void fill(int start, int end, int red, int green, int blue, int alpha) {
 		for(int i = start; i < end; i++) {
 			if(i < 0 || i >= numberOfLEDs) continue;
@@ -56,12 +65,16 @@ public class LEDStrip {
 		}
 	}
 
-	/**Sets the LEDs between start and end to a gradient*/
+	/**
+	 * Sets the LEDs between start and end to a gradient
+	 * */
 	public void gradient(int start, int end, int red1, int green1, int blue1, int red2, int green2, int blue2) {
 		gradient(start, end, red1, green1, blue1, 255, red2, green2, blue2, 255);
 	}
 
-	/**Sets the LEDs between start and end to a gradient*/
+	/**
+	 * Sets the LEDs between start and end to a gradient
+	 * */
 	public void gradient(int start, int end, int red1, int green1, int blue1, int alpha1, int red2, int green2, int blue2, int alpha2) {
 		int length = end - start;
 		for(int i = start; i < end; i++) {
@@ -74,7 +87,9 @@ public class LEDStrip {
 		}
 	}
 
-	/**Shifts all layers a certain amount of LEDs up or  down the strip*/
+	/**
+	 * Shifts all layers a certain amount of LEDs up or  down the strip
+	 * */
 	public void shift(int number) {
 		number %= numberOfLEDs;
 		LED[] tmp = new LED[Math.abs(number)];
@@ -89,7 +104,9 @@ public class LEDStrip {
 		}
 	}
 	
-	/**Shifts the current layer a certain amount of LEDs up or  down the strip*/
+	/**
+	 * Shifts the current layer a certain amount of LEDs up or  down the strip
+	 * */
 	public void shiftLayer(int number) {
 		number %= numberOfLEDs;
 		short[][] tmp = new short[Math.abs(number)][4];
@@ -104,7 +121,11 @@ public class LEDStrip {
 		}
 	}
 	
-	/**Not Working, do not call*/
+	/**
+	 * Not working yet, do not call!!!
+	 * 
+	 * @deprecated
+	 * */
 	public void save() {
 		LED[] tmp = new LED[numberOfLEDs];
 		for(int i = 0; i < numberOfLEDs; i++) tmp[i] = new LED();
@@ -115,14 +136,21 @@ public class LEDStrip {
 		System.out.println(java.util.Arrays.toString(strip));
 	}
 	
-	/**Not working, do not call*/
+	/**
+	 * Not working yet, do not call!!!
+	 * 
+	 * @deprecated
+	 * */
+	
 	public void load(int id) {
 		if(id < 0 || id >= save_data.size()) return;
 		strip = save_data.get(id).clone();
 		
 	}
 
-	/**Add a new layer, and change the current layer to the new layer*/
+	/**
+	 * Add a new layer, and change the current layer to the new layer
+	 * */
 	public void addLayer() {
 		numberOfLayers++;
 		for(int i = 0; i < numberOfLEDs; i++) {
@@ -131,28 +159,41 @@ public class LEDStrip {
 		current_layer = numberOfLayers-1;
 	}
 
-	/**Not yet implemented*/
+	/**
+	 * Not yet implemented, this does absolutely nothing.
+	 * */
 	public void removeLayer(int layer) {
 		//TODO: add stuff
 	}
 
-	/**Switch the current layer*/
+	/**
+	 * Switch the current layer
+	 * */
 	public void changeLayer(int layer) {
 		if(layer < 0 || layer >= numberOfLayers) return;
 		current_layer = layer;
 	}
 
-	/**Returns the main LED[]*/
+	/**
+	 * Returns the main LED[]
+	 * */
 	public LED[] get() {
 		return strip;
 	}
 
-	/**Returns a specific LED from the main LED[]*/
+	/**
+	 * Returns a specific LED from the main LED[]
+	 * */
 	public LED get(int id) {
 		return strip[id];
 	}
 
-	/**Must be called if a color is changed. This will write to the SPI interface as well as update the simulator graphics.*/
+	/**
+	 * This method is only useful for the LEDStripDriver. This return the
+	 * data for the spi.
+	 * 
+	 * @return new byte[]
+	 */
 	public byte[] update() {
 		final byte packet[] = new byte[numberOfLEDs * 3];
 		for(int i = 0; i < numberOfLEDs; i++) {
@@ -163,7 +204,7 @@ public class LEDStrip {
 		return packet;
 	}
 
-	/**Ovverides Object.toString() {...}*/
+	/**Ovverides Object.toString()*/
 	@Override
 	public String toString() {
 		String s = "";
