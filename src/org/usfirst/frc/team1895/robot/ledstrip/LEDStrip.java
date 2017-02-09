@@ -154,13 +154,12 @@ public class LEDStrip {
 
 	/**Must be called if a color is changed. This will write to the SPI interface as well as update the simulator graphics.*/
 	public byte[] update() {
-		final byte packet[] = new byte[numberOfLEDs * 3 + 1];
+		final byte packet[] = new byte[numberOfLEDs * 3];
 		for(int i = 0; i < numberOfLEDs; i++) {
 			packet[(i * 3)    ] = (byte) strip[i].getGreen();
 			packet[(i * 3) + 1] = (byte) strip[i].getRed();
 			packet[(i * 3) + 2] = (byte) strip[i].getBlue();
 		}
-		packet[packet.length - 1] = 0x00;
 		return packet;
 	}
 
