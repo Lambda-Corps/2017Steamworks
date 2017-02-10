@@ -2,6 +2,7 @@ package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.*;
 import org.usfirst.frc.team1895.robot.subsystems.*;
+import org.usfirst.frc.team1895.robot.commands.autonomous.CenterPositionAutonomous;
 import org.usfirst.frc.team1895.robot.commands.climbing.*;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.*;
 import org.usfirst.frc.team1895.robot.commands.gears.*;
@@ -78,8 +79,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
+//		autonomousCommand = chooser.getSelected();
+		autonomousCommand = new CenterPositionAutonomous();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

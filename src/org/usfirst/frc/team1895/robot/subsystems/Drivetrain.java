@@ -3,14 +3,18 @@ package org.usfirst.frc.team1895.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.MyPIDOutput;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -63,7 +67,10 @@ public class Drivetrain extends Subsystem {
 	// if the plan on using three rangefinders to align to boiler is confirmed
 	private AnalogInput left_fr_long_rangefinder;
 	private AnalogInput right_fr_long_rangefinder;
-	
+	//PIDS
+	private MyPIDOutput myPIDOutputDriving;
+	private PIDController pidControllerDriving;
+	final double pGain = 10, iGain = .018, dGain = 600;
 	// cameras (to be added later)
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
@@ -86,7 +93,10 @@ public class Drivetrain extends Subsystem {
     	// if the plan on using three rangefinders to align to boiler is confirmed
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
     	right_fr_long_rangefinder = new AnalogInput(RobotMap.RIGHT_FR_LONG_RANGEFINDER_PORT);
-    
+    	
+    	myPIDOutputDriving = new MyPIDOutput();
+    	pidControllerDriving = new PIDController(pGain, iGain, dGain, middle_fr_short_rangefinder, myPIDOutputDriving);   // Input are P, I, D, Input , output
+    	
 	}
 	
 //==FOR TELE-OP DRIVING=======================================================================================
@@ -139,6 +149,37 @@ public class Drivetrain extends Subsystem {
 	
 //==FOR AUTONOMOUS AND CAMERA DRIVING, AND GEAR SHIFTING===================================================
 	
+	public boolean pegStop(){
+		//find the distance
+		double currentDistance = Robot.gearholder.fineDistanceFinder(middle_fr_short_rangefinder);
+		double goalDistance = 12.0;//inches
+		pidControllerDriving.setAbsoluteTolerance(1);
+		pidControllerDriving.setSetpoint(goalDistance);
+		pidControllerDriving.setContinuous(false);
+		pidControllerDriving.enable();
+		double pidOutput = myPIDOutputDriving.get();
+		//If all else fails-the PIDs-use this
+//		if(currentDistance>goalDistance){
+//			left_motorgroup.set(1);
+//			right_motorgroup.set(1);
+//		}
+//		if(currentDistance<=goalDistance){
+//			left_motorgroup.set(0);
+//			right_motorgroup.set(0);
+//		}
+		if(currentDistance>goalDistance){
+			left_motorgroup.set(pidOutput);
+			right_motorgroup.set(pidOutput);
+		}
+		if(currentDistance<=goalDistance){
+			left_motorgroup.set(0);
+			right_motorgroup.set(0);
+			return true;
+		}
+		return false;
+
+		//slow down using the closer we get to the set distance
+	}
 	// For: DriveStraight Command
     // Sensors: left_encoder, right_encoder 
     // Description: will use PID to drive a certain distance with a 0 degree heading, using encoders to 

@@ -1,11 +1,12 @@
 package org.usfirst.frc.team1895.robot.subsystems;
 
 import org.usfirst.frc.team1895.robot.RobotMap;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.MyPIDOutput;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 
-import com.sun.glass.ui.Robot;
-
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -34,6 +35,7 @@ public class GearHolder extends Subsystem {
     int listLength = 0;
     double[] lastFive = new double[listLength];
     double M;//slope
+	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
     	solenoid_1 = new Solenoid(RobotMap.SOLENOID_1);
@@ -59,6 +61,7 @@ public class GearHolder extends Subsystem {
 	public void retractGear(){
 		solenoid_1.set(false);
 	}
+
 	public double roundedDistanceFinder(AnalogInput variablerangeFinder){
 		double distance = 0.0; // distance(cm)
 		double outputValue = variablerangeFinder.getVoltage(); //gets sensor voltage
