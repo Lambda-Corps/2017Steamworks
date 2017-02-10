@@ -81,7 +81,7 @@ public class Drivetrain extends Subsystem {
     	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT);
     	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT);
     	
-    	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
+    	//gyro = new AnalogGyro(RobotMap.GYRO_PORT);
     	middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
     	// if the plan on using three rangefinders to align to boiler is confirmed
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);

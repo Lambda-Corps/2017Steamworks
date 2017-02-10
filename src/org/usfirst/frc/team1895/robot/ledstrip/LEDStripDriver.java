@@ -25,6 +25,7 @@ public class LEDStripDriver extends Thread {
 		ledStrips  = new ArrayList<LEDStrip>();
 		spi = new SPI(SPI.Port.kOnboardCS0);
 		start();
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!:(!!!!!!!!!!!!!!!!!!!!!!");
 	}
 	
 	/**
@@ -60,37 +61,43 @@ public class LEDStripDriver extends Thread {
 	 */
 	@Override
 	public void run() {
-		// :D
-		System.out.println("Hello from a thread!");
-		
-		 // Counter variable to track where in the packet we are
-		int a = 0;
-		
-		// This will be written to the SPI bus. Since every LED represents
-		// three bytes, the length of this is three times the length
-		// of the strip we are using, plus one for the end byte.
-		byte[] packet = new byte[totalLength + 1];
-		
-		// Gather the data from each strip and put it in the packet array.
-		for(LEDStrip strip : ledStrips) {
-			byte[] data = strip.update();
-			for(int i = 0; i < data.length; i++, a++) {
-				packet[a] = data[i];
+		while(true) {
+			// :D
+			System.out.println("Hello from a thread!");
+			
+			 // Counter variable to track where in the packet we are
+			int a = 0;
+			
+			// This will be written to the SPI bus. Since every LED represents
+			// three bytes, the length of this is three times the length
+			// of the strip we are using, plus one for the end byte.
+			byte[] packet = new byte[totalLength];
+			//System.out.println("Total length: " + totalLength);
+			// Gather the data from each strip and put it in the packet array.
+			for(LEDStrip strip : ledStrips) {
+				byte[] data = strip.update();
+				for(int i = 0; i < data.length; i++, a++) {
+					packet[a] = data[i];
+				}
 			}
-		}
-		
-		// End byte, tells the LED strip we are now done writing to it
-		packet[packet.length - 1] = 0x00;
-		
-		// Write to the spi port on the roboRIO the data for the LEDs.
-		// If packet.length is incorrect, nothing bad happens.
-		spi.write(packet, packet.length);
-		
-		// Sleep for 30 milliseconds, which will make the thread update at 33.3 Hz
-		try {
-			Thread.sleep(30); 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			
+			// End byte, tells the LED strip we are now done writing to it
+			System.out.println(java.util.Arrays.toString(packet) + " !! " + ledStrips.size());
+			
+			// Write to the spi port on the roboRIO the data for the LEDs.
+			// If packet.length is incorrect, nothing bad happens.
+			spi.write(packet, packet.length);
+			spi.write(new byte[]{ 0x00}, 1);
+			//byte[] testArr = new byte[]{ (byte) 128, (byte) 128, (byte) 192, (byte) 0};
+			//System.out.println(java.util.Arrays.toString(testArr));
+			//spi.write(testArr, 4);
+			
+			// Sleep for 30 milliseconds, which will make the thread update at 33.3 Hz
+			try {
+				Thread.sleep(30); 
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

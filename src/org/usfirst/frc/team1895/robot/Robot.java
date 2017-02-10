@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.commands.climbing.Climb;
+import org.usfirst.frc.team1895.robot.ledstrip.CopyOfLEDSubsystem;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static Winch winch;
 	public static GearHolder gearholder;
 	public static LEDSubsystem led;
+	public static CopyOfLEDSubsystem led2;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -46,6 +48,7 @@ public class Robot extends IterativeRobot {
 		winch = new Winch();
 		gearholder = new GearHolder();
 		led = new LEDSubsystem();
+		led2 = new CopyOfLEDSubsystem();
 		oi = new OI();
 		chooser.addDefault("Default Auto", new Climb());
 		// chooser.addObject("My Auto", new MyAutoCommand());

@@ -15,7 +15,7 @@ public class LEDStrip {
 	
 	static {
         for (int i = 0; i < GAMMA_LENGTH; i++) {
-			int j = (int) (Math.pow(((float) i) / 255.0, 2.5) * 127.0 + 0.5);
+			int j = (int) (Math.pow(((float) i) / 255.0, 2.5) * 128.0 + 0.5);
 			GAMMA[i] = (byte) (0x80 | j);
         }
     }
@@ -32,6 +32,7 @@ public class LEDStrip {
 			strip[i] = new LED();
 		}
 		LEDStripDriver.getInstance().addStrip(this, numberOfLEDs);
+		
 	}
 	
 	/**
