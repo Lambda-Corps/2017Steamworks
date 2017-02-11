@@ -37,7 +37,7 @@ public class DefaultDriveCommand extends Command {
 		// Joystick.getY() returns the Z axis, so use getRawAxis(1) (the y axis)
 		// until the custom classes are implemented.
 		//TODO: Implement Arcade Joystick or F310 get axis methods
-		//Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.LX), Robot.oi.gamepad.getAxis(F310.LY) );
+		Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.LY), Robot.oi.gamepad.getAxis(F310.RX));
 		Robot.drivetrain.tankDrive(-Robot.oi.leftArcadeJoystick.getRawAxis(1)*0.75, Robot.oi.rightArcadeJoystick.getRawAxis(1)*0.75);
 	}
 
