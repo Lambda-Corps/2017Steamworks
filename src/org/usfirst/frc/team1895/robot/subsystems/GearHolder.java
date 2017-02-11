@@ -4,6 +4,8 @@ import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -24,9 +26,13 @@ public class GearHolder extends Subsystem {
 
 	//short-range infrared rangefinder for detecting if gear is present in the slot or not
 	private AnalogInput inslot_short_rangefinder;
+	private final Compressor compressor;
+	private DoubleSolenoid gearholder_solenoid;
 	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
+    	compressor = new Compressor();
+    	gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
     }
     
     // For: GetGearPresence Command

@@ -24,7 +24,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * 			- Test
  * Added: Moved alignToRope command from here to the drivetrain subsystem. Standardized comments, added default command, motors, and encoders. 
  * Renamed moveWinch method to catchRope method.
- * 
+ * 2/8/2017 (Maddy Seputro) 
+ * Added: climb() and catchRope() methods coded but not tested yet. Both 75% complete. Threshold values still TBD.
  */
 public class Winch extends Subsystem {
 
@@ -37,20 +38,44 @@ public class Winch extends Subsystem {
     }
     
     // For: Climb and DefaultWinch Commands
-    // Sensors: encoder?
+    // Sensors: encoder
     // Description: For the Climb Command, it will read a current as it climbs, and once the current level 
     // exceeds a certain threshold we will know it has reached the top and the motors will stop. For the
     // DefaultWinch Command, we will just set the motor to zero so it doesn't run unless other commands are called
-    public boolean climb() {
+    public boolean climb(double speed) {
+    	double current = winch_motor.getOutputCurrent();
+    	final double touchpad_reached = 0.5; 
+    	//0.5 needs to be changed to the current drawn when the robot first touches the touchpad
+    	
+    	//if the motor hasn't reached the touchpad yet, continue at max speed
+    	winch_motor.set(speed);
+    	if(current > touchpad_reached) {
+    		winch_motor.set(0.0);
+    		return true;
+    	}
     	return false;
     }
     
     // For: CatchRope Command
-    // Sensors: encoder?
+    // Sensors: encoder
     // Description: Turn on the winch_motor and set it to a slow speed to make it easier to catch the rope. When the rope
     // is caught, the voltage the motor draws will increase as resistance will increase. Once it exceeds a certain threshold 
     // it will return true, indicating the method to stop as the rope has been caught. Otherwise return false. 
-    public boolean catchRope() {
+    public boolean catchRope(double speed) {
+    	double current = winch_motor.getOutputCurrent();
+    	final double ropeCaught = 0.5; //0.5 must be changed to threshold where rope has been caught
+    	int counter = 0;
+    	int second = 50;
+    	
+    	winch_motor.set(speed);
+    	if(current > ropeCaught && counter > second) {
+    		winch_motor.set(0.0);
+    		return true;
+    	}
+    	else if(counter <= second ) {
+    		counter++;
+    		return false;
+    	}
     	return false;
     }
 

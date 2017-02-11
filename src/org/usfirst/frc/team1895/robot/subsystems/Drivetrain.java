@@ -10,6 +10,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * 			Will need:
  * 			- 6 motors (three each side)
  * 			- 2 encoders, one for left and one for right motorgroups (so 4 digital IO ports)
+ * 			- 2 solenoids
  * 			- cameras for Vision Tracking
  * 			- gyro for turning (so one analog port)
  * 			- rangefinder for aligning to lift or boiler (so one analog port)
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Added: Moved alignToHighGoal method from shooter subsystem to drivetrain. Also moved the alignToRope method from the winch subsystem to drivetrain. 
  * Standardized comments, added blank methods, created necessary sensors for the class excluding the cameras. 
  * TO CONSIDER: Method (and corresponding Command + button) for changing turning sensitivity?
+ * 2/11/2017: Inverted the right motorgroup in tankdrive method.
  */
 
 public class Drivetrain extends Subsystem {
@@ -52,6 +55,10 @@ public class Drivetrain extends Subsystem {
 	// Motorgroups
 	private MotorGroup<CANTalon> left_motorgroup;
 	private MotorGroup<CANTalon> right_motorgroup;
+	
+	// Solenoids
+	private DoubleSolenoid left_solenoid;
+	private DoubleSolenoid right_solenoid;
 	
 	// Digital sensors
 	private Encoder left_encoder;
@@ -87,6 +94,8 @@ public class Drivetrain extends Subsystem {
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
     	right_fr_long_rangefinder = new AnalogInput(RobotMap.RIGHT_FR_LONG_RANGEFINDER_PORT);
     
+    	left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
+    	right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
 	}
 	
 //==FOR TELE-OP DRIVING=======================================================================================
@@ -101,7 +110,7 @@ public class Drivetrain extends Subsystem {
 		if(right >  1.0) right =  1.0;
 		if(right < -1.0) right = -1.0;
 		left_motorgroup.set( left);
-		right_motorgroup.set(-right);
+		right_motorgroup.set(right);
 	}
 	
 	// For: DefaultDrive Command

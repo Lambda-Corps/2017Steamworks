@@ -5,6 +5,7 @@ import org.usfirst.frc.team1895.robot.commands.shooter.DefaultShooter;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *			Will need:
  *			- 2 encoders (so four digital IO ports)
  *			- motor
+ *			- 1 solenoid
  *			- camera (but it's in drivetrain)
  *		To do still:
  *			- Finish methods alignToHighGoal, moveIntake, shoot
@@ -29,12 +31,14 @@ public class Shooter extends Subsystem {
 	private CANTalon flywheel_motor; 	//larger wheel -- speed will be PID controlled
 	private Encoder indexer_encoder;
 	private Encoder flywheel_encoder;
+	private DoubleSolenoid shooter_solenoid;
 	
     public Shooter() {
     	indexer_motor = new CANTalon(RobotMap.INDEXER_MOTOR_PORT);
     	flywheel_motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR_PORT);
     	indexer_encoder = new Encoder(RobotMap.INDEXER_ENCODER_A_PORT, RobotMap.INDEXER_ENCODER_B_PORT);
     	flywheel_encoder = new Encoder(RobotMap.FLYWHEEL_ENCODER_A_PORT, RobotMap.FLYWHEEL_ENCODER_B_PORT);
+    	shooter_solenoid = new DoubleSolenoid(RobotMap.SHOOTER_SOLENOID_A_PORT, RobotMap.SHOOTER_SOLENOID_B_PORT);
     }
     
     // For: Climb and DefaultWinch Commands 

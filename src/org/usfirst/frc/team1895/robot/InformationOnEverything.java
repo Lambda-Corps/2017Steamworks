@@ -16,10 +16,13 @@ public class InformationOnEverything {
  *      	- 1 short-range rangefinder (middle_fr_short_rangefinder)
  *      	- 2 long-range rangefinders (left_fr_long_rangefinder, right_fr_long_rangefinder)
  *      	- 2 cameras (not declared yet)
+ *      	- Solenoid for gearbox
  *      - GearHolder:
  *      	- 1 short-range rangefinder (inslot_short_rangefinder)
+ *      	- Solenoid for gearbox
  *      - Shooter:
  *      	- 2 encoders (indexer_encoder, flywheel_encoder)
+ *      	- Solenoid for gearbox
  *      - Winch:
  * 	    	- 1 encoder (winch_encoder)
  * 
