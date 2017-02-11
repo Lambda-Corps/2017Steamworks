@@ -94,8 +94,8 @@ public class Drivetrain extends Subsystem {
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
     	right_fr_long_rangefinder = new AnalogInput(RobotMap.RIGHT_FR_LONG_RANGEFINDER_PORT);
     
-    	left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
-    	right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
+    	//left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
+    	//right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
 	}
 	
 //==FOR TELE-OP DRIVING=======================================================================================
@@ -118,28 +118,30 @@ public class Drivetrain extends Subsystem {
     // Description: A basic arcade drive method. The two parameters are expected to be within the range -1.0 to 1.0
 	// If not, they are limited to be within that range. The transitional speed and yaw are combined
 	// to be applied to the left motor and right motor. Trans_speed (transitional velocity) will
-	// set the robots forward speed, and yaw (angular velocity) will set the robot turning. Having a
+	// set the robot's forward speed, and yaw (angular velocity) will set the robot turning. Having a
 	// combination of the two will make the robot drive on an arc.
 	public void arcadeDrive(double trans_speed, double yaw) {
+		// Currently, when trying to turn, the left and right turning functions are backward, so I'm
+		// going to invert them.
+		yaw *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to go different speeds.
 		// Since motors physically are turned around, then setting both motors to the same speed
 		// will have this effect. If the transitional is at full and yaw at 0, then motors need to
 		// go the same direction, so one is a minus to cancel the effect of mirrored motors.
-    	double fs_speed = yaw - trans_speed;
-    	double gs_speed = yaw + trans_speed;
+    	double left_speed = yaw - trans_speed;
+    	double right_speed = yaw + trans_speed;
     	
     	// This determines the variable with the greatest magnitude. If the magnitude
     	// is greater than 1.0, than divide each variable by the largest so that
     	// the largest is 1.0 (or -1.0), and that all other variables are
     	// less than that.
-    	double max_speed = Math.max(Math.abs(fs_speed), Math.abs(gs_speed)); 
+    	double max_speed = Math.max(Math.abs(left_speed), Math.abs(right_speed)); 
     	if(Math.abs(max_speed) > 1.0) {
-    		fs_speed /= max_speed;
-    		gs_speed /= max_speed;
+    		left_speed /= max_speed;
+    		right_speed /= max_speed;
     	}
-    	
-    	left_motorgroup.set(fs_speed);
-    	right_motorgroup.set(gs_speed);
+    	left_motorgroup.set(left_speed);
+    	right_motorgroup.set(right_speed);
     	
     	// Prints encoder distances, used for testing purposes
     	System.out.println(left_encoder.getDistance());
