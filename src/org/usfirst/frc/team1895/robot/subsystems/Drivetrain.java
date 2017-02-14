@@ -10,10 +10,13 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -36,7 +39,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Added: Moved alignToHighGoal method from shooter subsystem to drivetrain. Also moved the alignToRope method from the winch subsystem to drivetrain. 
  * Standardized comments, added blank methods, created necessary sensors for the class excluding the cameras. 
  * TO CONSIDER: Method (and corresponding Command + button) for changing turning sensitivity?
+ * 
  * 2/11/2017: Inverted the right motorgroup in tankdrive method.
+ * 
+ * 2/14/2017: Hand-Merged Meredith's PID code into Drivetrain subsystem. Also added MyPIDOutput dummy class.
+ * Made a decision to 
  */
 
 public class Drivetrain extends Subsystem {
@@ -71,11 +78,26 @@ public class Drivetrain extends Subsystem {
 	private AnalogInput left_fr_long_rangefinder;
 	private AnalogInput right_fr_long_rangefinder;
 	
+	// PID 
+	private MyPIDOutput myPIDOutputDriving;
+	private MyPIDOutput myPIDOutputTurning;
+	private PIDController pidControllerDriving;
+	private PIDController pidControllerTurning;
+	final double pGain = .25, iGain = 1, dGain = 1;
+	boolean done = false;
+	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
+	 * raise D constant to damp oscillation, causing it to converge. D also slows controller's approach to setpoint so will need to tweak balance of P and D
+	 * if P + D are tuned and it oscillates + converges, but not to correct setpoint, increase I 
+	 * = steady-state error - positive, nonzero integral constant will cause controller to correct for it
+	 */
+
+	
 	// cameras (to be added later)
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
+		// CANTalons
 		left_motor1 = new CANTalon(RobotMap.LEFT_MOTOR1_PORT);
 		left_motor2 = new CANTalon(RobotMap.LEFT_MOTOR2_PORT);
 		left_motor3 = new CANTalon(RobotMap.LEFT_MOTOR3_PORT);
@@ -85,17 +107,33 @@ public class Drivetrain extends Subsystem {
 		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
     	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
     	
-    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT);
-    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT);
+    	// Digital IO
+    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
+    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
     	
+    	// Analog IO
     	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
     	middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
     	// if the plan on using three rangefinders to align to boiler is confirmed
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
     	right_fr_long_rangefinder = new AnalogInput(RobotMap.RIGHT_FR_LONG_RANGEFINDER_PORT);
     
+    	// PID-related things
+    	gyro.calibrate();
+        myPIDOutputDriving = new MyPIDOutput();
+        myPIDOutputTurning = new MyPIDOutput();
+        pidControllerDriving = new PIDController(pGain, iGain, dGain, left_encoder, myPIDOutputDriving);   // Input are P, I, D, Input , output
+		pidControllerTurning = new PIDController(pGain, iGain, dGain, gyro, myPIDOutputTurning);
+		
+    	// Solenoids
     	left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
     	right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
+    	
+    	// SmartDashboard things
+    	SmartDashboard.putData("PID Controller for Driving", pidControllerDriving);
+		SmartDashboard.putData("PID Controller for Turning", pidControllerTurning);
+		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
+	
 	}
 	
 //==FOR TELE-OP DRIVING=======================================================================================
@@ -145,6 +183,65 @@ public class Drivetrain extends Subsystem {
     	System.out.println(left_encoder.getDistance());
     	System.out.println(right_encoder.getDistance());
     }
+
+//==FOR PID DRIVING========================================================================================
+	
+	public void setPIDSetpoints(double setpoint) {
+		pidControllerDriving.setSetpoint(setpoint);
+		pidControllerDriving.enable();
+		left_encoder.reset();
+		right_encoder.reset();
+	}
+
+	public boolean driveStraightWithPID(double desiredMoveDistance) {
+		double speedfactor = 0.001;   // This is the "P" factor to scale the error between encoders values to the motor drive bias
+		double maxErrorValue = 0.1;   // Limits the control the error has on driving	
+		double error = speedfactor*(left_encoder.get() - right_encoder.get()); 
+		if (error >= maxErrorValue) error = 0.1;
+		if (error <= -maxErrorValue) error = -0.1;
+		
+		
+		pidControllerDriving.setAbsoluteTolerance(100);
+		
+		arcadeDrive(error, (0.15 * myPIDOutputDriving.get()));
+		
+		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
+		
+		done = pidControllerDriving.onTarget();
+		
+		if (done){
+			pidControllerDriving.disable();
+			System.out.println("done is true======================");
+		
+		}
+		return done;
+	}	
+	
+	public double getGyroAngle(){
+        return gyro.getAngle();
+    }
+	
+    public void resetGyro(double angle){
+        gyro.reset();
+        pidControllerTurning.setSetpoint(angle);
+		pidControllerTurning.enable();
+    }
+    
+    protected double returnPIDInput() {
+        // Return your input value for the PID loop
+        // e.g. a sensor, like a potentiometer:
+        // yourPot.getAverageVoltage() / kYourMaxVoltage
+        return gyro.getAngle();
+    }
+    
+    public void turnWithPID(double desiredTurnAngle) {
+		System.out.println(String.format("output 1: %5.1f    output 2: %5.1f", myPIDOutputTurning.get(), myPIDOutputTurning.get()));
+		arcadeDrive(myPIDOutputTurning.get(), myPIDOutputTurning.get());
+		System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPoint:  %5.1f", 
+				left_encoder.getDistance(), right_encoder.getDistance(), pidControllerTurning.getSetpoint()));
+		System.out.println("AngleTurned:     %5.1f" + gyro.getAngle());
+	}
+
 	
 //==FOR AUTONOMOUS AND CAMERA DRIVING, AND GEAR SHIFTING===================================================
 	
