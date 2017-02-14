@@ -20,12 +20,12 @@ public class F310 extends Joystick {
 	public static final int R_AXIS = 9;
 	
 	//Same as above for axis
-	public static final int LX = 0;
-	public static final int RX = 1;
-	public static final int LY = 2;
-	public static final int RY = 3;
-	public static final int LT = 4;
-	public static final int RT = 5;
+	public static final int LX = 0; //0
+	public static final int RX = 4;	//4
+	public static final int LY = 1;	//1
+	public static final int RY = 5;	//5
+	public static final int LT = 2;	//2
+	public static final int RT = 3;	//3
 	
 	private double[] scalar = new double[numAxes];
 	

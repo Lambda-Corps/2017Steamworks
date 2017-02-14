@@ -38,7 +38,7 @@ public class Shooter extends Subsystem {
     	flywheel_motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR_PORT);
     	indexer_encoder = new Encoder(RobotMap.INDEXER_ENCODER_A_PORT, RobotMap.INDEXER_ENCODER_B_PORT);
     	flywheel_encoder = new Encoder(RobotMap.FLYWHEEL_ENCODER_A_PORT, RobotMap.FLYWHEEL_ENCODER_B_PORT);
-    	shooter_solenoid = new DoubleSolenoid(RobotMap.SHOOTER_SOLENOID_A_PORT, RobotMap.SHOOTER_SOLENOID_B_PORT);
+    	//shooter_solenoid = new DoubleSolenoid(RobotMap.SHOOTER_SOLENOID_A_PORT, RobotMap.SHOOTER_SOLENOID_B_PORT);
     }
     
     // For: Climb and DefaultWinch Commands 
