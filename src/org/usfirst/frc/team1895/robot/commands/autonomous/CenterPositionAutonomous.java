@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DrivetoPeg;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.findRangerFinderDistance;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -39,6 +40,7 @@ public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
         // Add Commands here:
+    	//addSequential(new findRangerFinderDistance());
     	addSequential(new DrivetoPeg());
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

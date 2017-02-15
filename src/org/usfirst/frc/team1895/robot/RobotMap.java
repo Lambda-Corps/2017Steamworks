@@ -58,7 +58,8 @@ public class RobotMap {
 		public static final int RIGHT_JOYSTICK_PORT = 1;
 		
 	//Pneumatics
-		public static final int SOLENOID_1 = 0;
-		public static final int SOLENOID_2 = 1;
-		public static final int SOLENOID_3 = 2;
+		public static final int SOLENOID_1_A_PORT = 0;
+		public static final int SOLENOID_1_B_PORT = 1;
+		public static final int SOLENOID_2 = 2;
+		public static final int SOLENOID_3 = 3;
 }

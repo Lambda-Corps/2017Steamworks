@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DrivetoPeg extends Command {
 
 	boolean bReturn;
+	
     public DrivetoPeg() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

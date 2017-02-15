@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1895.robot.subsystems;
 
 import org.usfirst.frc.team1895.robot.RobotMap;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.MyPIDOutput;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -29,16 +27,19 @@ public class GearHolder extends Subsystem {
 
 	//short-range infrared rangefinder for detecting if gear is present in the slot or not
 	private AnalogInput inslot_short_rangefinder;
-	private Solenoid solenoid_1;
+	//private AnalogInput middle_fr_short_rangefinder;
+	private DoubleSolenoid solenoid_1;
 	public int placeHolder = 0;
     public int placeHolder2 = 1;
     int listLength = 0;
     double[] lastFive = new double[listLength];
     double M;//slope
 	
+   
     public GearHolder() {
+    	//middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
-    	solenoid_1 = new Solenoid(RobotMap.SOLENOID_1);
+    	solenoid_1 = new DoubleSolenoid(RobotMap.SOLENOID_1_A_PORT,RobotMap.SOLENOID_1_B_PORT);
     }
   
     
@@ -46,26 +47,19 @@ public class GearHolder extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	public double fineDistanceFinder(AnalogInput variablerangeFinder){
-		double outputValue = variablerangeFinder.getVoltage();
-		double x = -.98 * outputValue;
-		double y = Math.pow(2.72, x);
-		double newDistance = 76.319 * y;
-		double newerDistance = (newDistance/2.54);
-		return newerDistance;
-//		System.out.println(newerDistance + " inches");
-	}
+//public double fineDistanceFinder(AnalogInput variablerangeFinder){
+
 	public void extendGear(){
-		solenoid_1.set(true);
+		solenoid_1.equals(true);
 	}
 	public void retractGear(){
-		solenoid_1.set(false);
+		solenoid_1.equals(false);
 	}
 
 	public double roundedDistanceFinder(AnalogInput variablerangeFinder){
 		double distance = 0.0; // distance(cm)
 		double outputValue = variablerangeFinder.getVoltage(); //gets sensor voltage
-		if (outputValue>1.6 && outputValue<=2.3){
+		if (outputValue>1.6){
 			M = -.175;
 			distance = 10; //System.out.println("10 cm");
 		}
@@ -107,7 +101,7 @@ public class GearHolder extends Subsystem {
 		if (distance == 10){ //Gear is captured
 				return true; //insert code once gear was captured	
 		}
-		if (distance == 20){// Is the gear out
+		if (distance >= 20){// Is the gear out
 				return false;
 		}
 		return false;// anything else return false

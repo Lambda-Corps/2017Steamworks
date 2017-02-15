@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -68,9 +67,10 @@ public class Drivetrain extends Subsystem {
 	private AnalogInput left_fr_long_rangefinder;
 	private AnalogInput right_fr_long_rangefinder;
 	//PIDS
+	
 	private MyPIDOutput myPIDOutputDriving;
 	private PIDController pidControllerDriving;
-	final double pGain = 10, iGain = .018, dGain = 600;
+	final double pGain = 1, iGain = 0.18, dGain = 600;   //  DF:  lowered pGain 
 	// cameras (to be added later)
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
@@ -96,7 +96,7 @@ public class Drivetrain extends Subsystem {
     	
     	myPIDOutputDriving = new MyPIDOutput();
     	pidControllerDriving = new PIDController(pGain, iGain, dGain, middle_fr_short_rangefinder, myPIDOutputDriving);   // Input are P, I, D, Input , output
-    	
+//    	
 	}
 	
 //==FOR TELE-OP DRIVING=======================================================================================
@@ -105,6 +105,15 @@ public class Drivetrain extends Subsystem {
     // Description: A basic tank drive method. The two parameters are expected to be within the range -1.0 to 1.0
     // If not, they are limited to be within that range. The parameters will set their respective
 	// side of robot to the given value.
+	public double fineDistanceFinder(){
+		double outputValue = middle_fr_short_rangefinder.getVoltage();
+		double x = -.98 * outputValue;
+		double y = Math.pow(2.72, x);
+		double newDistance = 76.319 * y;
+		double newerDistance = (newDistance/2.54);
+		//System.out.println(newerDistance + " inches" + " equals this much voltage" + middle_fr_short_rangefinder.getVoltage());
+		return newerDistance;
+	}
 	public void tankDrive(double left, double right) {
 		if(left >  1.0) left =  1.0;
 		if(left < -1.0) left = -1.0;
@@ -149,15 +158,55 @@ public class Drivetrain extends Subsystem {
 	
 //==FOR AUTONOMOUS AND CAMERA DRIVING, AND GEAR SHIFTING===================================================
 	
+	public double howFartogo(){
+		double currentDistance = fineDistanceFinder();
+		double goalDistance = 12;//distance in inches
+		double distancetogo = (currentDistance - goalDistance);
+		return distancetogo;
+	}
+	
 	public boolean pegStop(){
+
+		
 		//find the distance
-		double currentDistance = Robot.gearholder.fineDistanceFinder(middle_fr_short_rangefinder);
-		double goalDistance = 12.0;//inches
-		pidControllerDriving.setAbsoluteTolerance(1);
+		boolean done = false;    							//   DF:  
+		double currentDistance = fineDistanceFinder();
+		double goalDistance = 0.75;//volts
+		pidControllerDriving.setAbsoluteTolerance(0.1);
 		pidControllerDriving.setSetpoint(goalDistance);
-		pidControllerDriving.setContinuous(false);
-		pidControllerDriving.enable();
-		double pidOutput = myPIDOutputDriving.get();
+		//pidControllerDriving.setContinuous(false);
+		//pidControllerDriving.enable();
+		
+		double PIDerror = 0.0;
+		double pidOutput = 0.25 *  myPIDOutputDriving.get();   // DF
+		
+/*
+ * Use Meredith's DriveStraight code
+ * It wants a distance
+ * use fineDistance to feed it that distance
+ * then the robot will drive straight to that distance
+ */
+		//DF 
+		PIDerror = pidControllerDriving.getError();
+		done = pidControllerDriving.onTarget();
+		
+		System.out.println (String.format("currentDistance:  %6.2f    Motor:  %6.2f   Error:  %6.2f Done %8b" , currentDistance, pidOutput, PIDerror, done));
+		
+//		leftmotorgroup.set(
+		left_motorgroup.set(pidOutput);
+		right_motorgroup.set(pidOutput);
+		
+		if (PIDerror < .1) {
+			System.out.println (" PID on Target =========================");
+			left_motorgroup.set(0);
+			right_motorgroup.set(0);
+			pidControllerDriving.disable();
+			done = true;
+		}
+		System.out.println(middle_fr_short_rangefinder.getVoltage());
+		
+		return done;
+		
 		//If all else fails-the PIDs-use this
 //		if(currentDistance>goalDistance){
 //			left_motorgroup.set(1);
@@ -167,19 +216,19 @@ public class Drivetrain extends Subsystem {
 //			left_motorgroup.set(0);
 //			right_motorgroup.set(0);
 //		}
-		if(currentDistance>goalDistance){
-			left_motorgroup.set(pidOutput);
-			right_motorgroup.set(pidOutput);
-		}
-		if(currentDistance<=goalDistance){
-			left_motorgroup.set(0);
-			right_motorgroup.set(0);
-			return true;
-		}
-		return false;
-
+//		if(currentDistance>goalDistance){
+//			left_motorgroup.set(pidOutput);
+//			right_motorgroup.set(pidOutput);
+//		}
+//		if(currentDistance<=goalDistance){
+//			left_motorgroup.set(0);
+//			right_motorgroup.set(0);
+//			return true;
+//		}
+//		return false;
 		//slow down using the closer we get to the set distance
 	}
+	
 	// For: DriveStraight Command
     // Sensors: left_encoder, right_encoder 
     // Description: will use PID to drive a certain distance with a 0 degree heading, using encoders to 
