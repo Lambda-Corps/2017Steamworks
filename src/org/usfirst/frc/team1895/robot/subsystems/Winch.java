@@ -36,6 +36,19 @@ public class Winch extends Subsystem {
     	winch_motor = new CANTalon(RobotMap.WINCH_MOTOR_PORT);
     	winch_encoder = new Encoder(RobotMap.WINCH_ENCODER_A_PORT, RobotMap.WINCH_ENCODER_B_PORT);
     }
+//==MANUAL MOVEMENT=================================================================================================================
+    
+    // For: ManuallyClimb Command
+    // Sensors: None
+    // Description: Takes a given velocity and sets the motor to that velocity after ensuring it does not 
+    // exceed 1.0 or -1.0. 
+    public void manualClimbing(double velocity) {
+    	if(velocity > 1.0) velocity = 1.0;
+    	if(velocity < 0.0) velocity = 0.0;
+    	winch_motor.set(velocity);
+    }
+    
+//==AUTONOMOUS/AUTOMATED MOVEMENT====================================================================================================
     
     // For: Climb and DefaultWinch Commands
     // Sensors: encoder
