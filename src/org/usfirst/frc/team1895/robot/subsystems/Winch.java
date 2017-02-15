@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1895.robot.subsystems;
 
 import org.usfirst.frc.team1895.robot.RobotMap;
-import org.usfirst.frc.team1895.robot.commands.climbing.DefaultWinch;
+import org.usfirst.frc.team1895.robot.commands.climbing.ManuallyClimb;
 
 import com.ctre.CANTalon;
 
@@ -43,10 +43,13 @@ public class Winch extends Subsystem {
     // Description: Takes a given velocity and sets the motor to that velocity after ensuring it does not 
     // exceed 1.0 or -1.0. 
     public void manualClimbing(double velocity) {
-    	if(velocity > 1.0) velocity = 1.0;
-    	if(velocity < 0.0) velocity = 0.0;
+    	if(velocity >  1.0) velocity =  1.0;
+    	if(velocity < -1.0) velocity = -1.0;
     	winch_motor.set(velocity);
+    	System.out.println("Motor current: " + velocity);
     }
+    
+    
     
 //==AUTONOMOUS/AUTOMATED MOVEMENT====================================================================================================
     
@@ -94,7 +97,7 @@ public class Winch extends Subsystem {
 
     public void initDefaultCommand() {
     	// sets the motor to zero so it doesn't run unless other commands are called
-        setDefaultCommand(new DefaultWinch());
+        setDefaultCommand(new ManuallyClimb());
     }
 }
 
