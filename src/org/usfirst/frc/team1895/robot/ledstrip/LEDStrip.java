@@ -3,16 +3,36 @@ import java.util.ArrayList;
 
 public class LEDStrip {
 
-	private static final int GAMMA_LENGTH = 256;
-	private static final short[] GAMMA = new short[GAMMA_LENGTH];
+	// The main variable that holds the length of the strip. No
+	// different than length variable, but more easily readable.
 	private final int numberOfLEDs;
-	private int current_layer = 0;
-	private int numberOfLayers = 1;
-	private LED[] strip;
-	private ArrayList<LED[]> save_data = new ArrayList<LED[]>();
 	
+	// This is the variable that OTHER classes will access, so it
+	// is public. This variable is no different than numberOfLEDs,
+	// otherwise something is fatally wrong.
 	public final int length;
 	
+	// When dealing with layers, we need to know the number of layers
+	// and what layer we are currently modifying, hence the variable names
+	private int current_layer = 0;
+	private int numberOfLayers = 1;
+	
+	// The array that actaully holds the information for all of the LEDs
+	// on the strip. As for the individual colors, the LED instance at any
+	// index will deal with that.
+	private LED[] strip;
+	
+	//NOT WORKING YET
+	private ArrayList<LED[]> save_data = new ArrayList<LED[]>();
+	
+	
+	// The LED strip does NOT work by feeding it 0x00-0xff directly. Instead, it
+	// needs to me mapped to a value it actually can display. We do this by making
+	// an array called GAMMA, which simply maps a color value (0-255) as an index,
+	// and the value of that index is what the LED strip will like :D
+	// Code was not written by anyone on the team, so the exact logic is unkown to me
+	private static final int GAMMA_LENGTH = 256;
+	private static final short[] GAMMA = new short[GAMMA_LENGTH];
 	static {
         for (int i = 0; i < GAMMA_LENGTH; i++) {
 			int j = (int) (Math.pow(((float) i) / 255.0, 2.5) * 128.0 + 0.5);
@@ -21,9 +41,11 @@ public class LEDStrip {
     }
 	
 	/**
-	 * LEDStrip can handle normal color setting along with transparancy and layers. Transparancy is only effective on layers other than the first layer (layer 0).
-	 * Layers will overwrite colors on lower layers unless given a transparancy, in which case it will blend the colors. :D
-	 * */
+	 * LEDStrip can handle normal color setting along with transparancy and layers.
+	 * Transparancy is only effective on layers other than the first layer (layer 0).
+	 * Layers will overwrite colors on lower layers unless given a transparancy, in
+	 * which case it will blend the colors. :D
+	 */
 	public LEDStrip(int numberOfLEDs) {
 		this.numberOfLEDs = numberOfLEDs;
 		length = numberOfLEDs;
@@ -34,24 +56,24 @@ public class LEDStrip {
 		LEDStripDriver.getInstance().addStrip(this, numberOfLEDs);
 		
 	}
-	
 	/**
-	 * Sets the color of an individual LED
-	 * */
+	 * Sets the color of an individual LED with the colors given in the arguments.
+	 * This is the overloaded method that does not deal with transparency.
+	 */
 	public void paint(int id, int red, int green, int blue) {
 		paint(id, red, green, blue, 255);
 	}
-
 	/**
-	 * Sets the color of an individual LED
-	 * */
+	 * Sets the color of an individual LED with the colors and transparency given 
+	 * in the arguments.
+	 */
 	public void paint(int id, int red, int green, int blue, int alpha) {
 		strip[id].set(red, green, blue, alpha);
 	}
 
 	/**
 	 * Fills the LEDs from start to end with a solid color
-	 * */
+	 */
 	public void fill(int start, int end, int red, int green, int blue) {
 		fill(start, end, red, green, blue, 255);
 	}
@@ -68,14 +90,14 @@ public class LEDStrip {
 
 	/**
 	 * Sets the LEDs between start and end to a gradient
-	 * */
+	 */
 	public void gradient(int start, int end, int red1, int green1, int blue1, int red2, int green2, int blue2) {
 		gradient(start, end, red1, green1, blue1, 255, red2, green2, blue2, 255);
 	}
 
 	/**
 	 * Sets the LEDs between start and end to a gradient
-	 * */
+	 */
 	public void gradient(int start, int end, int red1, int green1, int blue1, int alpha1, int red2, int green2, int blue2, int alpha2) {
 		int length = end - start;
 		for(int i = start; i < end; i++) {
@@ -90,7 +112,7 @@ public class LEDStrip {
 
 	/**
 	 * Shifts all layers a certain amount of LEDs up or  down the strip
-	 * */
+	 */
 	public void shift(int number) {
 		number %= numberOfLEDs;
 		LED[] tmp = new LED[Math.abs(number)];
@@ -107,7 +129,7 @@ public class LEDStrip {
 	
 	/**
 	 * Shifts the current layer a certain amount of LEDs up or  down the strip
-	 * */
+	 */
 	public void shiftLayer(int number) {
 		number %= numberOfLEDs;
 		short[][] tmp = new short[Math.abs(number)][4];
@@ -126,7 +148,7 @@ public class LEDStrip {
 	 * Not working yet, do not call!!!
 	 * 
 	 * @deprecated
-	 * */
+	 */
 	public void save() {
 		LED[] tmp = new LED[numberOfLEDs];
 		for(int i = 0; i < numberOfLEDs; i++) tmp[i] = new LED();
@@ -141,7 +163,7 @@ public class LEDStrip {
 	 * Not working yet, do not call!!!
 	 * 
 	 * @deprecated
-	 * */
+	 */
 	
 	public void load(int id) {
 		if(id < 0 || id >= save_data.size()) return;
@@ -151,7 +173,7 @@ public class LEDStrip {
 
 	/**
 	 * Add a new layer, and change the current layer to the new layer
-	 * */
+	 */
 	public void addLayer() {
 		numberOfLayers++;
 		for(int i = 0; i < numberOfLEDs; i++) {
@@ -162,14 +184,14 @@ public class LEDStrip {
 
 	/**
 	 * Not yet implemented, this does absolutely nothing.
-	 * */
+	 */
 	public void removeLayer(int layer) {
 		//TODO: add stuff
 	}
 
 	/**
 	 * Switch the current layer
-	 * */
+	 */
 	public void changeLayer(int layer) {
 		if(layer < 0 || layer >= numberOfLayers) return;
 		current_layer = layer;
@@ -177,26 +199,26 @@ public class LEDStrip {
 
 	/**
 	 * Returns the main LED[]
-	 * */
+	 */
 	public LED[] get() {
 		return strip;
 	}
 
 	/**
 	 * Returns a specific LED from the main LED[]
-	 * */
+	 */
 	public LED get(int id) {
 		return strip[id];
 	}
 
 	/**
 	 * This method is only useful for the LEDStripDriver. This return the
-	 * data for the spi.
+	 * data for the SPI.
 	 * 
 	 * @return new byte[]
 	 */
 	public byte[] update() {
-		final byte packet[] = new byte[numberOfLEDs * 3];
+		byte packet[] = new byte[numberOfLEDs * 3];
 		for(int i = 0; i < numberOfLEDs; i++) {
 			packet[(i * 3)    ] = (byte) strip[i].getGreen();
 			packet[(i * 3) + 1] = (byte) strip[i].getRed();
@@ -205,7 +227,9 @@ public class LEDStrip {
 		return packet;
 	}
 
-	/**Ovverides Object.toString()*/
+	/**
+	 * Ovverides Object.toString()
+	 */
 	@Override
 	public String toString() {
 		String s = "";
@@ -218,7 +242,9 @@ public class LEDStrip {
 		return s;
 	}
 
-	/**LED backend that handles holding the color and setting new colors, layers, and transparancy.*/
+	/**
+	 * LED backend that handles holding the color and setting new colors, layers, and transparancy.
+	 */
 	private class LED {
 		
 		private ArrayList<short[]> layer = new ArrayList<short[]>();
