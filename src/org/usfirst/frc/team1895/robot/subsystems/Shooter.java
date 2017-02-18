@@ -31,7 +31,7 @@ public class Shooter extends Subsystem {
 	private CANTalon flywheel_motor; 	//larger wheel -- speed will be PID controlled
 	private Encoder indexer_encoder;
 	private Encoder flywheel_encoder;
-	private DoubleSolenoid shooter_solenoid;
+	//private DoubleSolenoid shooter_solenoid;
 	
     public Shooter() {
     	indexer_motor = new CANTalon(RobotMap.INDEXER_MOTOR_PORT);

@@ -7,13 +7,15 @@ import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
 
 import com.ctre.CANTalon;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +48,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * 2/15/2017: Deleted AlignToRope Command and method from this subsystem.
  * 
+ * 2/18/2017: Hand-merged Meredith and Zach's code for driving and turning with PIDs and aligning to peg, excludinng their HangGear 
+ * methods and commands. Also fixed a few errors in their methods after testing. Also added code for setting ramp rate of motors, but
+ * it is currently commented out. The solenoids are also commented out in every subsystem. Lastly, code to read the NAVX board was 
+ * added. More finetuning needs to be done for the PIDs and ramp-rate in the future. 
+ * 
  */
 
 public class Drivetrain extends Subsystem {
@@ -61,6 +68,8 @@ public class Drivetrain extends Subsystem {
 	private CANTalon right_motor2;
 	private CANTalon right_motor3;
 	
+	private static final double TALON_RAMP_RATE = 48.0;
+	
 	// Motorgroups
 	private MotorGroup<CANTalon> left_motorgroup;
 	private MotorGroup<CANTalon> right_motorgroup;
@@ -74,6 +83,7 @@ public class Drivetrain extends Subsystem {
 	private Encoder right_encoder;
 	
 	// Analog sensors
+	AHRS ahrs;
 	private AnalogGyro  gyro;
 	private AnalogInput middle_fr_short_rangefinder;
 	// if the plan on using three rangefinders to align to boiler is confirmed
@@ -83,10 +93,10 @@ public class Drivetrain extends Subsystem {
 	// PID 
 	private MyPIDOutput myPIDOutputDriving;
 	private MyPIDOutput myPIDOutputTurning;
-	private PIDController pidControllerDriving;
+	private PIDController pidControllerDriving; 
 	private PIDController pidControllerTurning;
 	final double pGainDriv = .25, iGainDriv = 1, dGainDriv = 1;
-	final double pGainTurn = .25, iGainTurn = 1, dGainTurn = 1;	
+	final double pGainTurn = .25, iGainTurn = 1, dGainTurn = 1;	//d smaller = positive
 	boolean done = false;
 	int index = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
@@ -111,12 +121,27 @@ public class Drivetrain extends Subsystem {
 		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
     	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
     	
+//    	left_motor1.setVoltageRampRate(TALON_RAMP_RATE);
+//    	left_motor2.setVoltageRampRate(TALON_RAMP_RATE);
+//    	left_motor3.setVoltageRampRate(TALON_RAMP_RATE);
+//    	right_motor1.setVoltageRampRate(TALON_RAMP_RATE);
+//    	right_motor2.setVoltageRampRate(TALON_RAMP_RATE);
+//    	right_motor3.setVoltageRampRate(TALON_RAMP_RATE);
+    	
     	// Digital IO
     	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
     	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
     	
     	// Analog IO
     	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
+    	try {
+            /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+            ahrs = new AHRS(SPI.Port.kMXP); 
+        } catch (RuntimeException ex ) {
+            DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+        }
     	middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
     	// if the plan on using three rangefinders to align to boiler is confirmed
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
@@ -139,9 +164,9 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
 		SmartDashboard.putData("LeftEncoder: ", left_encoder);
 		SmartDashboard.putData("RightEncoder: ", right_encoder);
-		
-		left_encoder.setDistancePerPulse(0.051);
-		right_encoder.setDistancePerPulse(0.051);
+		//smaller = farther
+		left_encoder.setDistancePerPulse(0.0225);
+		right_encoder.setDistancePerPulse(0.0225); 
 
 	}
 	
@@ -213,7 +238,7 @@ public class Drivetrain extends Subsystem {
 		if (error <= -maxErrorValue) error = -0.1;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
-		arcadeDrive(error, (0.15 * myPIDOutputDriving.get()));
+		arcadeDrive((0.5 * myPIDOutputDriving.get()), error);
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		
@@ -230,6 +255,7 @@ public class Drivetrain extends Subsystem {
 	
 	public void resetGyro(){
         gyro.reset();
+        ahrs.zeroYaw();
     }
     
     public void setUpPIDTurning(double angle){
@@ -241,7 +267,8 @@ public class Drivetrain extends Subsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage
-        return gyro.getAngle();
+        //return gyro.getAngle();
+    	return ahrs.getAngle();
     }
     
 public boolean turnWithPID(double desiredTurnAngle) {
@@ -249,14 +276,14 @@ public boolean turnWithPID(double desiredTurnAngle) {
 		pidControllerTurning.setAbsoluteTolerance(5.0);		
 		
 		//basicArcadeDrive uses x, y inputs so it should be 0 for y and whatever the PIDcontroller calculates as x
-		arcadeDrive((0.1 * myPIDOutputTurning.get()), 0.0);
+		arcadeDrive(0.0, (0.5 * myPIDOutputTurning.get()));
 				
 		index++;
 		
 		if (index>10)  {		
 		System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f", 
 				left_encoder.getDistance(), right_encoder.getDistance(), pidControllerTurning.getSetpoint(), gyro.getAngle(), myPIDOutputTurning.get()));
-		index = 0;
+		index = 0; 
 		}
 		
 		done = pidControllerTurning.onTarget();

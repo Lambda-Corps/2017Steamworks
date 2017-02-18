@@ -1,11 +1,10 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.*;
-import org.usfirst.frc.team1895.robot.subsystems.*;
-import org.usfirst.frc.team1895.robot.commands.climbing.*;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.*;
-import org.usfirst.frc.team1895.robot.commands.gears.*;
-import org.usfirst.frc.team1895.robot.commands.shooter.*;
+import org.usfirst.frc.team1895.robot.commands.autonomous.CenterPositionAutonomous;
+import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
+import org.usfirst.frc.team1895.robot.subsystems.Shooter;
+import org.usfirst.frc.team1895.robot.subsystems.Winch;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -45,7 +44,7 @@ public class Robot extends IterativeRobot {
 		winch = new Winch();
 		gearholder = new GearHolder();
 		oi = new OI();
-		chooser.addDefault("Default Auto", new Climb());
+		chooser.addDefault("Default Auto", new CenterPositionAutonomous());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}

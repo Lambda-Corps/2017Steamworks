@@ -53,8 +53,8 @@ public class RobotMap {
 	//Digital IO
 		public static final int RIGHT_GEARBOX_ENCODER_A_PORT = 0;
 		public static final int RIGHT_GEARBOX_ENCODER_B_PORT = 1;
-		public static final int LEFT_GEARBOX_ENCODER_A_PORT = 2;
-		public static final int LEFT_GEARBOX_ENCODER_B_PORT = 3;
+		public static final int LEFT_GEARBOX_ENCODER_A_PORT = 3;
+		public static final int LEFT_GEARBOX_ENCODER_B_PORT = 2;
 		public static final int WINCH_ENCODER_A_PORT = 4;
 		public static final int WINCH_ENCODER_B_PORT = 5;
 		public static final int INDEXER_ENCODER_A_PORT = 6;

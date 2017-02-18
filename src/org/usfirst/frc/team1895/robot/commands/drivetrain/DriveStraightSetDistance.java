@@ -21,7 +21,7 @@ public class DriveStraightSetDistance extends Command {
 	boolean done = false;
     public DriveStraightSetDistance(double givenDistance) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
+        requires(Robot.drivetrain); 
         goalDistance = givenDistance;
     }
 

@@ -26,7 +26,7 @@ public class GearHolder extends Subsystem {
 
 	//short-range infrared rangefinder for detecting if gear is present in the slot or not
 	private AnalogInput inslot_short_rangefinder;
-	private DoubleSolenoid gearholder_solenoid;
+	//private DoubleSolenoid gearholder_solenoid;
 	public int placeHolder = 0;
     public int placeHolder2 = 1;
     int listLength = 0;
@@ -37,14 +37,14 @@ public class GearHolder extends Subsystem {
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
     	compressor = new Compressor();
-    	gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
+    	//gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
     }
     
     public void extendGear(){
-    	gearholder_solenoid.equals(true);
+    	//gearholder_solenoid.equals(true);
 	}
 	public void retractGear(){
-		gearholder_solenoid.equals(false);
+		//gearholder_solenoid.equals(false);
 	}
 
 	public double roundedDistanceFinder(AnalogInput variablerangeFinder){
