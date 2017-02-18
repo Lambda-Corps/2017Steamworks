@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.command.Command;
  * 			- Test
  * 	Added: requires statement, execute 
  */
-public class ManuallyClimb extends Command {
+public class DefaultManuallyClimb extends Command {
 
-    public ManuallyClimb() {
+    public DefaultManuallyClimb() {
         requires(Robot.winch);
     }
 

@@ -43,7 +43,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 2/11/2017: Inverted the right motorgroup in tankdrive method.
  * 
  * 2/14/2017: Hand-Merged Meredith's PID code into Drivetrain subsystem. Also added MyPIDOutput dummy class.
- * Made a decision to 
+ * 
+ * 2/15/2017: Deleted AlignToRope Command and method from this subsystem.
+ * 
  */
 
 public class Drivetrain extends Subsystem {
@@ -286,14 +288,6 @@ public class Drivetrain extends Subsystem {
 	// distance, and if the middle rangefinder exceeds a certain threshold distance, then the robot knows it had reached its 
 	// final position.
     public boolean alignToHighGoal() {
-    	return false;
-    }
-    
-    // For: AlignToRope Command
-    // Sensors: Camera, PID-controlled
-    // Description: Will use the camera to determine where rope is relative to the robot. Robot will then 
-    // adjust itself to move toward the rope.
-    public boolean alignToRope() {
     	return false;
     }
     

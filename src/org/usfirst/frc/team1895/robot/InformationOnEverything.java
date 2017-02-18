@@ -29,32 +29,25 @@ public class InformationOnEverything {
  * List of all Buttons: [controls still TBD]
  * 	    - Using 2 Joysticks:
  *      	- X_AXIS: None
- *      	- Y_AXIS: Front and back straight driving
+ *      	- Y_AXIS: Front and back straight driving (tank)
  *      	- Z_AXIS: None
  *      - Using a Gamepad:
- *      	- A: None
- *      	- B: None
- *      	- X: None
- *      	- Y: None
+ *      	BUTTONS
+ *      	- START: High Gear
+ *      	- BACK: Low Gear
+ *      	- A: Gearholder in
+ *      	- B: Shoot 
+ *      	- X: Auto-drive to lift peg
+ *      	- Y: Gearholder out
+ *      	- RB: (TBD) Auto-Catch Rope (runs slowly until it detects the rope has been caught)
+ *      	- LB: (TBD) Auto-Climb (climbs until touchpad has been reached)
+ *      	AXES
  *      	- LX_AXIS: None
- *      	- LY_AXIS: front and back straight driving
- *      	- RX_AXIS: left and right turning
+ *      	- LY_AXIS: front and back straight driving (arcade)
+ *      	- LT: Climb Up
+ *      	- RX_AXIS: left and right turning (arcade)
  *      	- RY_AXIS: None
- *      	- FR_LEFT: None
- *      	- FR_RIGHT: None
- * Potential Buttons
- * Climbing
- * 	- alignToRope
- *  - CatchRope (winch enabled at full speed cause full speed is 1.1688 rev/ second)
- *  - Climb (winch pulls robot up rope and stops automatically when at the top)
- *       - measure voltage, when it exceeds a certain threshold stop motors
- *       - requires encoder
- *  - [JUST FOR TESTING] ClimbForTenRotations 
- *       - requires encoder
- *  - [JUST FOR TESTING] Unwind
- *  Drivetrain
- *  - ShiftGears
- *  - DriveWithCamera
+ *      	- RT: Climb Down
  *
  * List of everything to be displayed to SmartDashboard (not necessarily doing so yet):
  * 	    - whether a gear is in the slot or not
