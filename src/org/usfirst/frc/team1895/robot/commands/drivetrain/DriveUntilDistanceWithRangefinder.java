@@ -1,36 +1,38 @@
-package org.usfirst.frc.team1895.robot.commands.climbing;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Use camera to detect the rope, then drive up to it using the cameras.
- * 			- Desired arguments: speed? (or do we want it to be hardcoded)
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ *
  */
-public class AlignToRope extends Command {
+public class DriveUntilDistanceWithRangefinder extends Command {
 
-    public AlignToRope() {
+	double goalDistance;
+	boolean done = false;
+    public DriveUntilDistanceWithRangefinder() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
+        double howfar = Robot.drivetrain.fineDistanceFinder();
+        
+        goalDistance = (howfar+6);
+        System.out.println(howfar+6);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.setPIDSetpoints(goalDistance);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	done = Robot.drivetrain.driveStraightWithPID(goalDistance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return done;
     }
 
     // Called once after isFinished returns true

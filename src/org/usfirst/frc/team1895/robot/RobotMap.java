@@ -40,7 +40,16 @@ public class RobotMap {
 		public static final int INDEXER_MOTOR_PORT = 8;
 		public static final int FLYWHEEL_MOTOR_PORT = 9;
 		
-	
+	//Solenoids
+		public static final int SHOOTER_SOLENOID_A_PORT = 0;
+		public static final int SHOOTER_SOLENOID_B_PORT = 0;
+		public static final int GEARHOLDER_SOLENOID_A_PORT = 1;
+		public static final int GEARHOLDER_SOLENOID_B_PORT = 1;
+		public static final int L_DRIVETRAIN_SOLENOID_A_PORT = 2;
+		public static final int L_DRIVETRAIN_SOLENOID_B_PORT = 2;
+		public static final int R_DRIVETRAIN_SOLENOID_A_PORT = 3;
+		public static final int R_DRIVETRAIN_SOLENOID_B_PORT = 2;
+		
 	//Digital IO
 		public static final int RIGHT_GEARBOX_ENCODER_A_PORT = 0;
 		public static final int RIGHT_GEARBOX_ENCODER_B_PORT = 1;
@@ -56,4 +65,5 @@ public class RobotMap {
 	//Driver's Station IO
 		public static final int  LEFT_JOYSTICK_PORT = 0;
 		public static final int RIGHT_JOYSTICK_PORT = 1;
+		public static final int GAMEPAD_PORT = 2;
 }

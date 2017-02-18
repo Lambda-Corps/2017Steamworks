@@ -1,22 +1,19 @@
-package org.usfirst.frc.team1895.robot.commands.climbing;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: sets the motor to zero so it doesn't run unless other commands are called
- * 			- Desired arguments: speed
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ *
  */
-public class DefaultWinch extends Command {
+public class StopRobot extends Command {
 
-    public DefaultWinch() {
-        requires(Robot.winch);
+	public StopRobot(double robottime) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	setTimeout(robottime);
+    	requires (Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
@@ -25,11 +22,12 @@ public class DefaultWinch extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.drivetrain.arcadeDrive(0, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return isTimedOut();
     }
 
     // Called once after isFinished returns true

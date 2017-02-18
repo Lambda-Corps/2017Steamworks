@@ -16,30 +16,39 @@ public class InformationOnEverything {
  *      	- 1 short-range rangefinder (middle_fr_short_rangefinder)
  *      	- 2 long-range rangefinders (left_fr_long_rangefinder, right_fr_long_rangefinder)
  *      	- 2 cameras (not declared yet)
+ *      	- Solenoid for gearbox
  *      - GearHolder:
  *      	- 1 short-range rangefinder (inslot_short_rangefinder)
+ *      	- Solenoid for gearbox
  *      - Shooter:
  *      	- 2 encoders (indexer_encoder, flywheel_encoder)
+ *      	- Solenoid for gearbox
  *      - Winch:
  * 	    	- 1 encoder (winch_encoder)
  * 
  * List of all Buttons: [controls still TBD]
  * 	    - Using 2 Joysticks:
- *      	- X_AXIS:
- *      	- Y_AXIS:
- *      	- Z_AXIS:
+ *      	- X_AXIS: None
+ *      	- Y_AXIS: Front and back straight driving (tank)
+ *      	- Z_AXIS: None
  *      - Using a Gamepad:
- *      	- A:
- *      	- B:
- *      	- X:
- *      	- Y:
- *      	- LX_AXIS:
- *      	- LY_AXIS:
- *      	- RX_AXIS:
- *      	- RY_AXIS:
- *      	- FR_LEFT:
- *      	- FR_RIGHT:
- *  
+ *      	BUTTONS
+ *      	- START: High Gear
+ *      	- BACK: Low Gear
+ *      	- A: Gearholder in
+ *      	- B: Shoot 
+ *      	- X: Auto-drive to lift peg
+ *      	- Y: Gearholder out
+ *      	- RB: (TBD) Auto-Catch Rope (runs slowly until it detects the rope has been caught)
+ *      	- LB: (TBD) Auto-Climb (climbs until touchpad has been reached)
+ *      	AXES
+ *      	- LX_AXIS: None
+ *      	- LY_AXIS: front and back straight driving (arcade)
+ *      	- LT: Climb Up
+ *      	- RX_AXIS: left and right turning (arcade)
+ *      	- RY_AXIS: None
+ *      	- RT: Climb Down
+ *
  * List of everything to be displayed to SmartDashboard (not necessarily doing so yet):
  * 	    - whether a gear is in the slot or not
  *      - distance encoders drove for any method that uses encoders and whether it has reached
@@ -55,7 +64,10 @@ public class InformationOnEverything {
  *      - Front/Gearside facing:
  *        	- Aligning to Lift
  *      	- Aligning to Loading Station
- *      
+ * TO BE DETERMINED: 
+ *    - all long-range or 2 long-range and one short-range rangefinder for drivetrain class
+ *    - desired arguments of DriveWithCamera Command, AlignToLift Command, AlignToRope Command, AlignToHighGoal Command, AlignToLoadingStation Command
+ *    - speed of motor in CatchRope Command, Climb Command hardcode vs variable?
  * 
  */
 }

@@ -15,22 +15,29 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TurnWithGyro extends Command {
-
-    public TurnWithGyro() {
-        requires(Robot.drivetrain);
+	double goalAngle = 0.0;
+	boolean done = false;
+    public TurnWithGyro(double givenAngle) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.drivetrain);
+        goalAngle = givenAngle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.resetGyro();
+    	Robot.drivetrain.setUpPIDTurning(goalAngle);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	done = 	Robot.drivetrain.turnWithPID(goalAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return done;
     }
 
     // Called once after isFinished returns true

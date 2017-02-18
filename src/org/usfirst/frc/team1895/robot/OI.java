@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1895.robot;
 
+import org.usfirst.frc.team1895.robot.oi.F310;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 /** 
@@ -49,11 +51,14 @@ public class OI {
 	public Joystick  leftArcadeJoystick;
 	public Joystick rightArcadeJoystick;
 	
+	public F310 gamepad;
+	
 	public OI() {
 		// The constructor wants the port the joystick is connected to in the
 		// driver's station
 		//TODO: replace Joystick with ArcadeJoystick or F310 once implemented
 		 leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
 		rightArcadeJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
+		gamepad = new F310(RobotMap.GAMEPAD_PORT);
 	}
 }

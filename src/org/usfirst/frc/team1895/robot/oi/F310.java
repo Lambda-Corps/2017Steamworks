@@ -20,12 +20,12 @@ public class F310 extends Joystick {
 	public static final int R_AXIS = 9;
 	
 	//Same as above for axis
-	public static final int LX = 0;
-	public static final int RX = 1;
-	public static final int LY = 2;
-	public static final int RY = 3;
-	public static final int LT = 4;
-	public static final int RT = 5;
+	public static final int LX = 0; //0
+	public static final int RX = 4;	//4
+	public static final int LY = 1;	//1
+	public static final int RY = 5;	//5
+	public static final int LT = 2;	//2
+	public static final int RT = 3;	//3
 	
 	private double[] scalar = new double[numAxes];
 	
@@ -46,7 +46,7 @@ public class F310 extends Joystick {
 	}
 	
 	//calls enum Axis
-	public double getAxes(int axis) {
+	public double getAxis(int axis) {
 		if(axis < 0 || axis >= numAxes) return 0.0;
 		double x = this.getRawAxis(axis);
 		return gain * Math.pow(x, 3) + (1 - gain) * x;
@@ -56,47 +56,5 @@ public class F310 extends Joystick {
 	public void setScalar(int axis, double value) {
 		if(axis < 0 || axis >= numAxes) return;
 		scalar[axis] = value;
-	}
-	
-	public enum Buttons {
-		A(0),
-		B(1),
-		X(2),
-		Y(3),
-		LB(4), //top button
-		RB(5), //top button
-		START(6),
-		SELECT(7),
-		L_AXIS(8),
-		R_AXIS(9);
-		
-		private final int id;
-		
-		private Buttons(int id) {
-			this.id = id;
-		}
-		
-		public int getID() { 
-			return id;
-		}
-	}
-	
-	public enum Axis {
-		LX(0), 
-		RX(1), 
-		LY(2), 
-		RY(3), 
-		LZ(4),
-		RZ(5);
-		
-		private final int id;
-		
-		private Axis(int id) {
-			this.id = id;
-		}
-		
-		public int getID() { 
-			return id; 
-		}
 	}
 }

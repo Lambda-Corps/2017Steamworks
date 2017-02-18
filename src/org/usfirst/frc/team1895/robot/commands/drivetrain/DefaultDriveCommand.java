@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
+import org.usfirst.frc.team1895.robot.oi.F310;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 		To do still:
  * 			- Fill in execute method and other methods if needed
  * 			- Add arcade drive and gamepad use
+ * 2/11/2017 Added arcade driving capabilities. It is currently commented out but it works.
  */
 
 public class DefaultDriveCommand extends Command {
@@ -26,15 +28,16 @@ public class DefaultDriveCommand extends Command {
 
 	@Override
 	protected void initialize() {
+		Robot.drivetrain.tankDrive(0.0, 0.0);
 	}
 
 	@Override
 	protected void execute() {
 		// Call the tankDrive() method of the drivetrain class, using the y-axis
-		// value of the left joysick and the y-axis value of the right joystick
+		// value of the left joystick and the y-axis value of the right joystick
 		// Joystick.getY() returns the Z axis, so use getRawAxis(1) (the y axis)
 		// until the custom classes are implemented.
-		//TODO: Implement Arcade Joystick or F310 get axis methods
+		//Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.LY), Robot.oi.gamepad.getAxis(F310.RX));
 		Robot.drivetrain.tankDrive(-Robot.oi.leftArcadeJoystick.getRawAxis(1)*0.75, Robot.oi.rightArcadeJoystick.getRawAxis(1)*0.75);
 	}
 
