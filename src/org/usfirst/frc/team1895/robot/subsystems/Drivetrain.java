@@ -66,8 +66,8 @@ public class Drivetrain extends Subsystem {
 	private MotorGroup<CANTalon> right_motorgroup;
 	
 	// Solenoids
-	private DoubleSolenoid left_solenoid;
-	private DoubleSolenoid right_solenoid;
+	//private DoubleSolenoid left_solenoid;
+	//private DoubleSolenoid right_solenoid;
 	
 	// Digital sensors
 	private Encoder left_encoder;
@@ -128,8 +128,8 @@ public class Drivetrain extends Subsystem {
 		pidControllerTurning = new PIDController(pGain, iGain, dGain, gyro, myPIDOutputTurning);
 		
     	// Solenoids
-    	left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
-    	right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
+    	//left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
+    	//right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
     	
     	// SmartDashboard things
     	SmartDashboard.putData("PID Controller for Driving", pidControllerDriving);
