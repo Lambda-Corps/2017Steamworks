@@ -48,10 +48,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * 2/15/2017: Deleted AlignToRope Command and method from this subsystem.
  * 
+<<<<<<< Updated upstream
  * 2/18/2017: Hand-merged Meredith and Zach's code for driving and turning with PIDs and aligning to peg, excludinng their HangGear 
  * methods and commands. Also fixed a few errors in their methods after testing. Also added code for setting ramp rate of motors, but
  * it is currently commented out. The solenoids are also commented out in every subsystem. Lastly, code to read the NAVX board was 
  * added. More finetuning needs to be done for the PIDs and ramp-rate in the future. 
+=======
+ * 2/18/2017:
+>>>>>>> Stashed changes
  * 
  */
 
