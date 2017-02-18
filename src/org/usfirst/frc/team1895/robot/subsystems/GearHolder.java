@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -33,11 +34,16 @@ public class GearHolder extends Subsystem {
     double[] lastFive = new double[listLength];
     double M;//slope
 	private final Compressor compressor;
+	private final double GEARISINVOLTAGE = 1.0;
 	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
+    	SmartDashboard.putData("Gear Range Finder", inslot_short_rangefinder);
     	compressor = new Compressor();
     	//gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
+    }
+    public double getVolatage(){
+    	return inslot_short_rangefinder.getVoltage();
     }
     
     public void extendGear(){
@@ -85,15 +91,13 @@ public class GearHolder extends Subsystem {
     // Sensors: Short-range infrared rangefinder (1)
     // Description: Detects if gear is in the slot or not using a short-range rangefinder. If the 
     // gear was detected to be present, return true. Otherwise return false.
-	public boolean getGearPresence() {
-		double distance = roundedDistanceFinder(inslot_short_rangefinder);
-		if (distance == 10){ //Gear is captured
-				return true; //insert code once gear was captured	
+	public boolean isGearPresent() {
+		boolean bReturn = false;
+		double distance = inslot_short_rangefinder.getVoltage();
+		if (distance > GEARISINVOLTAGE){ //Gear is captured
+				bReturn = true; //insert code once gear was captured	
 		}
-		if (distance >= 20){// Is the gear out
-				return false;
-		}
-		return false;// anything else return false
+		return bReturn;// anything else return false
     }
 
     public void initDefaultCommand() {

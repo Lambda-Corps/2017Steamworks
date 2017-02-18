@@ -25,7 +25,7 @@ public class WaitUntilGearGoneOrTimeOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-  		if (Robot.gearholder.getGearPresence() == false)  {
+  		if (Robot.gearholder.isGearPresent() == false)  {
   			done = true;
   		}
   		if (counter >= (50* seconds)) {
