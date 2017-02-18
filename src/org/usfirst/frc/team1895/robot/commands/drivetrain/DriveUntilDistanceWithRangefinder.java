@@ -4,35 +4,30 @@ import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/** Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Uses the gyro to turn a given heading chosen by the user at a given speed chosen by the user. Will finish once the 
- * 		heading has been reached.  
- * 			- Desired arguments: speed, heading
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+/**
  *
  */
-public class TurnWithGyro extends Command {
-	double goalAngle = 0.0;
+public class DriveUntilDistanceWithRangefinder extends Command {
+
+	double goalDistance;
 	boolean done = false;
-    public TurnWithGyro(double givenAngle) {
+    public DriveUntilDistanceWithRangefinder() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.drivetrain);
-        goalAngle = givenAngle;
+        requires(Robot.drivetrain);
+        double howfar = Robot.drivetrain.fineDistanceFinder();
+        
+        goalDistance = (howfar+6);
+        System.out.println(howfar+6);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.resetGyro();
-    	Robot.drivetrain.setUpPIDTurning(goalAngle);
+    	Robot.drivetrain.setPIDSetpoints(goalDistance);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = 	Robot.drivetrain.turnWithPID(goalAngle);
+    	done = Robot.drivetrain.driveStraightWithPID(goalDistance);
     }
 
     // Make this return true when this Command no longer needs to run execute()
