@@ -125,6 +125,7 @@ public class Drivetrain extends Subsystem {
 	
 	// Gear shifting variables
 	private DoubleSolenoid drivetrainSolenoid;
+	private boolean isManualOverride = false;
 	private boolean isHighGear = false;
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
@@ -471,11 +472,23 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	// Description: Should shift from low to high gear or vice versa to allow the driver to drive with more torque
 	// and less speed in low gear, and less torque and more speed in high gear
 	public void shiftGears() {
-		if(isHighGear) {
-			drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
+		// TODO
+		if(isManualOverride) {
+			drivetrainSolenoid.set(DoubleSolenoid.Value.kForward);
 		} else {
-			drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
+			if(isHighGear) {
+				drivetrainSolenoid.set(DoubleSolenoid.Value.kForward);
+			} else {
+				drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
+			}
 		}
+	}
+	
+	/**
+	 * this method will set the manual override state to the indicated value
+	 * */
+	public void gearShiftManualOverride(boolean value) {
+		isManualOverride = value;
 	}
 	
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================

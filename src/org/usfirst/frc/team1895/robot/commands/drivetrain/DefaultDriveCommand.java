@@ -33,10 +33,9 @@ public class DefaultDriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		// Call the tankDrive() method of the drivetrain class, using the y-axis
-		// value of the left joystick and the y-axis value of the right joystick
-		// Joystick.getY() returns the Z axis, so use getRawAxis(1) (the y axis)
-		// until the custom classes are implemented.
+		// Call the arcadeDrive() method from drivetrain. This current set up will
+		// take the left y axis as the transitional value, and the right x axis
+		// as the turning value.
 		Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.LY), Robot.oi.gamepad.getAxis(F310.RX));
 		//Robot.drivetrain.tankDrive(-Robot.oi.leftArcadeJoystick.getRawAxis(1)*0.75, Robot.oi.rightArcadeJoystick.getRawAxis(1)*0.75);
 	}
