@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -122,6 +123,10 @@ public class Drivetrain extends Subsystem {
 	boolean bFirstcall_to_Swerve;
 	// cameras (to be added later)
 	
+	// Gear shifting variables
+	private DoubleSolenoid drivetrainSolenoid;
+	private boolean isHighGear = false;
+	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
@@ -134,6 +139,9 @@ public class Drivetrain extends Subsystem {
 		right_motor3 = new CANTalon(RobotMap.RIGHT_MOTOR3_PORT);
 		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
     	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
+    	
+    	// Solenoids (or DoubleSolenoids)
+    	drivetrainSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
     	
 //    	left_motor1.setVoltageRampRate(TALON_RAMP_RATE);
 //    	left_motor2.setVoltageRampRate(TALON_RAMP_RATE);
@@ -458,12 +466,16 @@ public boolean turnWithPID(double desiredTurnAngle) {
     public boolean alignToHighGoal() {
     	return false;
     }
-    
-	// For: ShiftGears Command
-	// Sensors: None
+   
+	// Sensors: encoders
 	// Description: Should shift from low to high gear or vice versa to allow the driver to drive with more torque
 	// and less speed in low gear, and less torque and more speed in high gear
 	public void shiftGears() {
+		if(isHighGear) {
+			drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
+		} else {
+			drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
+		}
 	}
 	
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
