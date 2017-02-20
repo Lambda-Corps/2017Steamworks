@@ -473,14 +473,15 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	// and less speed in low gear, and less torque and more speed in high gear
 	public void shiftGears() {
 		// TODO
+		System.out.println(isManualOverride);
 		if(isManualOverride) {
 			drivetrainSolenoid.set(DoubleSolenoid.Value.kForward);
 		} else {
-			if(isHighGear) {
-				drivetrainSolenoid.set(DoubleSolenoid.Value.kForward);
-			} else {
+//			if(isHighGear) {
+//				drivetrainSolenoid.set(DoubleSolenoid.Value.kForward);
+//			} else {
 				drivetrainSolenoid.set(DoubleSolenoid.Value.kReverse);
-			}
+//			}
 		}
 	}
 	

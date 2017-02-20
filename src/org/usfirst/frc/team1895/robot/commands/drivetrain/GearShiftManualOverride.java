@@ -23,6 +23,7 @@ public class GearShiftManualOverride extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// Same as DefaultDriveCommand
+    	System.out.println("I'm in gear shift manual override!!!!!!!!!!!");
     	Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.LY), Robot.oi.gamepad.getAxis(F310.RX));
     }
 
