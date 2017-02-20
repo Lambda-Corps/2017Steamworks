@@ -1,8 +1,11 @@
 package org.usfirst.frc.team1895.robot;
 
+import org.usfirst.frc.team1895.robot.commands.drivetrain.GearShiftManualOverride;
 import org.usfirst.frc.team1895.robot.oi.F310;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /** 
  * This class is the glue that binds the controls on the physical operator
@@ -52,6 +55,7 @@ public class OI {
 	public Joystick rightArcadeJoystick;
 	
 	public F310 gamepad;
+	public Button gamepad_LB;
 	
 	public OI() {
 		// The constructor wants the port the joystick is connected to in the
@@ -60,5 +64,8 @@ public class OI {
 		 leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
 		rightArcadeJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
 		gamepad = new F310(RobotMap.GAMEPAD_PORT);
+		
+		gamepad_LB = new JoystickButton(gamepad, F310.LB);
+		gamepad_LB.whileHeld(new GearShiftManualOverride());
 	}
 }
