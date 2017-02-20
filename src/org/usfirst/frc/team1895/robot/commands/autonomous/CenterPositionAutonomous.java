@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.SwerveDriveFirstTurn;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -39,13 +41,32 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
-//    	addSequential(new )
-    	addSequential(new SwerveDriveFirstTurn(20,50));
-//    	addSequential(new DriveStraightSetDistance(100));
+    	//for tuning encoders 
+//    	addSequential(new DriveStraightSetDistance(-114));
 //    	addSequential(new StopRobot(2));
-//    	addSequential(new DriveStraightSetDistance(-100));
+//    	addSequential(new DriveStraightSetDistance(114));
 //    	
+    	//for tuning turning
 //    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
+//    	addSequential(new StopRobot(2));
+//    	addSequential(new TurnWithGyro(-90.0));
+//    	addSequential(new StopRobot(2));
+//    	addSequential(new TurnWithGyro(179.0)); //goes clockwise
+//    	addSequential(new StopRobot(2));
+//    	addSequential(new TurnWithGyro(-179.0));
+    	
+    	//mock autonomous
+    	addSequential(new DriveStraightSetDistance(-30));
+    	addSequential(new WaitUntilGearGoneOrTimeOut(10));
+    	addSequential(new DriveStraightSetDistance(30)); //drive back
+//    	addSequential(new TurnWithGyro(-45.0));
+//    	addSequential(new DriveStraightSetDistance(-50));
+//    	addSequential(new TurnWithGyro(45.0));
+//    	addSequential(new DriveStraightSetDistance(-50));
+    	//for tuning Zach's rangefinder
+    	//addSequential(new DriveUntilDistanceWithRangefinder());
+    	
+    	
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

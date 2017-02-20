@@ -75,6 +75,7 @@ public class Drivetrain extends Subsystem {
 	
 	private static final double TALON_RAMP_RATE = 48.0;
 	
+	
 	// Motorgroups
 	private MotorGroup<CANTalon> left_motorgroup;
 	private MotorGroup<CANTalon> right_motorgroup;
@@ -100,8 +101,8 @@ public class Drivetrain extends Subsystem {
 	private MyPIDOutput myPIDOutputTurning;
 	private PIDController pidControllerDriving; 
 	private PIDController pidControllerTurning;
-	final double pGainDriv = .25, iGainDriv = 1, dGainDriv = 1;
-	final double pGainTurn = .25, iGainTurn = 1, dGainTurn = 1;	//d smaller = positive
+	final double pGainDriv = .25, iGainDriv = 0, dGainDriv = -.025;
+	final double pGainTurn = .007, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
 	boolean done = false;
 	int index = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
@@ -181,6 +182,7 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putData("RightEncoder: ", right_encoder);
 		SmartDashboard.putData("Gyro: ", gyro);
 		LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
+		SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
 		right_encoder.setDistancePerPulse(0.0225); 
@@ -261,7 +263,7 @@ public class Drivetrain extends Subsystem {
 		if (error <= -maxErrorValue) error = -0.1;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
-		arcadeDrive((0.5 * myPIDOutputDriving.get()), error);
+		arcadeDrive((myPIDOutputDriving.get()), error);
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		
@@ -274,7 +276,7 @@ public class Drivetrain extends Subsystem {
 	
 	public double getGyroAngle(){
 		
-        return gyro.getAngle();
+        return ahrs.getAngle();
     }
 	
 	public void resetGyro(){
@@ -300,7 +302,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
 		pidControllerTurning.setAbsoluteTolerance(5.0);		
 		
 		//basicArcadeDrive uses x, y inputs so it should be 0 for y and whatever the PIDcontroller calculates as x
-		arcadeDrive(0.0, (0.5 * myPIDOutputTurning.get()));
+		arcadeDrive(0.0, (myPIDOutputTurning.get()));
 				
 		index++;
 		

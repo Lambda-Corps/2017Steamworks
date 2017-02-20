@@ -24,8 +24,8 @@ public class RobotMap {
 	
 	//Analog IO
 		public static final int GYRO_PORT = 0;
-		public static final int INSLOT_SHORT_RANGEFINDER_PORT = 1;
-		public static final int MIDDLE_FR_SHORT_RANGEFINER_PORT = 2;
+		public static final int INSLOT_SHORT_RANGEFINDER_PORT = 2;
+		public static final int MIDDLE_FR_SHORT_RANGEFINER_PORT = 1;
 		public static final int LEFT_FR_LONG_RANGEFINDER_PORT = 3;
 		public static final int RIGHT_FR_LONG_RANGEFINDER_PORT = 4;
 	

@@ -34,7 +34,7 @@ public class GearHolder extends Subsystem {
     double[] lastFive = new double[listLength];
     double M;//slope
 	private final Compressor compressor;
-	private final double GEARISINVOLTAGE = 1.0;
+	private final double GEARISINVOLTAGE = 1.1;
 	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
@@ -94,6 +94,7 @@ public class GearHolder extends Subsystem {
 	public boolean isGearPresent() {
 		boolean bReturn = false;
 		double distance = inslot_short_rangefinder.getVoltage();
+		System.out.println("-------------------------voltaeg of rangefinder: " + distance);
 		if (distance > GEARISINVOLTAGE){ //Gear is captured
 				bReturn = true; //insert code once gear was captured	
 		}

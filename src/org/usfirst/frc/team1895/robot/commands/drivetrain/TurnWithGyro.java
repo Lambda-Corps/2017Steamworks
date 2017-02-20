@@ -35,7 +35,7 @@ public class TurnWithGyro extends Command {
     protected void execute() {
     	done = 	Robot.drivetrain.turnWithPID(goalAngle);
     	double gyroAngle = Robot.drivetrain.getGyroAngle();
-    	System.out.println("Gyro: " + gyroAngle);
+    	System.out.println("Gyro--------: " + gyroAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
