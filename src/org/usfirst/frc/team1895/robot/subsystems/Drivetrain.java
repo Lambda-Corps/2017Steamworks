@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -108,8 +109,17 @@ public class Drivetrain extends Subsystem {
 	 * if P + D are tuned and it oscillates + converges, but not to correct setpoint, increase I 
 	 * = steady-state error - positive, nonzero integral constant will cause controller to correct for it
 	 */
-
 	
+	/*For the swerve into peg comman we need this varaibles
+	 * ratio-difference in speeds of wheels to make a gradual turn
+	 * angletoPeg-angle calculated bythe camera convereted to radians
+	 * setangleforgyro-setpoint for gyro
+	 * bFirstcall_to_Swerve-flag to see if it is the first time through
+	*/
+	double angletoPeg2;
+	double setangleforgyro;
+	double ratio;
+	boolean bFirstcall_to_Swerve;
 	// cameras (to be added later)
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
@@ -156,7 +166,8 @@ public class Drivetrain extends Subsystem {
     	myPIDOutputDriving = new MyPIDOutput();
         myPIDOutputTurning = new MyPIDOutput();
         pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving);   // Input are P, I, D, Input , output
-		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
+//		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
+		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, ahrs, myPIDOutputTurning);
 		
     	// Solenoids
     	//left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
@@ -168,9 +179,17 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
 		SmartDashboard.putData("LeftEncoder: ", left_encoder);
 		SmartDashboard.putData("RightEncoder: ", right_encoder);
+		SmartDashboard.putData("Gyro: ", gyro);
+		LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
 		right_encoder.setDistancePerPulse(0.0225); 
+		
+		//For Swerving
+		angletoPeg2 = 0.0;
+		setangleforgyro = 0.0;
+		ratio = 0.0;
+		bFirstcall_to_Swerve = true;
 
 	}
 	
@@ -254,6 +273,7 @@ public class Drivetrain extends Subsystem {
 	}	
 	
 	public double getGyroAngle(){
+		
         return gyro.getAngle();
     }
 	
@@ -326,7 +346,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
     }
     
     public double getRatio(double distancefromPeg, double angletoPeg){//distance in inches
-    	double goalDistance = 10;
+    	double goalDistance = 10;//make this into a class variable
     	double distancetoMove  = distancetoMove(distancefromPeg, angletoPeg);
     	double setangleforgyro = getAngleforgyro(distancefromPeg, angletoPeg);
     	double distanceforturn = (distancefromPeg - goalDistance)/2;
@@ -334,30 +354,41 @@ public boolean turnWithPID(double desiredTurnAngle) {
     	double ratio = (distanceforturn/distanceoneturnmakes);
     	return ratio;
     }
-    
     public boolean swerveIntoPeg1(double distancefromPeg, double angletoPeg){
-    	double angletoPeg2 = Math.toRadians(angletoPeg);
-    	double setangleforgyro = getAngleforgyro(distancefromPeg, angletoPeg2);
-    	double ratio = getRatio(distancefromPeg, angletoPeg2);
+    	if (bFirstcall_to_Swerve){
+    		angletoPeg2 = Math.toRadians(angletoPeg);
+    		setangleforgyro = getAngleforgyro(distancefromPeg, angletoPeg2);
+    		ratio = getRatio(distancefromPeg, angletoPeg2);
+    		resetGyro();
+    		bFirstcall_to_Swerve = false;
+    	}
     	//does gyro equal the angle if it does reverse
+    	System.out.println("setangleforgyro: "+ setangleforgyro + "\t getangle: " + ahrs.getAngle());
+    	double left_speed=0.0;
+    	double right_speed=0.0;
     	if (angletoPeg > 0){
-    		left_motorgroup.set(1/(ratio));
-    		right_motorgroup.set(1/(ratio-1));
-    		if (gyro.getAngle()>setangleforgyro){
-    			gyro.reset();
-    			gyro.calibrate();
+    		left_speed = (1/(ratio));
+    		right_speed = (1/(ratio-1));
+    		
+    		if (ahrs.getAngle()>setangleforgyro){
+    			resetGyro();
+    			tankDrive(0,0);
     			return true;
     		}
     	}
-    	if (angletoPeg < 0){
-    		left_motorgroup.set(1/(ratio-1));
-    		right_motorgroup.set(1/(ratio));
-    		if (gyro.getAngle()<setangleforgyro){
-    			gyro.reset();
-    			gyro.calibrate();
+    	else if (angletoPeg < 0){
+    		left_speed = (1/(ratio-1));
+    		right_speed = (1/(ratio));
+    		
+    		if (ahrs.getAngle()<setangleforgyro){
+    			resetGyro();
+    			tankDrive(0,0);
     			return true;
     		}
     	}
+    	
+    	System.out.println("leftspeed: "+ left_speed + "rightspeed: " + right_speed);
+    	tankDrive(left_speed/4,right_speed/4);
     	return false;
     }
     

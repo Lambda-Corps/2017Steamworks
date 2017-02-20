@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.SwerveDriveFirstTurn;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -40,11 +39,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
+//    	addSequential(new )
+    	addSequential(new SwerveDriveFirstTurn(20,50));
 //    	addSequential(new DriveStraightSetDistance(100));
 //    	addSequential(new StopRobot(2));
 //    	addSequential(new DriveStraightSetDistance(-100));
 //    	
-    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
+//    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
