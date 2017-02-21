@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
+<<<<<<< Updated upstream
     	//for tuning encoders 
 //    	addSequential(new DriveStraightSetDistance(-114));
 //    	addSequential(new StopRobot(2));
@@ -67,6 +68,13 @@ public class CenterPositionAutonomous extends CommandGroup {
     	//addSequential(new DriveUntilDistanceWithRangefinder());
     	
     	
+=======
+    	addSequential(new DriveStraightSetDistance(100));
+    	addSequential(new StopRobot(2));
+    	addSequential(new DriveStraightSetDistance(-100));
+    	
+    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
+>>>>>>> Stashed changes
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

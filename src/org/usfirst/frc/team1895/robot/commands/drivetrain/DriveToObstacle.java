@@ -7,27 +7,27 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveUntilDistanceWithRangefinder extends Command {
+public class DriveToObstacle extends Command {
 
 	double goalDistance;
-	boolean done = false;
-    public DriveUntilDistanceWithRangefinder() {
+	boolean done;
+	double speed;
+    public DriveToObstacle(double distancetoObstacle, double speed) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
-        double howfar = Robot.drivetrain.fineDistanceFinder();
-        
-        goalDistance = (howfar+6);
-        System.out.println(howfar+6);
+        goalDistance = distancetoObstacle;
+        this.speed = speed;
+        done = false;
+       
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.setPIDSetpoints(goalDistance);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = Robot.drivetrain.driveStraightWithPID(goalDistance);
+    	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);//ten is distance in inches and .5 is speed
     }
 
     // Make this return true when this Command no longer needs to run execute()

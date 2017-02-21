@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,7 +28,7 @@ public class GearHolder extends Subsystem {
 
 	//short-range infrared rangefinder for detecting if gear is present in the slot or not
 	private AnalogInput inslot_short_rangefinder;
-	//private DoubleSolenoid gearholder_solenoid;
+	private DoubleSolenoid gearholder_solenoid;
 	public int placeHolder = 0;
     public int placeHolder2 = 1;
     int listLength = 0;
@@ -46,12 +47,24 @@ public class GearHolder extends Subsystem {
     	return inslot_short_rangefinder.getVoltage();
     }
     
+    public void moveGearHolder(){
+    	if(getGearPresence() == true) {
+    		System.out.println("Gear is in the slot");
+    		gearholder_solenoid.set(Value.kForward);
+    	}
+    	else {
+    		System.out.println("");
+    	}
+	}
+    
     public void extendGear(){
-    	//gearholder_solenoid.equals(true);
+    	gearholder_solenoid.set(DoubleSolenoid.Value.kForward);
 	}
-	public void retractGear(){
-		//gearholder_solenoid.equals(false);
-	}
+    
+    public void retractGear() {
+    	gearholder_solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+	
 
 	public double roundedDistanceFinder(AnalogInput variablerangeFinder){
 		double distance = 0.0; // distance(cm)

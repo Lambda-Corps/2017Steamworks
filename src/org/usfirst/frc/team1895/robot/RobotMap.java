@@ -66,4 +66,9 @@ public class RobotMap {
 		public static final int  LEFT_JOYSTICK_PORT = 0;
 		public static final int RIGHT_JOYSTICK_PORT = 1;
 		public static final int GAMEPAD_PORT = 2;
+		
+	//Cameras
+		public static final String f_camera = "f_camera";
+		public static final String b_camera = "b_camera";
+		public static final int num_cams = 2;
 }

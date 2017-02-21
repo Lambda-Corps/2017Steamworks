@@ -180,8 +180,11 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
 		SmartDashboard.putData("LeftEncoder: ", left_encoder);
 		SmartDashboard.putData("RightEncoder: ", right_encoder);
+<<<<<<< Updated upstream
 		SmartDashboard.putData("Gyro: ", gyro);
 		LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
+=======
+>>>>>>> Stashed changes
 		SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
@@ -327,13 +330,14 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	//for finding the distance from the middle_fr_short_rangefinder to the airship
 	public double fineDistanceFinder(){
 		double outputValue = middle_fr_short_rangefinder.getVoltage();
-		double x = -.98 * outputValue;
+		double x = -2.0648 * outputValue;
 		double y = Math.pow(2.72, x);
-		double newDistance = 76.319 * y;
+		double newDistance = 71.403 * y;
 		double newerDistance = (newDistance/2.54);
 		//System.out.println(newerDistance + " inches" + " equals this much voltage" + middle_fr_short_rangefinder.getVoltage());
 		return newerDistance;
 	}
+	
 	
 	public double distancetoMove(double distancefromPeg, double angletoPeg){
     	double distancetoMove = distancefromPeg * Math.tan(angletoPeg);
@@ -472,6 +476,18 @@ public boolean turnWithPID(double desiredTurnAngle) {
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
         setDefaultCommand(new DefaultDriveCommand());
+    }
+    
+    public boolean driveRangeFinderDistance(double goaldistance, double speed){
+    	SmartDashboard.putNumber("Range Finder Distance in inches", fineDistanceFinder());
+    	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
+    		tankDrive(0,0);
+    		return true;
+    	}
+    	else{// if it hasn't crossed it will run at a determined speed
+    		tankDrive(speed, speed);	
+    		return false;
+    	}
     }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 

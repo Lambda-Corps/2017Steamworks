@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * 	Added: requires statement
  */
 public class GetGearPresence extends Command {
+	boolean gear_state;
 
     public GetGearPresence() {
         requires(Robot.gearholder);
@@ -26,6 +27,8 @@ public class GetGearPresence extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	gear_state = Robot.gearholder.getGearPresence();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
