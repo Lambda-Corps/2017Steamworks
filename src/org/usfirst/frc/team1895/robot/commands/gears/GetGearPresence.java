@@ -27,7 +27,7 @@ public class GetGearPresence extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	gear_state = Robot.gearholder.getGearPresence();
+    	gear_state = Robot.gearholder.isGearPresent();
     	
     }
 

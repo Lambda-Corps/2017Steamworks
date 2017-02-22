@@ -18,7 +18,6 @@ public class DriveToObstacle extends Command {
         goalDistance = distancetoObstacle;
         this.speed = speed;
         done = false;
-       
     }
 
     // Called just before this Command runs the first time
@@ -28,6 +27,7 @@ public class DriveToObstacle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);//ten is distance in inches and .5 is speed
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -14,8 +14,12 @@ import edu.wpi.first.wpilibj.command.Command;
  * 	Added: requires statement
  */
 public class DeployGearHolder extends Command {
+	boolean done;
+	boolean gearPresence;
 
     public DeployGearHolder() {
+    	done = false;
+    	gearPresence = false;
     	requires(Robot.gearholder);
     }
 
@@ -25,12 +29,15 @@ public class DeployGearHolder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gearholder.extendGear();
+    	gearPresence = Robot.gearholder.isGearPresent();
+    	if(gearPresence == true) {
+    		done = Robot.gearholder.extendGear(); //returns boolean
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return done;
     }
 
     // Called once after isFinished returns true

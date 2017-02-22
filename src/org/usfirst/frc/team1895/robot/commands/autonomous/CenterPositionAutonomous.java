@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -41,41 +38,23 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
-<<<<<<< Updated upstream
     	//for tuning encoders 
-//    	addSequential(new DriveStraightSetDistance(-114));
+//    	addSequential(new DriveStraightSetDistance(-25));
 //    	addSequential(new StopRobot(2));
-//    	addSequential(new DriveStraightSetDistance(114));
+//    	addSequential(new DriveStraightSetDistance(25));
 //    	
-    	//for tuning turning
-//    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(-90.0));
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(179.0)); //goes clockwise
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(-179.0));
-    	
+    	//TESTING ZACH'S STUFFS
+    	 addSequential(new DriveToObstacle(24, 0.5));
     	//mock autonomous
-    	addSequential(new DriveStraightSetDistance(-30));
-    	addSequential(new WaitUntilGearGoneOrTimeOut(10));
-    	addSequential(new DriveStraightSetDistance(30)); //drive back
+    	//addSequential(new DriveStraightSetDistance(-30));
+    	//addSequential(new WaitUntilGearGoneOrTimeOut(10));
+    	//addSequential(new DriveStraightSetDistance(30)); //drive back
 //    	addSequential(new TurnWithGyro(-45.0));
 //    	addSequential(new DriveStraightSetDistance(-50));
 //    	addSequential(new TurnWithGyro(45.0));
 //    	addSequential(new DriveStraightSetDistance(-50));
     	//for tuning Zach's rangefinder
     	//addSequential(new DriveUntilDistanceWithRangefinder());
-    	
-    	
-=======
-    	addSequential(new DriveStraightSetDistance(100));
-    	addSequential(new StopRobot(2));
-    	addSequential(new DriveStraightSetDistance(-100));
-    	
-    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
->>>>>>> Stashed changes
-        // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
