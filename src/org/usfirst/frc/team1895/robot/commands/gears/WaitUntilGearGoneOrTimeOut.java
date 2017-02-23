@@ -57,14 +57,16 @@ public class WaitUntilGearGoneOrTimeOut extends Command {
     	counter = 0.0;
     	counterforgear = 0.0;
     	done = false;
-    	System.out.println("E_Counter: " + counter);
-    	System.out.println("E_Counter for gear: " + counterforgear);
-    	System.out.println("E_done state: " + done);
-    	System.out.println("E_gearNotTakenTimeout: " + gearNotTakenTimeout);
+//    	System.out.println("E_Counter: " + counter);
+//    	System.out.println("E_Counter for gear: " + counterforgear);
+//    	System.out.println("E_done state: " + done);
+//    	System.out.println("E_gearNotTakenTimeout: " + gearNotTakenTimeout);
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    //If done equals true then our is finished will be true and it will then do end()
     protected void interrupted() {
+    	counter = 0.0;
+    	counterforgear = 0.0;
+    	done = true;
     }
 }

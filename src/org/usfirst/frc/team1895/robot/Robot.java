@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.commands.autonomous.CenterPositionAutonomous;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
@@ -115,6 +116,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		DriveToObstacle testCmd = new DriveToObstacle(24, 0);
 	}
 
 	/**

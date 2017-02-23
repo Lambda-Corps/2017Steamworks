@@ -8,13 +8,13 @@ public class F310 extends Joystick {
 	private static final int numButtons = 10;
 	
 	// Constants to represent the raw button number with a human readable word
-	public static final int A = 0;
-	public static final int B = 1;
-	public static final int X = 2;
-	public static final int Y = 3;
-	public static final int LB = 4; //top button
-	public static final int RB = 5; //top button
-	public static final int START = 6;
+	public static final int A = 1;
+	public static final int B = 2;
+	public static final int X = 3;
+	public static final int Y = 4;
+	public static final int LB = 5; //top button
+	public static final int RB = 6; //top button
+	public static final int START = 8;
 	public static final int SELECT = 7;
 	public static final int L_AXIS = 8;
 	public static final int R_AXIS = 9;

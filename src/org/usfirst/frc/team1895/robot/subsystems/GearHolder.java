@@ -28,7 +28,7 @@ public class GearHolder extends Subsystem {
 
 	//short-range infrared rangefinder for detecting if gear is present in the slot or not
 	private AnalogInput inslot_short_rangefinder;
-	private DoubleSolenoid gearholder_solenoid;
+	private final DoubleSolenoid gearholder_solenoid;
 	public int placeHolder = 0;
     public int placeHolder2 = 1;
     int listLength = 0;
@@ -36,13 +36,16 @@ public class GearHolder extends Subsystem {
     double M;//slope
 	private final Compressor compressor;
 	private final double GEARISINVOLTAGE = 1.1;
+	boolean gearHOut;
 	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
     	SmartDashboard.putData("Gear Range Finder", inslot_short_rangefinder);
     	compressor = new Compressor();
-    	//gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
+    	gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
+    	gearHOut = false;
     }
+    
     public double getVolatage(){
     	return inslot_short_rangefinder.getVoltage();
     }
@@ -57,12 +60,18 @@ public class GearHolder extends Subsystem {
     	}
 	}
     
-    public void extendGear(){
-    	gearholder_solenoid.set(DoubleSolenoid.Value.kForward);
+    public boolean extendGear(){
+    	if(gearHOut != true) {
+    		gearholder_solenoid.set(DoubleSolenoid.Value.kForward);	
+    		gearHOut = true;
+    	}
+    	return gearHOut;
 	}
     
-    public void retractGear() {
+    public boolean retractGear() {
     	gearholder_solenoid.set(DoubleSolenoid.Value.kReverse);
+    	gearHOut = false;
+    	return gearHOut;
     }
 	
 

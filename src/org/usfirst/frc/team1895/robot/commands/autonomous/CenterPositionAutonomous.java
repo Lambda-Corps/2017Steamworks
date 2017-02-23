@@ -7,6 +7,7 @@ import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -43,17 +44,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
-    	
-    	//mock autonomous
-    	addSequential(new DriveStraightSetDistance(-30));
-    	addSequential(new WaitUntilGearGoneOrTimeOut(10));
-    	addSequential(new DriveStraightSetDistance(30)); //drive back
-//    	addSequential(new TurnWithGyro(-45.0));
-//    	addSequential(new DriveStraightSetDistance(-50));
-//    	addSequential(new TurnWithGyro(45.0));
-//    	addSequential(new DriveStraightSetDistance(-50));
-    	//for tuning Zach's rangefinder
-    	//addSequential(new DriveUntilDistanceWithRangefinder());
+
     	
     	//mock autonomous
     	//DRIVE UP
