@@ -46,10 +46,10 @@ public class Winch extends Subsystem {
     // For: ManuallyClimb Command
     // Sensors: None
     // Description: Takes a given velocity and sets the motor to that velocity after ensuring it does not 
-    // exceed 1.0 or -1.0. 
+    // exceed 1.0 or 0.
     public void manualClimbing(double velocity) {
     	if(velocity >  1.0) velocity =  1.0;
-    	if(velocity < -1.0) velocity = -1.0;
+    	if(velocity < 0) velocity = 0.0; //robot will never climb down
     	winch_motor.set(velocity);
     	System.out.println("Motor current: " + velocity);
     }

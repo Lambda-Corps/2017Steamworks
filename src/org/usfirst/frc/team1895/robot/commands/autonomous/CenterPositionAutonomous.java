@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -41,20 +43,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
-<<<<<<< Updated upstream
-    	//for tuning encoders 
-//    	addSequential(new DriveStraightSetDistance(-114));
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new DriveStraightSetDistance(114));
-//    	
-    	//for tuning turning
-//    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(-90.0));
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(179.0)); //goes clockwise
-//    	addSequential(new StopRobot(2));
-//    	addSequential(new TurnWithGyro(-179.0));
     	
     	//mock autonomous
     	addSequential(new DriveStraightSetDistance(-30));
@@ -67,14 +55,21 @@ public class CenterPositionAutonomous extends CommandGroup {
     	//for tuning Zach's rangefinder
     	//addSequential(new DriveUntilDistanceWithRangefinder());
     	
+    	//mock autonomous
+    	//DRIVE UP
+    	addSequential(new DriveStraightSetDistance(-50));
+    	//ALIGN TO LIFT
+    	addSequential(new DriveToObstacle(24, 0.5));
+    	//DEPLOY GEAR
+    	addSequential(new DeployGearHolder());
+    	//WAIT TILL GEAR IS GONE 
+    	addSequential(new WaitUntilGearGoneOrTimeOut(4)); //also drives back
+    	//RETRACT GEAR HOLDER
+    	addSequential(new RetractGearHolder());
+    	//TURN
+    	addSequential(new TurnWithGyro(45.0));
     	
-=======
-    	addSequential(new DriveStraightSetDistance(100));
-    	addSequential(new StopRobot(2));
-    	addSequential(new DriveStraightSetDistance(-100));
     	
-    	addSequential(new TurnWithGyro(90.0)); //goes clockwise
->>>>>>> Stashed changes
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

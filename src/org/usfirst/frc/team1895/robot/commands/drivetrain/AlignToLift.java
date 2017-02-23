@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1895.robot.commands.gears;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
 

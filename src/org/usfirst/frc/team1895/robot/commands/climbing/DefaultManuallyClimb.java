@@ -24,17 +24,14 @@ public class DefaultManuallyClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//drives up
     	if(Robot.oi.gamepad.getAxis(F310.LT) > Robot.oi.gamepad.getAxis(F310.RT) && Robot.oi.gamepad.getAxis(F310.LT) > 0.2) {
     		Robot.winch.manualClimbing(Robot.oi.gamepad.getAxis(F310.LT)); //for gamepad
     		System.out.println("here");
-    	} else if(Robot.oi.gamepad.getAxis(F310.LT) < Robot.oi.gamepad.getAxis(F310.RT) && Robot.oi.gamepad.getAxis(F310.RT) > 0.2) {
-    		Robot.winch.manualClimbing(-Robot.oi.gamepad.getAxis(F310.RT)); //for gamepad
-    		System.out.println("or here");
     	} else {
-    		Robot.winch.manualClimbing(0.0); //for gamepad
+    		Robot.winch.manualClimbing(0.0);
     		System.out.println("vQLKUYJMNG4 W");
     	}
-    	//Robot.winch.manualClimbing(Robot.oi.rightArcadeJoystick.getRawAxis(2)); //for joystick
     }
 
     // Make this return true when this Command no longer needs to run execute()

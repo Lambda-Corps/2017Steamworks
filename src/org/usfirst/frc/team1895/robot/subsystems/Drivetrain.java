@@ -180,11 +180,6 @@ public class Drivetrain extends Subsystem {
 		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
 		SmartDashboard.putData("LeftEncoder: ", left_encoder);
 		SmartDashboard.putData("RightEncoder: ", right_encoder);
-<<<<<<< Updated upstream
-		SmartDashboard.putData("Gyro: ", gyro);
-		LiveWindow.addSensor("Drivetrain", "Gyro", gyro);
-=======
->>>>>>> Stashed changes
 		SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
@@ -278,7 +273,6 @@ public class Drivetrain extends Subsystem {
 	}	
 	
 	public double getGyroAngle(){
-		
         return ahrs.getAngle();
     }
 	
@@ -329,13 +323,15 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	
 	//for finding the distance from the middle_fr_short_rangefinder to the airship
 	public double fineDistanceFinder(){
-		double outputValue = middle_fr_short_rangefinder.getVoltage();
-		double x = -2.0648 * outputValue;
-		double y = Math.pow(2.72, x);
-		double newDistance = 71.403 * y;
-		double newerDistance = (newDistance/2.54);
-		//System.out.println(newerDistance + " inches" + " equals this much voltage" + middle_fr_short_rangefinder.getVoltage());
-		return newerDistance;
+		double outputValue = middle_fr_short_rangefinder.getAverageVoltage();
+//		double x = -2.0648 * outputValue;
+//		double y = Math.pow(2.72, x);
+//		double newDistance = 71.403 * y;
+//		double newerDistance = (newDistance/2.54);
+		double voltage = Math.pow(outputValue, -1.16);
+		double coefficient = 10.298;
+		double d = voltage*coefficient;
+		return d;
 	}
 	
 	
@@ -360,6 +356,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
     	double ratio = (distanceforturn/distanceoneturnmakes);
     	return ratio;
     }
+    
     public boolean swerveIntoPeg1(double distancefromPeg, double angletoPeg){
     	if (bFirstcall_to_Swerve){
     		angletoPeg2 = Math.toRadians(angletoPeg);
@@ -422,21 +419,6 @@ public boolean turnWithPID(double desiredTurnAngle) {
     	}
     	return false;
     }
-
-	// For: DriveStraight Command
-    // Sensors: left_encoder, right_encoder 
-    // Description: will use PID to drive a certain distance with a 0 degree heading, using encoders to 
-	// measure how far we have moved from the initial position 
-	public boolean driveStraightSetDistance() {
-		return false;
-	}
-	
-	// For: TurnWithGyro Command 
-	// Sensors: gyro
-	// Description: Will use PID to control the gyro to turn to a certain heading
-	public boolean turnWithGyro() {
-		return false;
-	}
 	
 	// For: TurnWithCamera Command
 	// Sensors: Camera, gyro

@@ -47,7 +47,7 @@ public class InformationOnEverything {
  *      	- LT: Climb Up
  *      	- RX_AXIS: left and right turning (arcade)
  *      	- RY_AXIS: None
- *      	- RT: Climb Down
+ *      	- RT: None
  *
  * List of everything to be displayed to SmartDashboard (not necessarily doing so yet):
  * 	    - whether a gear is in the slot or not

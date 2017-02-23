@@ -48,7 +48,7 @@ public class GearHolder extends Subsystem {
     }
     
     public void moveGearHolder(){
-    	if(getGearPresence() == true) {
+    	if(isGearPresent() == true) {
     		System.out.println("Gear is in the slot");
     		gearholder_solenoid.set(Value.kForward);
     	}
