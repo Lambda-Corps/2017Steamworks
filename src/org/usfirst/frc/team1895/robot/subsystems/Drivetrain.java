@@ -175,11 +175,11 @@ public class Drivetrain extends Subsystem {
     	//right_solenoid = new DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
     	
     	// SmartDashboard things
-		SmartDashboard.putData("PID Controller for Driving", pidControllerDriving);
-		SmartDashboard.putData("PID Controller for Turning", pidControllerTurning);
-		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
-		SmartDashboard.putData("LeftEncoder: ", left_encoder);
-		SmartDashboard.putData("RightEncoder: ", right_encoder);
+//		SmartDashboard.putData("PID Controller for Driving", pidControllerDriving);
+//		SmartDashboard.putData("PID Controller for Turning", pidControllerTurning);
+//		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
+//		SmartDashboard.putData("LeftEncoder: ", left_encoder);
+//		SmartDashboard.putData("RightEncoder: ", right_encoder);
 		SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
@@ -324,30 +324,14 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	
 	//for finding the distance from the middle_fr_short_rangefinder to the airship
 	public double fineDistanceFinder(){
-<<<<<<< HEAD
 		double outputValue = middle_fr_short_rangefinder.getAverageVoltage();
-=======
-		double outputValue = middle_fr_short_rangefinder.getVoltage();
->>>>>>> 3e83f2e1d52d52a25f9799d79380b5f72229c341
-//		double x = -2.0648 * outputValue;
-//		double y = Math.pow(2.72, x);
-//		double newDistance = 71.403 * y;
-//		double newerDistance = (newDistance/2.54);
-<<<<<<< HEAD
+		if(outputValue > 2.4 || outputValue < 0.4) {
+			return -1;
+		}
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;
 		double d = voltage*coefficient;
 		return d;
-=======
-		double cube = -22.06*(Math.pow(outputValue, 3));
-		double squared = 89.082*(Math.pow(outputValue, 2));
-		double single = -(121.11*outputValue);
-		double constant = 64.132;
-		double newerDistance = (cube + squared + single + constant);
-		//System.out.println(newerDistance + " inches" + " equals this much voltage" + middle_fr_short_rangefinder.getVoltage());
-		System.out.println("newerDistance is equal toooo:   " + newerDistance);
-		return newerDistance;
->>>>>>> 3e83f2e1d52d52a25f9799d79380b5f72229c341
 	}
 	
 	
@@ -477,17 +461,16 @@ public boolean turnWithPID(double desiredTurnAngle) {
     }
     
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
-    	SmartDashboard.putNumber("Range Finder Distance in inches", fineDistanceFinder());
-    	System.out.println("RAnge finder Distance in inches -=-=-=-=-=-=" + fineDistanceFinder());
-    	//if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
-    	//	tankDrive(0,0);
-    	//	return true;
-    	//}
-//    	else{// if it hasn't crossed it will run at a determined speed
-//    		//tankDrive(speed, speed);	
-//    		return false;
-//    	}
-    	return false;
+    	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
+    	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
+    	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
+  			tankDrive(0,0);
+  			return true;
+  		}
+    	else{// if it hasn't crossed it will run at a determined speed
+    		tankDrive(speed, speed);	
+    		return false;
+    	}
     }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 

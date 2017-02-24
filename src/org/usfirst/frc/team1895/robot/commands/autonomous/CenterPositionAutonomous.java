@@ -7,7 +7,6 @@ import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -48,9 +47,9 @@ public class CenterPositionAutonomous extends CommandGroup {
     	
     	//mock autonomous
     	//DRIVE UP
-    	addSequential(new DriveStraightSetDistance(-50));
+    	addSequential(new DriveStraightSetDistance(-90)); //GEAR EXTENDS 4.75"
     	//ALIGN TO LIFT
-    	addSequential(new DriveToObstacle(24, 0.5));
+    	addSequential(new DriveToObstacle(20, 0.5));
     	//DEPLOY GEAR
     	addSequential(new DeployGearHolder());
     	//WAIT TILL GEAR IS GONE 
@@ -58,8 +57,18 @@ public class CenterPositionAutonomous extends CommandGroup {
     	//RETRACT GEAR HOLDER
     	addSequential(new RetractGearHolder());
     	//TURN
+    	addSequential(new TurnWithGyro(-45.0));
+    	//DRIVE FORWARD
+    	addSequential(new DriveStraightSetDistance(-50));
+    	//TURN
     	addSequential(new TurnWithGyro(45.0));
+    	//DRIVE FORWARD
+    	addSequential(new DriveStraightSetDistance(-50));
     	
+    	//practice autonomous
+    	addSequential(new DriveStraightSetDistance(-50));
+    	addSequential(new DriveToObstacle(-24, 0.5));
+    	addSequential(new DriveStraightSetDistance(74));
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());
