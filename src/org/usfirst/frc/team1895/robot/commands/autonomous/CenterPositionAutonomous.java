@@ -1,11 +1,14 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
+import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.GetGearPresence;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -46,29 +49,46 @@ public class CenterPositionAutonomous extends CommandGroup {
 
     	
     	//mock autonomous
-    	//DRIVE UP
+    	////DEPLOY GEAR AND DRIVE UP
+    	addParallel(new DeployGearHolder());
     	addSequential(new DriveStraightSetDistance(-90)); //GEAR EXTENDS 4.75"
     	//ALIGN TO LIFT
-    	addSequential(new DriveToObstacle(20, 0.5));
-    	//DEPLOY GEAR
-    	addSequential(new DeployGearHolder());
+    	addSequential(new DriveToObstacle(20, 0.6));
     	//WAIT TILL GEAR IS GONE 
     	addSequential(new WaitUntilGearGoneOrTimeOut(4)); //also drives back
-    	//RETRACT GEAR HOLDER
-    	addSequential(new RetractGearHolder());
+    	
+    //FIRST POSSIBILITY: GIVE GEAR THEN DRIVE INTO NEUTRAL ZONE NOW	
+    	//RETRACT GEAR HOLDER AND DRIVE BACK
+    	addParallel(new RetractGearHolder());
+    	addSequential(new DriveStraightSetDistance(30));
     	//TURN
-    	addSequential(new TurnWithGyro(-45.0));
+    	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD
-    	addSequential(new DriveStraightSetDistance(-50));
-    	//TURN
-    	addSequential(new TurnWithGyro(45.0));
+    	addSequential(new DriveStraightSetDistance(-50)); //is this distance correct or will we still hit the airship
+    	//TURN SO FACINNG FORWARD AGAIN
+    	addSequential(new TurnWithGyro(60.0));
     	//DRIVE FORWARD
     	addSequential(new DriveStraightSetDistance(-50));
     	
     	//practice autonomous
     	addSequential(new DriveStraightSetDistance(-50));
-    	addSequential(new DriveToObstacle(-24, 0.5));
+    	addSequential(new DriveToObstacle(24, 0.6));
     	addSequential(new DriveStraightSetDistance(74));
+    	
+    //SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
+    	//DRIVE BACK
+    	addSequential(new DriveStraightSetDistance(25));
+    	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN
+    	if(Robot.gearholder.isGearPresent() == true) {
+    		addSequential(new DriveToObstacle(25, 0.5));
+    		addSequential(new WaitUntilGearGoneOrTimeOut(4));
+    	}
+    	//OTHERWISE..WHAT DOES MR. BREY WANT
+    	else {
+    		
+    	}
+    	
+    	
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());

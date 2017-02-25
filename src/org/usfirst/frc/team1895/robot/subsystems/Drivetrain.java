@@ -325,8 +325,9 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	//for finding the distance from the middle_fr_short_rangefinder to the airship
 	public double fineDistanceFinder(){
 		double outputValue = middle_fr_short_rangefinder.getAverageVoltage();
-		if(outputValue > 2.4 || outputValue < 0.4) {
-			return -1;
+		if(outputValue > 2.4 || outputValue < 0.4) { //code currently only accurate from 0.4-2.4 volts 
+			return -1; 
+			//TODO: Add code to handle that -1 so the robot can act accordingly
 		}
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;

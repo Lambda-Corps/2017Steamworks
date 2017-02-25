@@ -32,7 +32,7 @@ public class WaitUntilGearGoneOrTimeOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-  		if (Robot.gearholder.isGearPresent() == false)  {  // Gear has NOT been taken  
+  		if (Robot.gearholder.isGearPresent() == false)  {  // Gear has been taken(?)
   			counter = 0;
   			if (counterforgear >= 100){ //2 seconds
   				done = true;	
