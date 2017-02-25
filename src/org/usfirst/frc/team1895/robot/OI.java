@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.InOutGroup;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.oi.F310;
 
@@ -66,7 +66,7 @@ public class OI {
 		
 		gearIn = new JoystickButton(gamepad, F310.A);
 		gearOut = new JoystickButton(gamepad, F310.Y);		
-		gearIn.whenPressed(new DeployGearHolder());
+		gearIn.whenPressed(new InOutGroup());
 		gearOut.whenPressed(new RetractGearHolder());
 	}
 }
