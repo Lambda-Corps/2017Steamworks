@@ -45,19 +45,20 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
-
-    	addSequential(new DriveStraightSetDistance(-15));
+ 
+    	//addSequential(new DriveStraightSetDistance(-15));
     	
     	//addSequential(new DriveToObstacle(24, 0.6));
-    	/*
+    	
     	//mock autonomous
     	////DEPLOY GEAR AND DRIVE UP
     	addParallel(new DeployGearHolder());
-    	addSequential(new DriveStraightSetDistance(-90)); //GEAR EXTENDS 4.75"
+    	addSequential(new DriveStraightSetDistance(-50)); //GEAR EXTENDS 4.75"
+    	addSequential(new StopRobot(2));
     	//ALIGN TO LIFT
     	//where george will be
-    	addSequential(new DriveToObstacle(12, 0.6));//drive close enough to use George
-    	addSequential(new WaitUntilGearGoneOrTimeOut(10)); */
+    	addSequential(new DriveToObstacle(12, 0.5));//drive close enough to use George
+    	addSequential(new WaitUntilGearGoneOrTimeOut(10)); 
     	
     //SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
     	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN

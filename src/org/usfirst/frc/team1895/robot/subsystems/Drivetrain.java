@@ -262,7 +262,7 @@ public class Drivetrain extends Subsystem {
 		if (error <= -maxErrorValue) error = -0.1;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
-		arcadeDrive((myPIDOutputDriving.get()), -error);
+		arcadeDrive((myPIDOutputDriving.get()), error);
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		
