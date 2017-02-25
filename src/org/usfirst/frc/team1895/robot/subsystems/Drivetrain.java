@@ -326,7 +326,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	public double fineDistanceFinder(){
 		double outputValue = middle_fr_short_rangefinder.getAverageVoltage();
 		if(outputValue > 2.4 || outputValue < 0.4) { //code currently only accurate from 0.4-2.4 volts 
-			return -1; 
+			return 25; 
 			//TODO: Add code to handle that -1 so the robot can act accordingly
 		}
 		double voltage = Math.pow(outputValue, -1.16);

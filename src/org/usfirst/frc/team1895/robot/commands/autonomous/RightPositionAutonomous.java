@@ -49,9 +49,9 @@ public class RightPositionAutonomous extends CommandGroup {
     	addSequential(new TurnWithGyro(-30)); //this angle depends on where we are on the field
     	//DEPLOY GEARHOLDER [DRIVE UP A LITTLE IF NEEDED, OR ELSE USE DRIVETOOBSTACLE, DEPENDS ON DISTANCE
     	addParallel(new DeployGearHolder());
-    	addSequential(new DriveStraightSetDistance(-10)); //driving the hypotenuse
+    	addSequential(new DriveStraightSetDistance(-11.245)); //driving the hypotenuse
     	//ALIGN TO LIFT
-    	addSequential(new DriveToObstacle(25.245, 0.6));
+    	addSequential(new DriveToObstacle(24, 0.6));
     	//WAIT TILL GEAR IS GONE
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	
