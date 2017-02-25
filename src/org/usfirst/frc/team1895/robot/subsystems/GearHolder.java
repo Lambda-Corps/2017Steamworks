@@ -65,6 +65,7 @@ public class GearHolder extends Subsystem {
     		gearholder_solenoid.set(DoubleSolenoid.Value.kForward);	
     		gearHOut = true;
     	}
+    	System.out.println("gear out: " + gearHOut);
     	return gearHOut;
 	}
     
@@ -116,7 +117,7 @@ public class GearHolder extends Subsystem {
 	public boolean isGearPresent() {
 		boolean bReturn = false;
 		double distance = inslot_short_rangefinder.getVoltage();
-		System.out.println("-------------------------voltaeg of rangefinder: " + distance);
+		//System.out.println("-------------------------voltaeg of rangefinder: " + distance);
 		if (distance > GEARISINVOLTAGE){ //Gear is captured
 				bReturn = true; //insert code once gear was captured	
 		}
@@ -125,7 +126,7 @@ public class GearHolder extends Subsystem {
 
     public void initDefaultCommand() {
         // To keep the gear holder retracted when not in use. 
-        setDefaultCommand(new RetractGearHolder());
+        //setDefaultCommand(new RetractGearHolder());
     }
 }
 

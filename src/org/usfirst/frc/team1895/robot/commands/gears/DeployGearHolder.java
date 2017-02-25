@@ -31,6 +31,7 @@ public class DeployGearHolder extends Command {
     protected void execute() {
     	gearPresence = Robot.gearholder.isGearPresent();
     	if(gearPresence == true) {
+    		System.out.println("gearholder done");
     		done = Robot.gearholder.extendGear(); //returns boolean
     	}
     }

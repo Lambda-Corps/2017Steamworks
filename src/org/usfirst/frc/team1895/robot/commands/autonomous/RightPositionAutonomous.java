@@ -3,6 +3,7 @@ package org.usfirst.frc.team1895.robot.commands.autonomous;
 import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
@@ -51,31 +52,29 @@ public class RightPositionAutonomous extends CommandGroup {
     	addParallel(new DeployGearHolder());
     	addSequential(new DriveStraightSetDistance(-11.245)); //driving the hypotenuse
     	//ALIGN TO LIFT
-    	addSequential(new DriveToObstacle(24, 0.6));
+    	addSequential(new DriveToObstacle(12, 0.6));
     	//WAIT TILL GEAR IS GONE
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	
-    //FIRST POSSIBILITY: GIVE GEAR THEN DRIVE INTO NEUTRAL ZONE NOW	
+    	//FIRST POSSIBILITY: GIVE GEAR THEN DRIVE INTO NEUTRAL ZONE NOW	
+    	//SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
+    	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN
+//    	if(Robot.gearholder.isGearPresent()) {
+//    		addSequential(new DriveStraightSetDistance(50));
+//    		//add george code
+//    		addSequential(new StopRobot(10));
+//    		addSequential(new DriveToObstacle(20, 0.5));
+//    		addSequential(new WaitUntilGearGoneOrTimeOut(10));
+//    	}
+    	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addParallel(new RetractGearHolder());
     	addSequential(new DriveStraightSetDistance(35.245));
     	//TURN
-    	addSequential(new TurnWithGyro(60.0));
+    	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
-    	addSequential(new DriveStraightSetDistance(-50)); 
+    	addSequential(new DriveStraightSetDistance(-50));
     	
-    //SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
-    	//DRIVE BACK
-    	addSequential(new DriveStraightSetDistance(25));
-    	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN
-    	if(Robot.gearholder.isGearPresent() == true) {
-    		addSequential(new DriveToObstacle(25, 0.5));
-    		addSequential(new WaitUntilGearGoneOrTimeOut(4));
-    	}
-    	//OTHERWISE..WHAT DOES MR. BREY WANT
-    	else {
-    		
-    	}
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
