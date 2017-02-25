@@ -61,8 +61,8 @@ public class FilteredCamera extends Subsystem {
 		gearPipeline = new LiftTracker();
 
 		// Get the Axis camera from CameraServer
+
 		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
-		//UsbCamera loadingCamera = CameraServer.getInstance().startAutomaticCapture("Loading Camera", 1);
 		// Set the resolution
 		// camera.setResolution(640, 480);
 		// camera.setExposureManual(61);
@@ -74,19 +74,10 @@ public class FilteredCamera extends Subsystem {
 																									// stream
 																									// to
 																									// CameraServer
-//		CvSink cvSinkLoading = CameraServer.getInstance().getVideo(); // capture mats from camera
-//		
-//		CvSource outputStreamLoading = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
-											// stream
-											// to
-											// CameraServer
 		
 		
 		
 		Mat mat = new Mat(); // define mat in order to reuse it
-
-		//Mat mat = new Mat(); // define mat in order to reuse it
-
 		
 		
 		visionThread = new Thread(() -> {
@@ -105,7 +96,8 @@ public class FilteredCamera extends Subsystem {
 																	// mat
 					SmartDashboard.putString("Vision State", "Couldn't grab frame");
 					continue; // skip to the next iteration of the thread
-				} 
+			} 
+
 
 				gearPipeline.process(mat); // process the mat (this does not
 											// change the mat, and has an
@@ -141,8 +133,7 @@ public class FilteredCamera extends Subsystem {
 				} else {
 					SmartDashboard.putString("Vision State", "FAILED TO FIND TARGET");
 				}
-
-				//outputStream.putFrame(mat); // Give stream (and CameraServer) a
+				outputStream.putFrame(mat); // Give stream (and CameraServer) a
 											// new frame
 
 				mat.release();

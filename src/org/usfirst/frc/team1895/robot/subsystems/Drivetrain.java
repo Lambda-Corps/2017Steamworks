@@ -8,6 +8,7 @@ import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
 import org.usfirst.frc.team1895.robot.oi.F310;
 
+
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -585,7 +586,7 @@ public class Drivetrain extends Subsystem {
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
-        setDefaultCommand(new DefaultDriveCommand());
+        setDefaultCommand(new DriveWithCamera());
     }
     
     public void makeNewPidDriving( double p, double i, double d){

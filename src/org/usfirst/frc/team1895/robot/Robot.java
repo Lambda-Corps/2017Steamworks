@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1895.robot;
 
+<<<<<<< HEAD
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autonomous;
@@ -15,6 +16,7 @@ import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
@@ -49,8 +51,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	int drive_encoder_counter;
-	//public static FilteredCamera gear_camera;
-	//public static FilteredCamera fuel_camera;
+	public static FilteredCamera gear_camera;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -65,7 +66,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		drive_encoder_counter = 0;
-		//gear_camera = new FilteredCamera();
+		gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
 		
 		//choices for the user to pick autonomouses in smart dashboard
@@ -75,6 +76,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
+
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -187,5 +189,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		//Robot.gear_camera.stopVisionThread();
 	}
 }
