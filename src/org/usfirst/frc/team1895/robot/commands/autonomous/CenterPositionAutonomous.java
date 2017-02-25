@@ -47,8 +47,8 @@ public class CenterPositionAutonomous extends CommandGroup {
 
     public CenterPositionAutonomous() {
 
-    	
-    	//mock autonomous
+    	addSequential(new DriveToObstacle(24, 0.6));
+    	/*//mock autonomous
     	////DEPLOY GEAR AND DRIVE UP
     	addParallel(new DeployGearHolder());
     	addSequential(new DriveStraightSetDistance(-90)); //GEAR EXTENDS 4.75"
@@ -77,16 +77,16 @@ public class CenterPositionAutonomous extends CommandGroup {
     	
     //SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
     	//DRIVE BACK
-    	addSequential(new DriveStraightSetDistance(25));
+    	addSequential(new DriveStraightSetDistance(24));
     	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN
     	if(Robot.gearholder.isGearPresent() == true) {
-    		addSequential(new DriveToObstacle(25, 0.5));
+    		addSequential(new DriveToObstacle(24, 0.5));
     		addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	}
     	//OTHERWISE..WHAT DOES MR. BREY WANT
     	else {
     		
-    	}
+    	}*/
     	
     	
     	

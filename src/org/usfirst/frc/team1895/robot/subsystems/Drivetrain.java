@@ -204,8 +204,8 @@ public class Drivetrain extends Subsystem {
 		if(left < -1.0) left = -1.0;
 		if(right >  1.0) right =  1.0;
 		if(right < -1.0) right = -1.0;
-//		left_motorgroup.set(  left);
-//		right_motorgroup.set(-right);
+		left_motorgroup.set(  left);
+		right_motorgroup.set(-right);
 		
 	}
 	
@@ -314,7 +314,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
 	
 		if (done)   {
 		pidControllerTurning.disable();
-		System.out.println("done is true======================");
+//		System.out.println("done is true======================");
 		}
 		return done;
 	}
