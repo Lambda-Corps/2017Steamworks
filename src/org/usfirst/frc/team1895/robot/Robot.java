@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.commands.autonomous.CenterPositionAutonomous;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
@@ -34,6 +34,8 @@ public class Robot extends IterativeRobot {
 	public static Winch winch;
 	public static GearHolder gearholder;
 	public static OI oi;
+	public static FilteredCamera gear_camera;
+	//public static FilteredCamera fuel_camera;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -45,6 +47,8 @@ public class Robot extends IterativeRobot {
 		winch = new Winch();
 		gearholder = new GearHolder();
 		oi = new OI();
+		gear_camera = new FilteredCamera();
+		//fuel_camera = new FilteredCamera();
 		chooser.addDefault("Default Auto", new CenterPositionAutonomous());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
