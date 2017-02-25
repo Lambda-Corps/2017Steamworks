@@ -53,16 +53,16 @@ public class LeftPositionAutonomous extends CommandGroup {
     	addSequential(new TurnWithGyro(30)); //this angle depends on where we are on the field
     	//DEPLOY GEARHOLDER [DRIVE UP A LITTLE IF NEEDED, OR ELSE USE DRIVETOOBSTACLE, DEPENDS ON DISTANCE
     	addParallel(new DeployGearHolder());
-    	addSequential(new DriveStraightSetDistance(-10)); //driving the hypotenuse
+    	addSequential(new DriveStraightSetDistance(-11.245)); //driving the hypotenuse
     	//ALIGN TO LIFT
-    	addSequential(new DriveToObstacle(25, 0.6));
+    	addSequential(new DriveToObstacle(24, 0.6));
     	//WAIT TILL GEAR IS GONE
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	
     //FIRST POSSIBILITY: GIVE GEAR THEN DRIVE INTO NEUTRAL ZONE NOW	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addParallel(new RetractGearHolder());
-    	addSequential(new DriveStraightSetDistance(35));
+    	addSequential(new DriveStraightSetDistance(35.245));
     	//TURN
     	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
