@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.usfirst.frc.team1895.robot.RobotMap;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveWithCamera;
 
 import com.ctre.CANTalon;
 
@@ -199,7 +199,7 @@ public class Drivetrain extends Subsystem {
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
-        setDefaultCommand(new DefaultDriveCommand());
+        setDefaultCommand(new DriveWithCamera());
     }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 
