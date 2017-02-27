@@ -232,7 +232,7 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive(double trans_speed, double yaw) {
 		// Currently, when trying to turn, the left and right turning functions are backward, so I'm
 		// going to invert them.
-		//yaw *= -1.0;
+		yaw *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to go different speeds.
 		// Since motors physically are turned around, then setting both motors to the same speed
 		// will have this effect. If the transitional is at full and yaw at 0, then motors need to
