@@ -12,13 +12,13 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -123,6 +123,12 @@ public class Drivetrain extends Subsystem {
 	boolean bFirstcall_to_Swerve;
 	// cameras (to be added later)
 	
+	// Gear Shifting
+	private static final int HIGHGEAR = 1;
+	private static final int LOWGEAR = 0;
+	private int gearState;
+	private DoubleSolenoid transmissionSolenoid;
+	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
@@ -190,6 +196,10 @@ public class Drivetrain extends Subsystem {
 		setangleforgyro = 0.0;
 		ratio = 0.0;
 		bFirstcall_to_Swerve = true;
+		
+		transmissionSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
+		transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
+		gearState = 0;
 
 	}
 	
@@ -448,13 +458,32 @@ public boolean turnWithPID(double desiredTurnAngle) {
     	return false;
     }
     
-	// For: ShiftGears Command
-	// Sensors: None
-	// Description: Should shift from low to high gear or vice versa to allow the driver to drive with more torque
-	// and less speed in low gear, and less torque and more speed in high gear
+	// Sensors: Encoders
+	/**
+	 * This method should check to see if the left or right encoder read a value o greater than
+	 * 4 ft/s. If so, shift nto high gear. This will avoid the large acceleration time required
+	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
+	 */
 	public void shiftGears() {
+		double max = Math.max(Math.abs(left_encoder.getRate()), Math.abs(right_encoder.getRate()));
+		if(max > 48.0 && gearState == LOWGEAR) {
+			shiftHighGear(true);
+			
+		} else if(max < 42.0 && gearState == HIGHGEAR) {
+			shiftHighGear(false);
+		}
 	}
 	
+	public void shiftHighGear(boolean intoHigh) {
+		if(intoHigh) {
+			transmissionSolenoid.set(DoubleSolenoid.Value.kForward);
+			gearState = HIGHGEAR;
+		} else {
+			transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
+			gearState = LOWGEAR;
+		}
+	}
+
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
@@ -498,6 +527,7 @@ public boolean turnWithPID(double desiredTurnAngle) {
 			for(T i : list) {
 				i.set(v);
 			}
+			shiftGears();
 		}
     }
 }
