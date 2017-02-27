@@ -60,8 +60,6 @@ public class FilteredCamera extends Subsystem {
 
 		gearPipeline = new LiftTracker();
 
-		// Get the Axis camera from CameraServer
-
 		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
 		// Set the resolution
 		// camera.setResolution(640, 480);
