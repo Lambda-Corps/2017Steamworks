@@ -29,7 +29,7 @@ public class F310 extends Joystick {
 	
 	private double[] scalar = new double[numAxes];
 	
-	private double gain = 0.0;
+	private double gain = 0.5;
 	
 	public F310(int port) {
 		//needed to call super constructor in order for F310 to extend Joystick
