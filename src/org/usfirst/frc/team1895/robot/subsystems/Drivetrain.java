@@ -12,13 +12,13 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -123,6 +123,13 @@ public class Drivetrain extends Subsystem {
 	boolean bFirstcall_to_Swerve;
 	// cameras (to be added later)
 	
+	// Gear Shifting
+	private static final int HIGHGEAR = 1;
+	private static final int LOWGEAR = 0;
+	private int gearState;
+	private DoubleSolenoid transmissionSolenoid;
+	private boolean manualOverride = false;
+	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
@@ -190,6 +197,10 @@ public class Drivetrain extends Subsystem {
 		setangleforgyro = 0.0;
 		ratio = 0.0;
 		bFirstcall_to_Swerve = true;
+		
+		transmissionSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
+		transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
+		gearState = 0;
 
 	}
 	
@@ -207,6 +218,8 @@ public class Drivetrain extends Subsystem {
 		left_motorgroup.set(  left);
 		right_motorgroup.set(-right);
 		
+		//Check to see if gear shifting is necessary. if it is, then shift
+    	shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -219,7 +232,7 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive(double trans_speed, double yaw) {
 		// Currently, when trying to turn, the left and right turning functions are backward, so I'm
 		// going to invert them.
-		yaw *= -1.0;
+		//yaw *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to go different speeds.
 		// Since motors physically are turned around, then setting both motors to the same speed
 		// will have this effect. If the transitional is at full and yaw at 0, then motors need to
@@ -239,9 +252,8 @@ public class Drivetrain extends Subsystem {
     	left_motorgroup.set(left_speed);
     	right_motorgroup.set(right_speed);
     	
-    	// Prints encoder distances, used for testing purposes
-    	System.out.println(left_encoder.getDistance());
-    	System.out.println(right_encoder.getDistance());
+    	//Check to see if gear shifting is necessary. if it is, then shift
+    	shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -295,7 +307,7 @@ public class Drivetrain extends Subsystem {
     	return ahrs.getAngle();
     }
     
-public boolean turnWithPID(double desiredTurnAngle) {
+    public boolean turnWithPID(double desiredTurnAngle) {
 		
 		pidControllerTurning.setAbsoluteTolerance(5.0);		
 		
@@ -448,19 +460,6 @@ public boolean turnWithPID(double desiredTurnAngle) {
     	return false;
     }
     
-	// For: ShiftGears Command
-	// Sensors: None
-	// Description: Should shift from low to high gear or vice versa to allow the driver to drive with more torque
-	// and less speed in low gear, and less torque and more speed in high gear
-	public void shiftGears() {
-	}
-	
-//==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
-    public void initDefaultCommand() {
-        // Allows for tele-op driving in arcade or tank drive
-        setDefaultCommand(new DefaultDriveCommand());
-    }
-    
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
@@ -472,6 +471,46 @@ public boolean turnWithPID(double desiredTurnAngle) {
     		tankDrive(speed, speed);	
     		return false;
     	}
+    }
+    
+	// Sensors: Encoders
+	/**
+	 * This method should check to see if the left or right encoder read a value o greater than
+	 * 4 ft/s. If so, shift nto high gear. This will avoid the large acceleration time required
+	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
+	 */
+	public void shiftGears() {
+		if(manualOverride) {
+			shiftHighGear(true);
+			return;
+		}
+		double max = Math.max(Math.abs(left_encoder.getRate()), Math.abs(right_encoder.getRate()));
+		if(max > 48.0 && gearState == LOWGEAR) {
+			shiftHighGear(true);
+			
+		} else if(max < 42.0 && gearState == HIGHGEAR) {
+			shiftHighGear(false);
+		}
+	}
+	
+	public void shiftHighGear(boolean intoHigh) {
+		if(intoHigh) {
+			transmissionSolenoid.set(DoubleSolenoid.Value.kForward);
+			gearState = HIGHGEAR;
+		} else {
+			transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
+			gearState = LOWGEAR;
+		}
+	}
+
+	public void manualOverride(boolean manualOverride) {
+		this.manualOverride = manualOverride;
+	}
+	
+//==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
+    public void initDefaultCommand() {
+        // Allows for tele-op driving in arcade or tank drive
+        setDefaultCommand(new DefaultDriveCommand());
     }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 

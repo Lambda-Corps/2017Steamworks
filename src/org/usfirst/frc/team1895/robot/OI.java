@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1895.robot;
 
+import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideHighGear;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.oi.F310;
@@ -58,6 +59,7 @@ public class OI {
 	
 	public JoystickButton gearIn;
 	public JoystickButton gearOut;
+	public JoystickButton override;
 	
 	public OI() {
 		leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
@@ -68,5 +70,9 @@ public class OI {
 		gearOut = new JoystickButton(gamepad, F310.Y);		
 		gearIn.whenPressed(new DeployGearHolder());
 		gearOut.whenPressed(new RetractGearHolder());
+		
+		override = new JoystickButton(gamepad, F310.LB);
+		override.whenPressed(new ManualOverrideHighGear(true));
+		override.whenReleased(new ManualOverrideHighGear(false));
 	}
 }
