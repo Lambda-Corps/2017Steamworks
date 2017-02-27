@@ -63,22 +63,22 @@ public class FilteredCamera extends Subsystem {
 		gearPipeline = new LiftTracker();
 
 		// Get the Axis camera from CameraServer
-		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture("Lift Peg Camera", 0);
-		UsbCamera loadingCamera = CameraServer.getInstance().startAutomaticCapture("Loading Camera", 1);
+		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
+		//UsbCamera loadingCamera = CameraServer.getInstance().startAutomaticCapture("Loading Camera", 1);
 		// Set the resolution
 		// camera.setResolution(640, 480);
 		// camera.setExposureManual(61);
 		// camera.setBrightness(45);
 
-		CvSink cvSinkLiftPeg = CameraServer.getInstance().getVideo(liftPegCamera, Camera); // capture mats
+		CvSink cvSink = CameraServer.getInstance().getVideo(); // capture mats
 																// from camera
-		CvSource outputStreamLiftPeg = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
+		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
 																									// stream
 																									// to
 																									// CameraServer
-		CvSink cvSinkLoading = CameraServer.getInstance().getVideo(); // capture mats from camera
-		
-		CvSource outputStreamLoading = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
+//		CvSink cvSink = CameraServer.getInstance().getVideo(); // capture mats from camera
+//		
+//		CvSource outputStreamLoading = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
 											// stream
 											// to
 											// CameraServer
@@ -87,7 +87,7 @@ public class FilteredCamera extends Subsystem {
 		
 		Mat mat = new Mat(); // define mat in order to reuse it
 
-		Mat mat = new Mat(); // define mat in order to reuse it
+		//Mat mat = new Mat(); // define mat in order to reuse it
 
 		
 		
