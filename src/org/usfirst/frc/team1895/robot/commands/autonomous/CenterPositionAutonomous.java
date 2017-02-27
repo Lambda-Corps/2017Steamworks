@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.Robot;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,7 +28,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			9. Turn right 30 degrees to the right using TurnWithGyro Command so that you're facing forward again.
  * 			10. Use ShiftGears Command to shift into high gear to allow for faster movement.
  * 			11. Use DriveStraightSeteDistance Command to drive [] feet to pass the baseline and head into 
- * 				the neutral zone. 
+ * 				the neutral zone.  
  * 		Commands needed: 
  * 			- DriveStraightSeteDistance, AlignToHighGoal, DeployGearHolder, GetGearPresence, RetractGearHolder,
  * 				TurnWithGyro, ShiftGears
@@ -43,13 +41,32 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			- TEST TEST TEST
  */
 public class CenterPositionAutonomous extends CommandGroup {
-
+  
     public CenterPositionAutonomous() {
  
-    	//addSequential(new DriveStraightSetDistance(-15));
+    	//Testing Zach's DriveToObstacle
+    	//addSequential(new DriveToObstacle(4, 0.6)); //shortest distance it will work at
+    	 
+    	//addParallel(new DeployGearHolder());
+    	addSequential(new DriveStraightSetDistance(40));
+    	addSequential(new DriveToObstacle(20, 0.6));
+    	//addSequential(new AlignToPeg());
+    	addSequential(new DriveToObstacle(3, 0.6));
+    	addSequential(new WaitUntilGearGoneOrTimeOut(5));
     	
-    	//addSequential(new DriveToObstacle(24, 0.6));
+    	//RETRACT GEAR HOLDER AND DRIVE BACK
+    	//addParallel(new RetractGearHolder());
+    	addSequential(new DriveStraightSetDistance(40));
+    	addSequential(new StopRobot(2));
+    	addSequential(new TurnWithGyro(-60.0));
+    	addSequential(new StopRobot(2));
+    	//DRIVE FORWARD
+    	addSequential(new DriveStraightSetDistance(-60));
+    	addSequential(new StopRobot(2));
+    	addSequential(new TurnWithGyro(60.0));
+    	addSequential(new DriveStraightSetDistance(-80)); 
     	
+    	/*
     	//mock autonomous
     	////DEPLOY GEAR AND DRIVE UP
     	addParallel(new DeployGearHolder());
@@ -58,17 +75,8 @@ public class CenterPositionAutonomous extends CommandGroup {
     	//ALIGN TO LIFT
     	//where george will be
     	addSequential(new DriveToObstacle(12, 0.5));//drive close enough to use George
-    	addSequential(new WaitUntilGearGoneOrTimeOut(10)); 
-    	
-    //SECOND POSSIBILITY: GIVE GEAR AND IF IT DOESN'T WORK TRY TO ALIGN AGAIN
-    	//IF GEAR IS STILL THERE, TRY TO ALIGN AGAIN
-//    	if(Robot.gearholder.isGearPresent()) {
-//    		addSequential(new DriveStraightSetDistance(40));
-//    		//add george code
-//    		addSequential(new StopRobot(10));
-//    		addSequential(new DriveToObstacle(20, 0.5));
-//    		addSequential(new WaitUntilGearGoneOrTimeOut(10));
-//    	}
+    	addSequential(new WaitUntilGearGoneOrTimeOut(10)); */
+
     //FIRST POSSIBILITY: GIVE GEAR THEN DRIVE INTO NEUTRAL ZONE NOW	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	//addParallel(new RetractGearHolder());
@@ -86,24 +94,6 @@ public class CenterPositionAutonomous extends CommandGroup {
 //    	addSequential(new DriveStraightSetDistance(-50));
 //    	addSequential(new DriveToObstacle(24, 0.6));
 //    	addSequential(new DriveStraightSetDistance(74));
-    	
-    
-    	
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
 
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
     }
 }

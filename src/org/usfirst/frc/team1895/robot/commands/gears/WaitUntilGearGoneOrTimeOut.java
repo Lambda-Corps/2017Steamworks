@@ -37,7 +37,7 @@ public class WaitUntilGearGoneOrTimeOut extends Command {
   			if (counterforgear >= 100){ //2 seconds
   				done = true;	
   			}
-  			counterforgear++;      // Counter for delay after taken
+  			counterforgear++;      		// Counter for delay after taken
   		} 
   		else {
   			if (counter >= gearNotTakenTimeout) {    // Gear has been NOT taken, wait before moving
