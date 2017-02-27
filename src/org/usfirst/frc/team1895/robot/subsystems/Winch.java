@@ -49,7 +49,8 @@ public class Winch extends Subsystem {
     // exceed 1.0 or 0.
     public void manualClimbing(double velocity) {
     	if(velocity >  1.0) velocity =  1.0;
-    	if(velocity < 0) velocity = 0.0; //robot will never climb down
+    	//if(velocity < 0) velocity = 0.0; //robot will never climb down
+    	if(velocity < -1.0) velocity = -1.0; //robot will never climb down
     	winch_motor.set(velocity);
     	System.out.println("Motor current: " + velocity);
     }
