@@ -232,7 +232,7 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive(double trans_speed, double yaw) {
 		// Currently, when trying to turn, the left and right turning functions are backward, so I'm
 		// going to invert them.
-		yaw *= -1.0;
+		//yaw *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to go different speeds.
 		// Since motors physically are turned around, then setting both motors to the same speed
 		// will have this effect. If the transitional is at full and yaw at 0, then motors need to
@@ -490,6 +490,11 @@ public class Drivetrain extends Subsystem {
 		this.manualOverride = manualOverride;
 	}
 	
+	public void setBrake(boolean b) {
+		left_motorgroup.enableBrake(b);
+		right_motorgroup.enableBrake(b);
+	}
+	
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
@@ -521,6 +526,12 @@ public class Drivetrain extends Subsystem {
 				i.set(v);
 			}
 		}
+    	
+    	private void enableBrake(boolean toBrake) {
+    		for(T i : list) {
+				((CANTalon) i).enableBrakeMode(toBrake);
+			}
+    	}
     }
 }
 

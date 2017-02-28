@@ -1,38 +1,35 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
+package org.usfirst.frc.team1895.robot.ledstrip;
 
 import org.usfirst.frc.team1895.robot.Robot;
-import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ManualOverrideHighGear extends Command {
+public class LEDCommand extends Command {
 
-	private final Drivetrain drivetrain = Robot.drivetrain;
-	private boolean test;
+	private final LEDSubsystem led = Robot.led;
 	
-    public ManualOverrideHighGear(boolean test) {
+    public LEDCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(drivetrain);
-        
-    	this.test = test;
+        requires(led);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if( test) Robot.drivetrain.manualOverride( true);
-    	if(!test) Robot.drivetrain.manualOverride(false);
+    	//led.queue(led.setRebecca);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	led.start(led.blinky);
+    	//led.start(led.runRebecca);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

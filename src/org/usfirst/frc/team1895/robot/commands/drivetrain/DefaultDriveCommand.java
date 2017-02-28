@@ -28,7 +28,7 @@ public class DefaultDriveCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.drivetrain.tankDrive(0.0, 0.0);
+		Robot.drivetrain.setBrake(true);
 	}
 
 	@Override
@@ -58,10 +58,9 @@ public class DefaultDriveCommand extends Command {
 	}
 
 	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run. If this is the case, call the end() method
-	// to peacefully close connections to the subsystem.
+	// subsystems is scheduled to run.
 	@Override
 	protected void interrupted() {
-		end();
+		Robot.drivetrain.setBrake(false);
 	}
 }

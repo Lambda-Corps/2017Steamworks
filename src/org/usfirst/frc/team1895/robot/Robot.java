@@ -3,8 +3,8 @@ package org.usfirst.frc.team1895.robot;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position3_Autonomous;
+import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
@@ -35,8 +35,9 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Winch winch;
 	public static GearHolder gearholder;
+	public static LEDSubsystem led;
 	public static OI oi;
-	public static FilteredCamera gear_camera;
+	//public static FilteredCamera gear_camera;
 	//public static FilteredCamera fuel_camera;
 
 	Command autonomousCommand;
@@ -48,10 +49,13 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		winch = new Winch();
 		gearholder = new GearHolder();
+		led = new LEDSubsystem();
 		oi = new OI();
-		gear_camera = new FilteredCamera();
+		//gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
 		//choices for the user to pick autonomouses in smart dashboard
+	
+		
 		chooser.addDefault("Position 3", new Position3_Autonomous());
 		chooser.addObject("Position 2", new Position2_Autonomous());
 		chooser.addObject("Position 1", new Position1_Autonomous());
@@ -65,12 +69,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		led.start(led.disabledPeriodic);
 	}
 
 	/**
