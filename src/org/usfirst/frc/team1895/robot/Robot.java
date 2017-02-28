@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.autonomous.CenterPositionAutonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.Position1_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.Position2_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.Position3_Autonomous;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -49,8 +51,10 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
-		chooser.addDefault("Default Auto", new CenterPositionAutonomous());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		//choices for the user to pick autonomouses in smart dashboard
+		chooser.addDefault("Position 3", new Position3_Autonomous());
+		chooser.addObject("Position 2", new Position2_Autonomous());
+		chooser.addObject("Position 1", new Position1_Autonomous());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -83,14 +87,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
-
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();

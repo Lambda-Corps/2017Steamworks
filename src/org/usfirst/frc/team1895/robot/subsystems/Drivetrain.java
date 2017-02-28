@@ -433,23 +433,6 @@ public class Drivetrain extends Subsystem {
     	return false;
     }
 	
-	// For: TurnWithCamera Command
-	// Sensors: Camera, gyro
-	// Description: Uses camera to determine robot's placement relative to its surroundings. It will then 
-	// turn and adjust robot to stay on target path. Heading is measured in Degrees, RIGHT = POSITIVE
-	public boolean turnWithCamera() {
-		return false;
-	}
-	
-	// For: DriveWithCamera Command 
-	// Sensors: Camera
-	// Description: Uses camera to drive the robot along target path and adjust the robot if necessary. Will 
-	// utilize the ultrasonic middle_fr_short_rangefinder to determine how far from target position we are and then 
-	// call the motors to turn and adjust as needed if the robot drifts. 
-	public void driveWithCamera() {
-	
-	}
-	
     // For: AlignToHighGoal Command
     // Sensors: 3 long-range rangefinders
     // Description: Use the 3 rangefinders to get the distance the front two corners and the front of the robot are from 

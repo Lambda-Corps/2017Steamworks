@@ -31,8 +31,24 @@ public class InformationOnEverything {
  *      	- X_AXIS: None
  *      	- Y_AXIS: Front and back straight driving (tank)
  *      	- Z_AXIS: None
- *      - Using a Gamepad:
- *      	BUTTONS
+ *      - Using 2 Gamepads
+ *      	BUTTONS FOR GAMEPAD 1
+ *      	- START:
+ *      	- BACK:
+ *      	- A:
+ *      	- B: 
+ *      	- X: 
+ *      	- Y: 
+ *      	- RB: 
+ *      	- LB: Manual override high gear
+ *      	AXES FOR GAMEPAD 1
+ *      	- LX_AXIS: left and right turning (arcade)
+ *      	- LY_AXIS:
+ *      	- LT:
+ *      	- RX_AXIS:
+ *      	- RY_AXIS: front and back straight driving (arcade)
+ *      	- RT:
+ *      	BUTTONS FOR GAMEPAD 2
  *      	- START: High Gear
  *      	- BACK: Low Gear
  *      	- A: Gearholder in
@@ -41,7 +57,7 @@ public class InformationOnEverything {
  *      	- Y: Gearholder out
  *      	- RB: (TBD) Auto-Catch Rope (runs slowly until it detects the rope has been caught)
  *      	- LB: (TBD) Auto-Climb (climbs until touchpad has been reached)
- *      	AXES
+ *      	AXES FOR GAMEPAD 2
  *      	- LX_AXIS: None
  *      	- LY_AXIS: front and back straight driving (arcade)
  *      	- LT: Climb Up

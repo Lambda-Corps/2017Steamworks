@@ -66,9 +66,10 @@ public class OI {
 		leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
 		rightArcadeJoystick = new Joystick(RobotMap.RIGHT_JOYSTICK_PORT);
 		gamepad = new F310(RobotMap.GAMEPAD_PORT);
+		gamepad2 = new F310(RobotMap.GAMEPAD2_PORT);
 		
-		gearIn = new JoystickButton(gamepad2, F310.A);
-		gearOut = new JoystickButton(gamepad2, F310.Y);		
+		gearIn = new JoystickButton(gamepad2, F310.B);
+		gearOut = new JoystickButton(gamepad2, F310.A);
 		gearIn.whenPressed(new DeployGearHolder());
 		gearOut.whenPressed(new RetractGearHolder());
 		

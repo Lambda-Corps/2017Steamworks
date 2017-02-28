@@ -4,6 +4,8 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -39,19 +41,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			- Finish the other commands so we can add them in
  * 			- TEST TEST TEST
  */
-public class CenterPositionAutonomous extends CommandGroup {
+public class Position2_Autonomous extends CommandGroup {
   
-    public CenterPositionAutonomous() {
+    public Position2_Autonomous() {
  	
     	//mock autonomous
-
-    	//TESTING ZACH'S DRIVETOOBSTACLE IN ISOLATION
-//    	addSequential(new DriveToObstacle(20, 0.6)); //should stop 12 inches away from wall
-//    	addSequential(new DriveToObstacle(12, 0.6));
-//    	addSequential(new DriveToObstacle(5, 0.6));
-    	 
-    	//Testing with other stuff as well
-    	//addParallel(new DeployGearHolder());
+    	
+    	addParallel(new DeployGearHolder());
     	addSequential(new DriveStraightSetDistance(-80));
     	addSequential(new DriveToObstacle(20, 0.6));		//should be 110 inches forward now
     	addSequential(new AlignToPeg()); 					//should re-adjust if necessary
@@ -59,7 +55,7 @@ public class CenterPositionAutonomous extends CommandGroup {
     	addSequential(new DriveStraightSetDistance(3));
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	 
-    	//addParallel(new RetractGearHolder());
+    	addParallel(new RetractGearHolder());
      	addSequential(new DriveStraightSetDistance(30));
      	addSequential(new TurnWithGyro(-60));
      	addSequential(new DriveStraightSetDistance(-50));
