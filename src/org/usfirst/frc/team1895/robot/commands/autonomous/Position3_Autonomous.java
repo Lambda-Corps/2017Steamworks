@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
@@ -56,7 +55,7 @@ public class Position3_Autonomous extends CommandGroup {
     	addSequential(new DriveStraightSetDistance(-11.245)); //driving the hypotenuse
     	//ALIGN TO LIFT
     	addSequential(new DriveToObstacle(12, 0.6)); 	//23.245/35.245
-    	addSequential(new AlignToPeg());
+    	//addSequential(new AlignToPeg());
     	addSequential(new DriveToObstacle(4, 0.6));		//31.245
     	addSequential(new DriveStraightSetDistance(3));
     	//WAIT TILL GEAR IS GONE

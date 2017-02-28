@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
@@ -50,7 +49,7 @@ public class Position2_Autonomous extends CommandGroup {
     	addParallel(new DeployGearHolder());
     	addSequential(new DriveStraightSetDistance(-80));
     	addSequential(new DriveToObstacle(20, 0.6));		//should be 110 inches forward now
-    	addSequential(new AlignToPeg()); 					//should re-adjust if necessary
+    	//addSequential(new AlignToPeg()); 					//should re-adjust if necessary
     	addSequential(new DriveToObstacle(4, 0.6)); 		//should this be larger and then replace with driveStraight?
     	addSequential(new DriveStraightSetDistance(3));
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
