@@ -124,9 +124,6 @@ public class Drivetrain extends Subsystem {
 	// cameras (to be added later)
 	
 	// Gear Shifting
-	private static final int HIGHGEAR = 1;
-	private static final int LOWGEAR = 0;
-	private int gearState;
 	private DoubleSolenoid transmissionSolenoid;
 	private boolean manualOverride = false;
 	private int transmission_state = 0;
