@@ -49,14 +49,14 @@ public class InformationOnEverything {
  *      	- RY_AXIS: front and back straight driving (arcade)
  *      	- RT:
  *      	BUTTONS FOR GAMEPAD 2
- *      	- START: High Gear
- *      	- BACK: Low Gear
- *      	- A: Gearholder in
- *      	- B: Shoot 
- *      	- X: Auto-drive to lift peg
- *      	- Y: Gearholder out
- *      	- RB: (TBD) Auto-Catch Rope (runs slowly until it detects the rope has been caught)
- *      	- LB: (TBD) Auto-Climb (climbs until touchpad has been reached)
+ *      	- START:
+ *      	- BACK:
+ *      	- A: Gear Out
+ *      	- B: Gear In
+ *      	- X: 
+ *      	- Y: 
+ *      	- RB: switch cameras to the right
+ *      	- LB: switch cameras to the left
  *      	AXES FOR GAMEPAD 2
  *      	- LX_AXIS: None
  *      	- LY_AXIS: front and back straight driving (arcade)
@@ -80,6 +80,16 @@ public class InformationOnEverything {
  *      - Front/Gearside facing:
  *        	- Aligning to Lift
  *      	- Aligning to Loading Station
+ *      
+ * List of things that were changed with Mr. Frederick:
+ * 		- Line 182: pid controller for turning was changed to use the gyro instead of the ahrs
+ * 		- Lines 194: added things for the lowrider encoder -- changing distance per puls
+ * 		- Lines 297: changed gyro back to 
+ * 		- Line 280: changed speed factor from 0.1 to 0.5
+ * 		- Line 110: changed pGainDriv from 0.1 to 0.05
+ * 		- Line 355-356: changed code to declare output value on 2 different lines
+ * 		- Line 310: commented reset for navax board
+ * 	
  * TO BE DETERMINED: 
  *    - all long-range or 2 long-range and one short-range rangefinder for drivetrain class
  *    - desired arguments of DriveWithCamera Command, AlignToLift Command, AlignToRope Command, AlignToHighGoal Command, AlignToLoadingStation Command
