@@ -3,6 +3,13 @@ package org.usfirst.frc.team1895.robot;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.Position3_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -109,7 +116,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
+ 
 	@Override
 	public void teleopInit() {
 		// This makes sure that the autonomous stops running when
@@ -119,6 +126,13 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 //		DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
+		SmartDashboard.putData("DriveStraightSetDistance Command", new DriveStraightSetDistance(-25));
+		SmartDashboard.putData("DriveToObstacle Command", new DriveToObstacle(10, 0.4));
+		SmartDashboard.putData("WaitUntilGearGoneOrTimeOut", new WaitUntilGearGoneOrTimeOut(4));
+		SmartDashboard.putData("TurnWithGyro", new TurnWithGyro(-60));
+		SmartDashboard.putData("RetractGearHolder", new RetractGearHolder());
+		SmartDashboard.putData("DeployGearHolder", new DeployGearHolder());
+		SmartDashboard.putData("StopRobot", new StopRobot(2));
 	}
 
 	/**

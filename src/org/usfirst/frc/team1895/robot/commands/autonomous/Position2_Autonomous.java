@@ -46,12 +46,13 @@ public class Position2_Autonomous extends CommandGroup {
  	
     	//mock autonomous
     	
-    	addParallel(new DeployGearHolder());
-    	addSequential(new DriveStraightSetDistance(-80));
+    	addSequential(new DriveStraightSetDistance(-48.5));
     	addSequential(new DriveToObstacle(20, 0.6));		//should be 110 inches forward now
-    	//addSequential(new AlignToPeg()); 					//should re-adjust if necessary
+    	//addSequential(new AlignToPeg());
+    	//should re-adjust if necessary
     	addSequential(new DriveToObstacle(4, 0.6)); 		//should this be larger and then replace with driveStraight?
     	addSequential(new DriveStraightSetDistance(3));
+    	addParallel(new DeployGearHolder());
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	 
     	addParallel(new RetractGearHolder());

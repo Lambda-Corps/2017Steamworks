@@ -44,10 +44,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Position3_Autonomous extends CommandGroup {
 
     public Position3_Autonomous() {
-    	
+    	 
     	//mock autonomous
     	//DRIVE UP
-    	addSequential(new DriveStraightSetDistance(-110));
+    	addSequential(new DriveStraightSetDistance(-106.5));
     	//TURN TOWARD TO AIRSHIP'S LIFT
     	addSequential(new TurnWithGyro(30)); //this angle depends on where we are on the field
     	//DEPLOY GEARHOLDER [DRIVE UP A LITTLE IF NEEDED, OR ELSE USE DRIVETOOBSTACLE, DEPENDS ON DISTANCE
@@ -65,9 +65,9 @@ public class Position3_Autonomous extends CommandGroup {
     	addParallel(new RetractGearHolder());
     	addSequential(new DriveStraightSetDistance(35.245));
     	//TURN
-    	addSequential(new TurnWithGyro(-30.0));
+    	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
-    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone
+    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone 
 
     }
 }

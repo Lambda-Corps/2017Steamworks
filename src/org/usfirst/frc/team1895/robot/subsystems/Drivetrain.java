@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -219,7 +220,7 @@ public class Drivetrain extends Subsystem {
 		right_motorgroup.set(-right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -232,7 +233,7 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive(double trans_speed, double yaw) {
 		// Currently, when trying to turn, the left and right turning functions are backward, so I'm
 		// going to invert them.
-		//yaw *= -1.0;
+		yaw *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to go different speeds.
 		// Since motors physically are turned around, then setting both motors to the same speed
 		// will have this effect. If the transitional is at full and yaw at 0, then motors need to
@@ -253,7 +254,7 @@ public class Drivetrain extends Subsystem {
     	right_motorgroup.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -344,6 +345,8 @@ public class Drivetrain extends Subsystem {
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;
 		double d = voltage*coefficient;
+		SmartDashboard.putNumber("Distance frobm findDistancecFinder", d);
+		SmartDashboard.putNumber("Drivetrain", outputValue);
 		return d;
 	}
 	
