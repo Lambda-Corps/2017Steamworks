@@ -198,7 +198,6 @@ public class Drivetrain extends Subsystem {
 		
 		transmissionSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
 		transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
-		gearState = 0;
 
 	}
 	
