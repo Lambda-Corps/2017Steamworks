@@ -125,11 +125,9 @@ public class Drivetrain extends Subsystem {
 	// cameras (to be added later)
 	
 	// Gear Shifting
-	private static final int HIGHGEAR = 1;
-	private static final int LOWGEAR = 0;
-	private int gearState;
 	private DoubleSolenoid transmissionSolenoid;
 	private boolean manualOverride = false;
+	private int transmission_state = 0;
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
@@ -201,7 +199,6 @@ public class Drivetrain extends Subsystem {
 		
 		transmissionSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
 		transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
-		gearState = 0;
 
 	}
 	
@@ -471,21 +468,37 @@ public class Drivetrain extends Subsystem {
 			return;
 		}
 		double max = Math.max(Math.abs(left_encoder.getRate()), Math.abs(right_encoder.getRate()));
-		if(max > 48.0 && gearState == LOWGEAR) {
-			shiftHighGear(true);
+		
+		switch(transmission_state) {
+		case 0:    //In low gear
+			System.out.println("STATE 0");
+			if(max > 48.0) {
+				shiftHighGear(true);
+				transmission_state = 1;
+			}
+			break;
 			
-		} else if(max < 42.0 && gearState == HIGHGEAR) {
-			shiftHighGear(false);
+		case 1:    //In between low to high
+			System.out.println("STATE 1");
+			if(max > 65.0) {
+				transmission_state = 2;
+			}
+			break;
+		case 2:     //In high gear, if need to switch to low
+			System.out.println("STATE 2");
+			if(max < 42.0) {
+				shiftHighGear(false);
+				transmission_state = 0;
+			}
+			break;
 		}
 	}
 	
 	public void shiftHighGear(boolean intoHigh) {
 		if(intoHigh) {
 			transmissionSolenoid.set(DoubleSolenoid.Value.kForward);
-			gearState = HIGHGEAR;
 		} else {
 			transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
-			gearState = LOWGEAR;
 		}
 	}
 
