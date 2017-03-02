@@ -29,7 +29,7 @@ public class SwitchGears extends Command {
     }
 =======
 	public DriveWithCamera() {
-		
+		requires(Robot.drivetrain);
 	}
 >>>>>>> george's latest code:src/org/usfirst/frc/team1895/robot/commands/drivetrain/DriveWithCamera.java
 
@@ -44,7 +44,7 @@ public class SwitchGears extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return stopVision;
+		return false;
 	}
 
 	// Called once after isFinished returns true

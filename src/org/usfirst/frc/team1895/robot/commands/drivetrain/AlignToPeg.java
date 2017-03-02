@@ -91,23 +91,10 @@ public class AlignToPeg extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	// This is the offset from the camera to the center of the
-    	// target. The preferred of the center of the target position is 80.
-    	double offset = Robot.gear_camera.getCenterX();
+    	// target. The preferred of the center of the target position is 60.
+    	double offset = Robot.gear_camera.getOffset();
     			
-    	if (offset < 70) {
-    		// Left Turn!
-    		Robot.drivetrain.arcadeDrive(.0, -0.4);
-    	}
-    	else if (offset > 90) {
-    		// Right Turn!
-    		Robot.drivetrain.arcadeDrive(.0, 0.4);
-
-    	}
-    	else {
-    		// Centered!
-    		Robot.drivetrain.arcadeDrive(0, 0);
-    		stopVision = true;
-    	}
+    
     }
 
     // Make this return true when this Command no longer needs to run execute()

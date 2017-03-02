@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1895.robot;
 
-<<<<<<< HEAD
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autonomous;
@@ -15,6 +14,7 @@ import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -165,7 +165,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
 		
 		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));*/
-	
 	}
 	/**
 	 * This function is called periodically during operator control

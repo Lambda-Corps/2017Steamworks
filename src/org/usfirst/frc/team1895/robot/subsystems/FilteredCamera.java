@@ -31,14 +31,15 @@ public class FilteredCamera extends Subsystem {
 	private LiftTracker gearPipeline;
 	private Thread visionThread;
 
-	private double pos = 0.0;
-
-	static double[] centerX;
+	static double centerX;
 	static double lengthBetweenTargets;
 	static double angleToTarget;
-	static double centerAverage;
+	static double horizontalOffset;
+	static double measuredWidth;
+	static double pixelsPerInch;
 
 	public static final double WIDTH_BETWEEN_TARGET = 8;
+	public static final double WIDTH_OF_TAPE = 2.5; //INCHES
 	// Not sure if distance constant will work for us
 	public static final double DISTANCE_CONSTANT = 5738;
 
@@ -104,21 +105,26 @@ public class FilteredCamera extends Subsystem {
 				System.out.println(gearPipeline.filterContoursOutput().size());
 
 				// Calculate centerX
-				if (gearPipeline.filterContoursOutput().size() >= 2) {
+				if (gearPipeline.filterContoursOutput().size() >= 1) {
 					// Draw an imaginary rectangle to find the center x and y
 					// values
 					Rect r1 = Imgproc.boundingRect(gearPipeline.filterContoursOutput().get(0));
-					Rect r2 = Imgproc.boundingRect(gearPipeline.filterContoursOutput().get(1));
-					centerX = new double[] { r1.x + (r1.width / 2), r2.x + (r2.width / 2) };
+//					Rect r2 = Imgproc.boundingRect(gearPipeline.filterContoursOutput().get(1));
+					centerX = r1.x + (r1.width / 2);
 
-					lengthBetweenTargets = Math.abs(centerX[0] - centerX[1]);
+					//lengthBetweenTargets = Math.abs(centerX[0] - centerX[1]);
 
-					centerAverage = (centerX[0] + centerX[1]) / 2;
+					measuredWidth = r1.width;
+					pixelsPerInch = WIDTH_OF_TAPE / measuredWidth;
+					horizontalOffset = (centerX - 80) * pixelsPerInch;
+					
 					// Calculate the angle to the target
 					// angleToTarget =
 					// Math.toDegrees(Math.atan((centerAverage-319.5) / 554.3));
-
-					System.out.println("centerX:  " + centerAverage);
+					SmartDashboard.putDouble("centerX: ", centerX);
+					SmartDashboard.putDouble("Width in pixels: ", r1.width);
+					SmartDashboard.putDouble("Offset:  ", horizontalOffset);
+					
 
 					// Put a rectangle on the image based off of the imaginary
 					// one
@@ -163,6 +169,9 @@ public class FilteredCamera extends Subsystem {
 	}
 
 	public double getCenterX() {
-		return centerAverage;
+		return centerX;
+	}
+	public double getOffset() {
+		return horizontalOffset;
 	}
 }
