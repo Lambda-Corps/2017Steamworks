@@ -3,6 +3,7 @@ package org.usfirst.frc.team1895.robot.commands.drivetrain;
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Changelog:
  * 2/4/2017 (Maddy Seputro)
@@ -23,10 +24,19 @@ public class TurnWithGyro extends Command {
     	
     	requires(Robot.drivetrain);
         goalAngle = givenAngle;
+        
+        SmartDashboard.putNumber("TP value: ", .007);
+    	SmartDashboard.putNumber("TI value: ", 0.0);
+    	SmartDashboard.putNumber("TD value: ", -.005);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	double p, i , d;
+    	p = SmartDashboard.getNumber("TP value: ", .007);
+    	i = SmartDashboard.getNumber("TI value: ", 0.0);
+    	d = SmartDashboard.getNumber("TD value: ", -.005);
+    	Robot.drivetrain.makeNewPidTurning(p, i, d); //get p,i,d from smartdashboard
     	Robot.drivetrain.resetGyro();
     	Robot.drivetrain.setUpPIDTurning(goalAngle);
     }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team1895.robot.commands.drivetrain;
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -23,10 +24,18 @@ public class DriveStraightSetDistance extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain); 
         goalDistance = givenDistance;
+        SmartDashboard.putNumber("P value: ", .1);
+    	SmartDashboard.putNumber("I value: ", 0.0);
+    	SmartDashboard.putNumber("D value: ", -.01);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	double p, i , d;
+    	p = SmartDashboard.getNumber("P value: ", .1);
+    	i = SmartDashboard.getNumber("I value: ", 0.0);
+    	d = SmartDashboard.getNumber("D value: ", -.01);
+    	Robot.drivetrain.makeNewPidDriving(p, i, d); //get p,i,d from smartdashboard
     	Robot.drivetrain.setPIDSetpoints(goalDistance);
     }
 

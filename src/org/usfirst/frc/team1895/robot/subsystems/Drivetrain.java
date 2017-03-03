@@ -102,8 +102,9 @@ public class Drivetrain extends Subsystem {
 	private MyPIDOutput myPIDOutputTurning;
 	private PIDController pidControllerDriving; 
 	private PIDController pidControllerTurning;
-	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01;
-	final double pGainTurn = .007, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
+	
+	final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
+	final double pGainTurn = .05, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
 	boolean done = false;
 	int index = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
@@ -271,7 +272,7 @@ public class Drivetrain extends Subsystem {
 		if (error >= maxErrorValue) error = 0.1;
 		if (error <= -maxErrorValue) error = -0.1;
 		
-		pidControllerDriving.setAbsoluteTolerance(1);
+		pidControllerDriving.setAbsoluteTolerance(0.5);
 		arcadeDrive((myPIDOutputDriving.get()), error);
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
@@ -307,7 +308,7 @@ public class Drivetrain extends Subsystem {
     
     public boolean turnWithPID(double desiredTurnAngle) {
 		
-		pidControllerTurning.setAbsoluteTolerance(5.0);		
+		pidControllerTurning.setAbsoluteTolerance(2.0);		
 		
 		//basicArcadeDrive uses x, y inputs so it should be 0 for y and whatever the PIDcontroller calculates as x
 		arcadeDrive(0.0, (myPIDOutputTurning.get()));
@@ -515,6 +516,14 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         // Allows for tele-op driving in arcade or tank drive
         setDefaultCommand(new DefaultDriveCommand());
+    }
+    
+    public void makeNewPidDriving( double p, double i, double d){
+    	pidControllerDriving = new PIDController(p, i, d, left_encoder, myPIDOutputDriving);
+    }
+    
+    public void makeNewPidTurning( double p, double i, double d) {
+    	pidControllerTurning = new PIDController(p, i, d, ahrs, myPIDOutputTurning);
     }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 

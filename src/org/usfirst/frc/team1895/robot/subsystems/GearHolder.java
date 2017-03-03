@@ -123,6 +123,11 @@ public class GearHolder extends Subsystem {
 		}
 		return bReturn;// anything else return false
     }
+	
+	public double getAverageVoltage() {
+		return inslot_short_rangefinder.getAverageVoltage();
+	}
+	
 
     public void initDefaultCommand() {
         // To keep the gear holder retracted when not in use. 

@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 				the neutral zone.  
  * 		Commands needed: 
  * 			- DriveStraightSeteDistance, AlignToHighGoal, DeployGearHolder, GetGearPresence, RetractGearHolder,
- * 				TurnWithGyro, ShiftGears
+ * 				TurnWithGyro
  * 		Field Pieces needed:
  * 			- 1 preloaded gear
  * 			- 10 preloaded fuel (to be used once tele-op starts)
@@ -46,21 +46,21 @@ public class Position2_Autonomous extends CommandGroup {
  	
     	//mock autonomous
     	
-    	addSequential(new DriveStraightSetDistance(-48.5));
-    	addSequential(new DriveToObstacle(20, 0.6));		//should be 110 inches forward now
+    	addSequential(new DriveStraightSetDistance(-54));
+    	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
     	//should re-adjust if necessary
-    	addSequential(new DriveToObstacle(4, 0.6)); 		//should this be larger and then replace with driveStraight?
-    	addSequential(new DriveStraightSetDistance(3));
-    	addParallel(new DeployGearHolder());
+    	addSequential(new DriveToObstacle(16, 0.15)); 		//should this be larger and then replace with driveStraight?
+    	//addSequential(new DriveStraightSetDistance(3));
+    	addSequential(new DeployGearHolder());
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	 
     	addParallel(new RetractGearHolder());
-     	addSequential(new DriveStraightSetDistance(30));
+     	/*addSequential(new DriveStraightSetDistance(30));
      	addSequential(new TurnWithGyro(-60));
      	addSequential(new DriveStraightSetDistance(-50));
      	addSequential(new TurnWithGyro(60));
-     	addSequential(new DriveStraightSetDistance(-50));
+     	addSequential(new DriveStraightSetDistance(-50));*/
  
     	
     }
