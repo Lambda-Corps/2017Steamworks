@@ -63,6 +63,8 @@ public class Position1_Autonomous extends CommandGroup {
     	//TURN SO FACING FORWARD AGAIN
     	addSequential(new TurnWithGyro(60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
-    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone
+    	addSequential(new DriveStraightSetDistance(-40));	
+    	addSequential(new TurnWithGyro(-60.0));		//Mr.Brey wants us to drive toward the boiler but stay in NZ
+    	addSequential(new DriveStraightSetDistance(-50));
     }
 }
