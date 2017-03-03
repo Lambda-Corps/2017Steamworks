@@ -129,6 +129,7 @@ public class Drivetrain extends Subsystem {
 	private DoubleSolenoid transmissionSolenoid;
 	private boolean manualOverride = false;
 	private int transmission_state = 0;
+	private boolean inHigh = false;
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
@@ -503,8 +504,9 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 
-	public void manualOverride(boolean manualOverride) {
+	public void manualOverride(boolean manualOverride, boolean gearState) { //low == false, high == true
 		this.manualOverride = manualOverride;
+		inHigh = gearState;
 	}
 	
 	public void setBrake(boolean b) {

@@ -60,7 +60,8 @@ public class OI {
 	
 	public JoystickButton gearIn;
 	public JoystickButton gearOut;
-	public JoystickButton override;
+	public JoystickButton overrideHigh;
+	public JoystickButton overrideLow;
 	
 	public OI() {
 		leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
@@ -73,8 +74,12 @@ public class OI {
 		gearIn.whenPressed(new DeployGearHolder());
 		gearOut.whenPressed(new RetractGearHolder());
 		
-		override = new JoystickButton(gamepad, F310.LB);
-		override.whenPressed(new ManualOverrideHighGear(true));
-		override.whenReleased(new ManualOverrideHighGear(false));
+		overrideHigh = new JoystickButton(gamepad2, F310.RB);
+		overrideHigh.whenPressed(new ManualOverrideHighGear(true));
+		overrideHigh.whenReleased(new ManualOverrideHighGear(false));
+		
+		overrideLow = new JoystickButton(gamepad2, F310.LB);
+		overrideLow.whenPressed(new ManualOverrideHighGear(false));
+		overrideLow.whenReleased(new ManualOverrideHighGear(true));
 	}
 }
