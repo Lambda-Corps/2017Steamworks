@@ -3,6 +3,9 @@ package org.usfirst.frc.team1895.robot;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
@@ -10,7 +13,6 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -61,12 +63,14 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		//gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
-		//choices for the user to pick autonomouses in smart dashboard
-	
 		
-		chooser.addDefault("Position 3", new BLeft_Position3_Autonomous());
-		chooser.addObject("Position 2", new BLeft_Position2_Autonomous());
-		chooser.addObject("Position 1", new BLeft_Position1_Autonomous());
+		//choices for the user to pick autonomouses in smart dashboard
+		chooser.addDefault("LEFT BOILER Position 3", new BLeft_Position3_Autonomous());
+		chooser.addObject("LEFT BOILER Position 2", new BLeft_Position2_Autonomous());
+		chooser.addObject("LEFT BOILER Position 1", new BLeft_Position1_Autonomous());
+		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
+		chooser.addObject("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
+		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -77,7 +81,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		drivetrain.setRobotTeleop(false);
+		
 	}
 
 	@Override
@@ -138,8 +142,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
 		SmartDashboard.putData("deploy", new DeployGearHolder());
 		SmartDashboard.putData("retract", new RetractGearHolder());
-		
-		drivetrain.setRobotTeleop(true);
 	}
 
 	@Override

@@ -19,24 +19,21 @@ public class TurnWithGyro extends Command {
 	double goalAngle = 0.0;
 	boolean done = false;
     public TurnWithGyro(double givenAngle) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	
     	requires(Robot.drivetrain);
         goalAngle = givenAngle;
         
-        SmartDashboard.putNumber("TP value: ", .007);
+        /*SmartDashboard.putNumber("TP value: ", .007);
     	SmartDashboard.putNumber("TI value: ", 0.0);
-    	SmartDashboard.putNumber("TD value: ", -.005);
+    	SmartDashboard.putNumber("TD value: ", -.005);*/
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	double p, i , d;
-    	p = SmartDashboard.getNumber("TP value: ", .007);
+    	/*p = SmartDashboard.getNumber("TP value: ", .007);
     	i = SmartDashboard.getNumber("TI value: ", 0.0);
     	d = SmartDashboard.getNumber("TD value: ", -.005);
-    	Robot.drivetrain.makeNewPidTurning(p, i, d); //get p,i,d from smartdashboard
+    	Robot.drivetrain.makeNewPidTurning(p, i, d); //get p,i,d from smartdashboard*/
     	Robot.drivetrain.resetGyro();
     	Robot.drivetrain.setUpPIDTurning(goalAngle);
     }
