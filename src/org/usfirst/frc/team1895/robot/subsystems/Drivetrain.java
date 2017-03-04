@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -102,7 +103,8 @@ public class Drivetrain extends Subsystem {
 	private PIDController pidControllerDriving; 
 	private PIDController pidControllerTurning;
 	
-	final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
+	//final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
+	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
 	final double pGainTurn = .05, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
 	boolean done = false;
 	int index = 0;
@@ -203,6 +205,15 @@ public class Drivetrain extends Subsystem {
 		
 		transmissionSolenoid = new DoubleSolenoid(RobotMap.DRIVETRAIN_SOLENOID_A_PORT, RobotMap.DRIVETRAIN_SOLENOID_B_PORT);
 		transmissionSolenoid.set(DoubleSolenoid.Value.kReverse);
+		
+		LiveWindow.addActuator("Drive Train", "Left Encoder", left_encoder);
+		LiveWindow.addActuator("Drive Train", "Right Encoder", right_encoder);
+		LiveWindow.addActuator("Drive TrainL", "Left First Motor", left_motor1);
+		LiveWindow.addActuator("Drive TrainR", "Right First Motor", right_motor1);
+		LiveWindow.addActuator("Drive TrainL", "Left Center Motor", left_motor2);
+		LiveWindow.addActuator("Drive TrainR", "Right Center Motor", right_motor2);
+		LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
+		LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
 
 	}
 	
@@ -275,8 +286,11 @@ public class Drivetrain extends Subsystem {
 		if (error >= maxErrorValue) error = 0.1;
 		if (error <= -maxErrorValue) error = -0.1;
 		
-		pidControllerDriving.setAbsoluteTolerance(0.5);
+		pidControllerDriving.setAbsoluteTolerance(1);
+		SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		arcadeDrive((myPIDOutputDriving.get()), error);
+		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
+		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		
