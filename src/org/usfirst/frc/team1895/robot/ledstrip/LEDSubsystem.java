@@ -107,7 +107,15 @@ public class LEDSubsystem extends Subsystem {
 			e.printStackTrace();
 		}
 	},
-			
+	
+	setSiney = () -> {
+		try {
+			l.gradient(0, 8, 0, 0, 0, 255, 0, 0);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	},
+	
 	setRebecca = () -> {
 		try {
 			l.fill(0, 4, 255, 0, 0);
