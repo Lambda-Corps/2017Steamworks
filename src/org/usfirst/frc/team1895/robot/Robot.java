@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		
+		drivetrain.setRobotTeleop(false);
 	}
 
 	@Override
@@ -138,6 +138,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
 		SmartDashboard.putData("deploy", new DeployGearHolder());
 		SmartDashboard.putData("retract", new RetractGearHolder());
+		
+		drivetrain.setRobotTeleop(true);
 	}
 
 	@Override

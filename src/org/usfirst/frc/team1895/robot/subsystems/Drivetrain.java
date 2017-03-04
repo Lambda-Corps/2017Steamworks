@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -131,6 +130,8 @@ public class Drivetrain extends Subsystem {
 	private int transmission_state = 0;
 	private boolean inHigh = false;
 	private int transmissionTimer = 0;
+	
+	private boolean teleopEnabled = false;
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
@@ -466,7 +467,7 @@ public class Drivetrain extends Subsystem {
 	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
 	 */
 	public void shiftGears() {
-		System.out.println(manualOverride);
+		if(!teleopEnabled) return;
 		if(manualOverride) {
 			shiftHighGear(inHigh);
 			return;
@@ -520,6 +521,10 @@ public class Drivetrain extends Subsystem {
 	public void setBrake(boolean b) {
 		left_motorgroup.enableBrake(b);
 		right_motorgroup.enableBrake(b);
+	}
+	
+	public void setRobotTeleop(boolean teleopEnabled) {
+		this.teleopEnabled = teleopEnabled;
 	}
 	
 //==DEFAULT COMMAND AND MOTOR GROUPS CLASS=================================================================

@@ -34,6 +34,22 @@ public class LEDSubsystem extends Subsystem {
 		}
 	},
 	
+	siney = () -> {
+		try {
+			double m = 60;
+			double a = m/2;
+			double x = 2*Math.PI/l.length;
+			for(double i = 0; i < l.length; i ++) {
+				l.shift(1);
+				Thread.sleep(Math.max( (int)(m-a*(1-Math.cos(i*x))), 15) );
+				l.update();
+			}
+			//Thread.sleep(1000);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	},
+	
 	blinky = () -> {
 		try {
 			for(int i = 0; i < l.length; i++) {
