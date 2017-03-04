@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideHighGear;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideLowGear;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.oi.F310;
@@ -79,7 +80,7 @@ public class OI {
 		overrideHigh.whenReleased(new ManualOverrideHighGear(false));
 		
 		overrideLow = new JoystickButton(gamepad2, F310.LB);
-		overrideLow.whenPressed(new ManualOverrideHighGear(false));
-		overrideLow.whenReleased(new ManualOverrideHighGear(true));
+		overrideLow.whenPressed(new ManualOverrideLowGear(true));
+		overrideLow.whenReleased(new ManualOverrideLowGear(false));
 	}
 }

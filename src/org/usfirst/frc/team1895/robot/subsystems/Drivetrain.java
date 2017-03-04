@@ -130,6 +130,7 @@ public class Drivetrain extends Subsystem {
 	private boolean manualOverride = false;
 	private int transmission_state = 0;
 	private boolean inHigh = false;
+	private int transmissionTimer = 0;
 	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
@@ -219,7 +220,7 @@ public class Drivetrain extends Subsystem {
 		right_motorgroup.set(-right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -253,7 +254,7 @@ public class Drivetrain extends Subsystem {
     	right_motorgroup.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -465,8 +466,9 @@ public class Drivetrain extends Subsystem {
 	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
 	 */
 	public void shiftGears() {
+		System.out.println(manualOverride);
 		if(manualOverride) {
-			shiftHighGear(true);
+			shiftHighGear(inHigh);
 			return;
 		}
 		double max = Math.max(Math.abs(left_encoder.getRate()), Math.abs(right_encoder.getRate()));
@@ -474,17 +476,23 @@ public class Drivetrain extends Subsystem {
 		switch(transmission_state) {
 		case 0:    //In low gear
 			System.out.println("STATE 0");
-			if(max > 48.0) {
+			if(max > 60.0) {
 				shiftHighGear(true);
 				transmission_state = 1;
+				transmissionTimer = 0;
+			} else {
+				shiftHighGear(false);
 			}
 			break;
-			
 		case 1:    //In between low to high
-			System.out.println("STATE 1");
-			if(max > 65.0) {
+			System.out.println("STATE 1 && " + transmissionTimer);
+			if(max > 70.0)
 				transmission_state = 2;
+			if(transmissionTimer > 10 && max < 20) {
+				transmission_state = 0;
+				shiftHighGear(false);
 			}
+			transmissionTimer++;
 			break;
 		case 2:     //In high gear, if need to switch to low
 			System.out.println("STATE 2");
