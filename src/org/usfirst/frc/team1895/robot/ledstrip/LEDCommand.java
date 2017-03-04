@@ -23,7 +23,7 @@ public class LEDCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	led.start(led.siney);
+    	led.start(led.blinky);
     	//led.start(led.runRebecca);
     }
 

@@ -467,33 +467,51 @@ public class Drivetrain extends Subsystem {
 	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
 	 */
 	public void shiftGears() {
+		
+		// If Teleop is not enabled, skip. Autonomos doesn't work with shifting
 		if(!teleopEnabled) return;
+		
+		// If manual control is enabled, then shift accordingly and skip the rest
 		if(manualOverride) {
 			shiftHighGear(inHigh);
 			return;
 		}
+		
+		// find the fastest encoder 
 		double max = Math.max(Math.abs(left_encoder.getRate()), Math.abs(right_encoder.getRate()));
 		
+		// This takes care of the logic of when we should shift
 		switch(transmission_state) {
-		case 0:    //In low gear
-			System.out.println("STATE 0");
+		
+		case 0:
+			
+			// If we are over a certain speed, shift into high gear. If not, stay low
 			if(max > 60.0) {
 				shiftHighGear(true);
 				transmission_state = 1;
-				transmissionTimer = 0;
 			} else {
 				shiftHighGear(false);
 			}
+			
 			break;
-		case 1:    //In between low to high
-			System.out.println("STATE 1 && " + transmissionTimer);
-			if(max > 70.0)
+			
+		case 1:
+			
+			// If we are over a even higher speed, we are definetly in high gear
+			if(max > 70.0) {
 				transmission_state = 2;
+				transmissionTimer = 0;
+				break;
+			}
+			
+			// If timer runs out and we are slow, switch back into low gear as a failsafe
 			if(transmissionTimer > 10 && max < 20) {
 				transmission_state = 0;
 				shiftHighGear(false);
+				break;
 			}
 			transmissionTimer++;
+			
 			break;
 		case 2:     //In high gear, if need to switch to low
 			System.out.println("STATE 2");
@@ -505,6 +523,10 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param intoHigh
+	 */
 	public void shiftHighGear(boolean intoHigh) {
 		if(intoHigh) {
 			transmissionSolenoid.set(DoubleSolenoid.Value.kForward);
@@ -513,14 +535,27 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 
+	
+	/**
+	 * This method is used to enable or diable manual control. If the first param
+	 * is false, the second param has no effect.
+	 * 
+	 * @param manualOverride - enable or disable manual control
+	 * @param gearState - true: high gear, false: low gear
+	 */
 	public void manualOverride(boolean manualOverride, boolean gearState) { //low == false, high == true
 		this.manualOverride = manualOverride;
 		inHigh = gearState;
 	}
 	
-	public void setBrake(boolean b) {
-		left_motorgroup.enableBrake(b);
-		right_motorgroup.enableBrake(b);
+	/**
+	 * 
+	 * 
+	 * @param brake - whether to set to brake (true) mode or coast (false)
+	 */
+	public void setBrake(boolean brake) {
+		left_motorgroup.enableBrake(brake);
+		right_motorgroup.enableBrake(brake);
 	}
 	
 	public void setRobotTeleop(boolean teleopEnabled) {
