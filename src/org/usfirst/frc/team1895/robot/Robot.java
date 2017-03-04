@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.autonomous.Position1_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.Position2_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.Position3_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position1_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position2_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
@@ -64,9 +64,9 @@ public class Robot extends IterativeRobot {
 		//choices for the user to pick autonomouses in smart dashboard
 	
 		
-		chooser.addDefault("Position 3", new Position3_Autonomous());
-		chooser.addObject("Position 2", new Position2_Autonomous());
-		chooser.addObject("Position 1", new Position1_Autonomous());
+		chooser.addDefault("Position 3", new BLeft_Position3_Autonomous());
+		chooser.addObject("Position 2", new BLeft_Position2_Autonomous());
+		chooser.addObject("Position 1", new BLeft_Position1_Autonomous());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 

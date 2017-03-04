@@ -40,9 +40,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			- Finish the other commands so we can add them in
  * 			- TEST TEST TEST
  */
-public class Position2_Autonomous extends CommandGroup {
+public class BLeft_Position2_Autonomous extends CommandGroup {
   
-    public Position2_Autonomous() {
+    public BLeft_Position2_Autonomous() {
  	
     	//mock autonomous
     	
