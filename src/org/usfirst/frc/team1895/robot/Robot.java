@@ -74,21 +74,21 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
-	@Override
-	public void disabledInit() {
-		
-	}
+    /**
+     * This function is called once each time the robot enters Disabled mode.
+     * You can use it to reset any subsystem information you want to clear when
+     * the robot is disabled.
+     */
+    @Override
+    public void disabledInit() {
+        drivetrain.setRobotTeleop(false);
+    }
 
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-		led.start(led.disabledPeriodic);
-	}
+    @Override
+    public void disabledPeriodic() {
+        Scheduler.getInstance().run();
+        led.start(led.disabledPeriodic);
+    }
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -124,24 +124,25 @@ public class Robot extends IterativeRobot {
  
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
-//		DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
-		SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
-		//PID related commands
-		SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
-		SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
-		SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(45));
-		SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-45));
-		SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
-		
-		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
-		SmartDashboard.putData("deploy", new DeployGearHolder());
-		SmartDashboard.putData("retract", new RetractGearHolder());
+        // teleop starts running. If you want the autonomous to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        if (autonomousCommand != null)
+            autonomousCommand.cancel();
+//      DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
+        SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
+        //PID related commands
+        SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
+        SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
+        SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(45));
+        SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-45));
+        SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
+        
+        SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
+        SmartDashboard.putData("deploy", new DeployGearHolder());
+        SmartDashboard.putData("retract", new RetractGearHolder());
+        
+        drivetrain.setRobotTeleop(true);
 	}
 
 	@Override
