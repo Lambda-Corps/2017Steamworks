@@ -196,7 +196,7 @@ public class Drivetrain extends Subsystem {
 //		SmartDashboard.putNumber("PID Output Driving: ", myPIDOutputDriving.get());
 //		SmartDashboard.putData("LeftEncoder: ", left_encoder);
 //		SmartDashboard.putData("RightEncoder: ", right_encoder);
-		SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
+		//SmartDashboard.putData("Voltage middle_fr_short_rangefinder", middle_fr_short_rangefinder);
 		//smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
 		right_encoder.setDistancePerPulse(0.0225); 
@@ -293,10 +293,10 @@ public class Drivetrain extends Subsystem {
 		if (error <= -maxErrorValue) error = -0.1;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
-		SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
+		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		arcadeDrive((myPIDOutputDriving.get()), error);
-		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
-		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
+		//SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
+		//SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		
@@ -366,8 +366,8 @@ public class Drivetrain extends Subsystem {
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;
 		double d = voltage*coefficient;
-		SmartDashboard.putNumber("Distance frobm findDistancecFinder", d);
-		SmartDashboard.putNumber("Drivetrain", outputValue);
+		//SmartDashboard.putNumber("Distance frobm findDistancecFinder", d);
+		//SmartDashboard.putNumber("Drivetrain", outputValue);
 		return d;
 	}
 	

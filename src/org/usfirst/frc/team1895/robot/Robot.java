@@ -69,11 +69,11 @@ public class Robot extends IterativeRobot {
 		//fuel_camera = new FilteredCamera();
 		
 		//choices for the user to pick autonomouses in smart dashboard
-		chooser.addDefault("LEFT BOILER Position 3", new BLeft_Position3_Autonomous());
+		chooser.addObject("LEFT BOILER Position 3", new BLeft_Position3_Autonomous());
 		chooser.addObject("LEFT BOILER Position 2", new BLeft_Position2_Autonomous());
 		chooser.addObject("LEFT BOILER Position 1", new BLeft_Position1_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
-		chooser.addObject("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
+		chooser.addDefault("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
@@ -107,8 +107,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//autonomousCommand = chooser.getSelected();
-		autonomousCommand = new BLeft_Position2_Autonomous();
+		autonomousCommand = chooser.getSelected();
+		//autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:

@@ -40,7 +40,7 @@ public class GearHolder extends Subsystem {
 	
     public GearHolder() {
     	inslot_short_rangefinder = new AnalogInput(RobotMap.INSLOT_SHORT_RANGEFINDER_PORT);
-    	SmartDashboard.putData("Gear Range Finder", inslot_short_rangefinder);
+    	//SmartDashboard.putData("Gear Range Finder", inslot_short_rangefinder);
     	compressor = new Compressor();
     	gearholder_solenoid = new DoubleSolenoid(RobotMap.GEARHOLDER_SOLENOID_A_PORT, RobotMap.GEARHOLDER_SOLENOID_B_PORT);
     	gearHOut = false;
