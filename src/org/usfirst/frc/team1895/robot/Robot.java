@@ -107,8 +107,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-		//autonomousCommand = new BLeft_Position2_Autonomous();
+		//autonomousCommand = chooser.getSelected();
+		autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
@@ -125,7 +125,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
+		//SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
 	}
  
 	@Override
@@ -136,7 +136,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
 //      DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
-        SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
+        /*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
         //PID related commands
         SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
         SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
@@ -146,7 +146,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
         SmartDashboard.putData("deploy", new DeployGearHolder());
-        SmartDashboard.putData("retract", new RetractGearHolder());
+        SmartDashboard.putData("retract", new RetractGearHolder());*/
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
@@ -154,7 +154,7 @@ public class Robot extends IterativeRobot {
  
 	@Override
 	public void testInit(){
-		SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
+		/*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
 		//PID related commands
 		SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
 		SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
@@ -162,7 +162,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
 		SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
 		
-		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
+		SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));*/
 	
 	}
 	/**
