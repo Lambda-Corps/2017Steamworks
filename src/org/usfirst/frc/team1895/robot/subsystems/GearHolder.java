@@ -47,7 +47,7 @@ public class GearHolder extends Subsystem {
     }
     
     public double getVolatage(){
-    	return inslot_short_rangefinder.getVoltage();
+    	return inslot_short_rangefinder.getAverageVoltage();
     }
     
     public void moveGearHolder(){

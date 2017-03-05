@@ -47,6 +47,8 @@ public class Robot extends IterativeRobot {
 	public static GearHolder gearholder;
 	public static LEDSubsystem led;
 	public static OI oi;
+	
+	int drive_encoder_counter;
 	//public static FilteredCamera gear_camera;
 	//public static FilteredCamera fuel_camera;
 
@@ -61,6 +63,8 @@ public class Robot extends IterativeRobot {
 		gearholder = new GearHolder();
 		led = new LEDSubsystem();
 		oi = new OI();
+		
+		drive_encoder_counter = 0;
 		//gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
 		
@@ -104,6 +108,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
+		//autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
@@ -120,6 +125,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
 	}
  
 	@Override
@@ -142,9 +148,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("deploy", new DeployGearHolder());
         SmartDashboard.putData("retract", new RetractGearHolder());
         
+        drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}
-
+ 
 	@Override
 	public void testInit(){
 		SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
@@ -164,6 +171,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		drive_encoder_counter++;
+    	//so that the counter will print the current and encoder values only 5 times a second
+    	if(drive_encoder_counter == 10) {
+    		drivetrain.printTelemetry();
+    		drive_encoder_counter = 0;
+    	}
+		
 	}
 
 	/**

@@ -51,21 +51,21 @@ public class BLeft_Position3_Autonomous extends CommandGroup {
     	//TURN TOWARD TO AIRSHIP'S LIFT
     	addSequential(new TurnWithGyro(60)); //this angle depends on where we are on the field
     	//DEPLOY GEARHOLDER [DRIVE UP A LITTLE IF NEEDED, OR ELSE USE DRIVETOOBSTACLE, DEPENDS ON DISTANCE
-    	addParallel(new DeployGearHolder());
-    	addSequential(new DriveStraightSetDistance(-3)); //driving the hypotenuse
+    	//addSequential(new DriveStraightSetDistance(-3)); //driving the hypotenuse
     	//ALIGN TO LIFT
     	addSequential(new DriveToObstacle(16, 0.15)); 	//23.245/35.245
+    	addSequential(new DeployGearHolder());
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
     	addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
-    	addParallel(new RetractGearHolder());
-    	addSequential(new DriveStraightSetDistance(31));
+    	addSequential(new RetractGearHolder());
+    	/*addSequential(new DriveStraightSetDistance(31));
     	//TURN
     	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
-    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone 
+    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone */
 
     }
 }

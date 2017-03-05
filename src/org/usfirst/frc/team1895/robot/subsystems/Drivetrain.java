@@ -3,8 +3,10 @@ package org.usfirst.frc.team1895.robot.subsystems;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
+import org.usfirst.frc.team1895.robot.oi.F310;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
@@ -69,10 +71,10 @@ public class Drivetrain extends Subsystem {
 	// Create CANTalons here so we can access them in the future, if we need to
 	private CANTalon left_motor1;
 	private CANTalon left_motor2;
-	private CANTalon left_motor3;
+	//private CANTalon left_motor3;
 	private CANTalon right_motor1;
 	private CANTalon right_motor2;
-	private CANTalon right_motor3;
+	//private CANTalon right_motor3;
 	
 	private static final double TALON_RAMP_RATE = 48.0;
 	
@@ -141,12 +143,14 @@ public class Drivetrain extends Subsystem {
 		// CANTalons
 		left_motor1 = new CANTalon(RobotMap.LEFT_MOTOR1_PORT);
 		left_motor2 = new CANTalon(RobotMap.LEFT_MOTOR2_PORT);
-		left_motor3 = new CANTalon(RobotMap.LEFT_MOTOR3_PORT);
+		//left_motor3 = new CANTalon(RobotMap.LEFT_MOTOR3_PORT);
 		right_motor1 = new CANTalon(RobotMap.RIGHT_MOTOR1_PORT);
 		right_motor2 = new CANTalon(RobotMap.RIGHT_MOTOR2_PORT);
-		right_motor3 = new CANTalon(RobotMap.RIGHT_MOTOR3_PORT);
-		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
-    	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
+		//right_motor3 = new CANTalon(RobotMap.RIGHT_MOTOR3_PORT);
+//		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
+//    	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
+		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2);
+    	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2);
     	
 //    	left_motor1.setVoltageRampRate(TALON_RAMP_RATE);
 //    	left_motor2.setVoltageRampRate(TALON_RAMP_RATE);
@@ -212,8 +216,8 @@ public class Drivetrain extends Subsystem {
 		LiveWindow.addActuator("Drive TrainR", "Right First Motor", right_motor1);
 		LiveWindow.addActuator("Drive TrainL", "Left Center Motor", left_motor2);
 		LiveWindow.addActuator("Drive TrainR", "Right Center Motor", right_motor2);
-		LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
-		LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
+		//LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
+		//LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
 
 	}
 	
@@ -232,7 +236,7 @@ public class Drivetrain extends Subsystem {
 		right_motorgroup.set(-right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -264,9 +268,11 @@ public class Drivetrain extends Subsystem {
     	}
     	left_motorgroup.set(left_speed);
     	right_motorgroup.set(right_speed);
+    	//left_motor2.set(left_speed);
+    	//right_motor1.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -481,7 +487,7 @@ public class Drivetrain extends Subsystem {
 	 * for high gear. if less than 3.7 ft/s, shift back into low gear.
 	 */
 	public void shiftGears() {
-		
+		//Disabling shifting for the rest of competiton
 		// If Teleop is not enabled, skip. Autonomos doesn't work with shifting
 		if(!teleopEnabled) return;
 		
@@ -528,7 +534,7 @@ public class Drivetrain extends Subsystem {
 			
 			break;
 		case 2:     //In high gear, if need to switch to low
-			System.out.println("STATE 2");
+			//System.out.println("STATE 2");
 			if(max < 42.0) {
 				shiftHighGear(false);
 				transmission_state = 0;
@@ -589,6 +595,26 @@ public class Drivetrain extends Subsystem {
     public void makeNewPidTurning( double p, double i, double d) {
     	pidControllerTurning = new PIDController(p, i, d, ahrs, myPIDOutputTurning);
     }
+    
+    public void resetEncoders() {
+    	left_encoder.reset();
+    	right_encoder.reset();
+    }
+    
+    public void printTelemetry() {
+    	System.out.println("Left encoder: " + left_encoder.getDistance());
+    	System.out.println("Right encoderL " + right_encoder.getDistance());
+    	
+    	System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
+    	System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
+    	
+    	System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
+    	System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
+    	
+    	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
+    	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
+    }
+    
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 
     // a MotorGroup will handle setting multiple motors to the same value as if it were one motor.

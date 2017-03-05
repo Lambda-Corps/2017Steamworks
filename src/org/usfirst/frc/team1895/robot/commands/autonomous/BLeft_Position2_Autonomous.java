@@ -45,7 +45,7 @@ public class BLeft_Position2_Autonomous extends CommandGroup {
     public BLeft_Position2_Autonomous() {
  	
     	//mock autonomous
-    	
+    	System.out.println("creating auto left 2");
     	addSequential(new DriveStraightSetDistance(-54));
     	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
