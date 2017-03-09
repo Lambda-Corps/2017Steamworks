@@ -48,9 +48,9 @@ public class LiftTracker {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {0.0, 111.0323574730354};
-		double[] hsvThresholdSaturation = {0.0, 12};
-		double[] hsvThresholdValue = {245.3954802259887, 255.0};
+		double[] hsvThresholdHue = {53.0, 91.0};
+		double[] hsvThresholdSaturation = {69.0, 133.0};
+		double[] hsvThresholdValue = {170.0, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:

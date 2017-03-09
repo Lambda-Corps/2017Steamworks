@@ -40,8 +40,6 @@ public class FilteredCamera extends Subsystem {
 
 	public static final double WIDTH_BETWEEN_TARGET = 8;
 	public static final double WIDTH_OF_TAPE = 2.5; //INCHES
-	// Not sure if distance constant will work for us
-	public static final double DISTANCE_CONSTANT = 5738;
 
 	public FilteredCamera() {
 		startGearVisionThread();
@@ -64,8 +62,8 @@ public class FilteredCamera extends Subsystem {
 		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
 		// Set the resolution
 		// camera.setResolution(640, 480);
-		// camera.setExposureManual(61);
-		// camera.setBrightness(45);
+		liftPegCamera.setExposureManual(5);
+		//liftPegCamera.setBrightness(0);
 
 		CvSink cvSink = CameraServer.getInstance().getVideo(); // capture mats
 																// from camera
@@ -106,13 +104,11 @@ public class FilteredCamera extends Subsystem {
 
 				// Calculate centerX
 				if (gearPipeline.filterContoursOutput().size() >= 1) {
-					// Draw an imaginary rectangle to find the center x and y
-					// values
+					
+					// Should be the rectangle the farthest to the left
 					Rect r1 = Imgproc.boundingRect(gearPipeline.filterContoursOutput().get(0));
-//					Rect r2 = Imgproc.boundingRect(gearPipeline.filterContoursOutput().get(1));
+					
 					centerX = r1.x + (r1.width / 2);
-
-					//lengthBetweenTargets = Math.abs(centerX[0] - centerX[1]);
 
 					measuredWidth = r1.width;
 					pixelsPerInch = WIDTH_OF_TAPE / measuredWidth;
@@ -172,6 +168,7 @@ public class FilteredCamera extends Subsystem {
 		return centerX;
 	}
 	public double getOffset() {
+		System.out.println("offset ----- " + horizontalOffset);
 		return horizontalOffset;
 	}
 }
