@@ -23,15 +23,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SwitchGears extends Command {
 
-<<<<<<< HEAD:src/org/usfirst/frc/team1895/robot/commands/drivetrain/SwitchGears.java
     public SwitchGears() {
         requires(Robot.drivetrain);
     }
-=======
-	public DriveWithCamera() {
-		requires(Robot.drivetrain);
-	}
->>>>>>> george's latest code:src/org/usfirst/frc/team1895/robot/commands/drivetrain/DriveWithCamera.java
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
