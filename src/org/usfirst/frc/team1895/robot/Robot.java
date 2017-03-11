@@ -135,6 +135,8 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
+        SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(90));
+        SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
 //      DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
         /*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
         //PID related commands

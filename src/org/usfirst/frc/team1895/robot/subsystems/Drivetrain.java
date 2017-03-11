@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -107,7 +106,7 @@ public class Drivetrain extends Subsystem {
 	
 	//final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
 	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
-	final double pGainTurn = .05, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
+	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
 	boolean done = false;
 	int index = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
@@ -470,14 +469,29 @@ public class Drivetrain extends Subsystem {
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
+    	double speed2=1;
+    	double speed1=1;
+    	double variableMaxspeedRight = (1/speed);
+    	double variableMaxspeedLeft = (1/speed);
+    	double difference;
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
   			return true;
   		}
     	else{// if it hasn't crossed it will run at a determined speed
-    		tankDrive(speed, speed);	
+    		//This is suppose to autocorrect
+    		if (right_encoder.getDistance()>=left_encoder.getDistance()){
+    			difference = right_encoder.getDistance() - left_encoder.getDistance();
+    			variableMaxspeedRight = (variableMaxspeedRight + (difference/4));
+    		}
+    		if (left_encoder.getDistance()>right_encoder.getDistance()){
+        		difference = left_encoder.getDistance() - right_encoder.getDistance();
+        		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
+    		}
+    			
+    		tankDrive((speed2/variableMaxspeedRight), (speed1/variableMaxspeedLeft));	
     		return false;
-    	}
+    		}
     }
     
 	// Sensors: Encoders
@@ -506,6 +520,7 @@ public class Drivetrain extends Subsystem {
 		case 0:
 			
 			// If we are over a certain speed, shift into high gear. If not, stay low
+			//inches per second
 			if(max > 60.0) {
 				shiftHighGear(true);
 				transmission_state = 1;
@@ -535,7 +550,8 @@ public class Drivetrain extends Subsystem {
 			break;
 		case 2:     //In high gear, if need to switch to low
 			//System.out.println("STATE 2");
-			if(max < 42.0) {
+			if(max < 12.0) { 
+			//changed the original 42.0 in/sec to 12.0
 				shiftHighGear(false);
 				transmission_state = 0;
 			}
