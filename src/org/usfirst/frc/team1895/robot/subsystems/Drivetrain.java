@@ -478,8 +478,7 @@ public class Drivetrain extends Subsystem {
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
     	SmartDashboard.putNumber("goalDistance in method", goaldistance);
-    	double left_speed = 0;
-    	left_speed= SmartDashboard.getNumber("speed2 value:", left_speed);
+    	double left_speed= SmartDashboard.getNumber("speed2 value:", 1);
     	double right_speed=1;
     	double variableMaxspeedRight = (1/(speed));
     	double variableMaxspeedLeft = (1/speed);
@@ -490,7 +489,7 @@ public class Drivetrain extends Subsystem {
   			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
   			return true;
   		}
-    	else{// if it hasn't crossed it will run at a determined speed
+    	else {// if it hasn't crossed it will run at a determined speed
     		//This is suppose to autocorrect
     		/*if (right_encoder.getDistance()<=left_encoder.getDistance()){
     			difference = left_encoder.getDistance() - right_encoder.getDistance();
