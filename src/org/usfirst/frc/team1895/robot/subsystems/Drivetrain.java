@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -136,6 +137,10 @@ public class Drivetrain extends Subsystem {
 	
 	private boolean teleopEnabled = false;
 	
+	//for encoder driving
+	private boolean firsttimeusingEncoder;
+	double desiredDrivingAngle = 0;
+	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
@@ -217,6 +222,9 @@ public class Drivetrain extends Subsystem {
 		LiveWindow.addActuator("Drive TrainR", "Right Center Motor", right_motor2);
 		//LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
 		//LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
+		
+		//for encoder driving
+		firsttimeusingEncoder = true;
 
 	}
 	
@@ -469,29 +477,36 @@ public class Drivetrain extends Subsystem {
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
-    	double speed2=1;
-    	double speed1=1;
-    	double variableMaxspeedRight = (1/speed);
+    	SmartDashboard.putNumber("goalDistance in method", goaldistance);
+    	double left_speed = 0;
+    	left_speed= SmartDashboard.getNumber("speed2 value:", left_speed);
+    	double right_speed=1;
+    	double variableMaxspeedRight = (1/(speed));
     	double variableMaxspeedLeft = (1/speed);
     	double difference;
+		
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
+  			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
   			return true;
   		}
     	else{// if it hasn't crossed it will run at a determined speed
     		//This is suppose to autocorrect
-    		if (right_encoder.getDistance()>=left_encoder.getDistance()){
-    			difference = right_encoder.getDistance() - left_encoder.getDistance();
+    		/*if (right_encoder.getDistance()<=left_encoder.getDistance()){
+    			difference = left_encoder.getDistance() - right_encoder.getDistance();
     			variableMaxspeedRight = (variableMaxspeedRight + (difference/4));
     		}
-    		if (left_encoder.getDistance()>right_encoder.getDistance()){
-        		difference = left_encoder.getDistance() - right_encoder.getDistance();
+    		if (left_encoder.getDistance()<=right_encoder.getDistance()){
+        		difference = right_encoder.getDistance() - left_encoder.getDistance();
         		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
-    		}
+    		}*/
     			
-    		tankDrive((speed2/variableMaxspeedRight), (speed1/variableMaxspeedLeft));	
+    		tankDrive((right_speed/variableMaxspeedRight), (left_speed/variableMaxspeedLeft));
+    		SmartDashboard.putNumber("speed2 value:", left_speed);
+    		SmartDashboard.putNumber("Rangefinder value from method2", middle_fr_short_rangefinder.getAverageVoltage());
+    		SmartDashboard.putNumber("Rangefinder value from method2", fineDistanceFinder());
     		return false;
-    		}
+    	}
     }
     
 	// Sensors: Encoders
@@ -604,6 +619,7 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new DefaultDriveCommand());
     }
     
+//==METHODS FOR ACCESSING VALUES AND TESTING THINGS========================================================   
     public void makeNewPidDriving( double p, double i, double d){
     	pidControllerDriving = new PIDController(p, i, d, left_encoder, myPIDOutputDriving);
     }
@@ -616,6 +632,26 @@ public class Drivetrain extends Subsystem {
     	left_encoder.reset();
     	right_encoder.reset();
     }
+    
+    public double getLEncoderValues() {
+    	return left_encoder.getDistance();
+    }
+    
+    public double getREncoderValues() {
+    	return right_encoder.getDistance();
+    }
+    
+    public double lMCurrent() {
+    	return left_motor1.getOutputCurrent();
+    }
+    
+    public double rMCurrent() {
+    	return right_motor1.getOutputCurrent();
+    }
+    
+    public double getAngle() {
+		return gyro.getAngle();
+	}
     
     public void printTelemetry() {
     	System.out.println("Left encoder: " + left_encoder.getDistance());
@@ -630,6 +666,25 @@ public class Drivetrain extends Subsystem {
     	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
     	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
     }
+    
+    public boolean driveWithEncoders(double v, double distancetoTravel) {
+		//sets initial return value as false
+		boolean returnValue = false;
+		
+		double l_encoderDistance = left_encoder.getDistance();
+		double r_encoderDistance = right_encoder.getDistance();
+		
+		if(distancetoTravel > l_encoderDistance && distancetoTravel > r_encoderDistance) {
+			tankDrive(v, v);
+		}
+		else {
+			tankDrive(0.0, 0.0);
+		}
+		
+		//return boolean 
+		return returnValue;
+		
+	}
     
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 

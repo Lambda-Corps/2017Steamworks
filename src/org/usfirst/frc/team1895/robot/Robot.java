@@ -125,6 +125,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
+		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
 		//SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
 	}
  
@@ -137,7 +139,7 @@ public class Robot extends IterativeRobot {
             autonomousCommand.cancel();
         SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(90));
         SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
-//      DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
+        DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
         /*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
         //PID related commands
         SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
@@ -149,7 +151,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
         SmartDashboard.putData("deploy", new DeployGearHolder());
         SmartDashboard.putData("retract", new RetractGearHolder());*/
-        
+		
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}
@@ -174,6 +176,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
+		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
+		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(drive_encoder_counter == 10) {
