@@ -4,7 +4,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

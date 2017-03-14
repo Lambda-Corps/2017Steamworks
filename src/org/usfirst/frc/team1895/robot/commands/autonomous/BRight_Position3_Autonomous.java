@@ -5,7 +5,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,7 +27,7 @@ public class BRight_Position3_Autonomous extends CommandGroup {
     	addSequential(new DriveToObstacle(16, 0.15)); 	//
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
-    	addSequential(new WaitUntilGearGoneOrTimeOut(4));
+    	//addSequential(new WaitUntilGearGoneOrTimeOut(4));
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addSequential(new RetractGearHolder());

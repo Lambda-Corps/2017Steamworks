@@ -9,12 +9,12 @@ public class DeployGearHolderDummyCommandGroup extends CommandGroup {
 
     public DeployGearHolderDummyCommandGroup() {
     	
-    	addSequential(new SetRetryButton(1));
+    	/*addSequential(new SetRetryButton(1));
     	addSequential(new SetRetryButton(2));
     	addSequential(new SetRetryButton(3));
     	addSequential(new SetRetryButton(4));
     	addSequential(new SetRetryButton(5));
-    	addSequential(new ToggleButton());
+    	addSequential(new ToggleButton());*/
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());
