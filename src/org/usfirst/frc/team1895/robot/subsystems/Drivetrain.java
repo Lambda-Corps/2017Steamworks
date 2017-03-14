@@ -305,17 +305,13 @@ public class Drivetrain extends Subsystem {
 		pidControllerDriving.setAbsoluteTolerance(1);
 		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		arcadeDrive((myPIDOutputDriving.get()), error);
-<<<<<<< HEAD
 //		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
 //		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
-		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
-=======
 		//SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
 		//SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
 		LiveWindow.addSensor("Autonomous", "Left encoder value ", left_encoder);
 		LiveWindow.addSensor("Autonomous", "Right encoder value ", right_encoder);
 		
->>>>>>> origin/saturday_testing
 		done = pidControllerDriving.onTarget();
 		
 		if (done){
