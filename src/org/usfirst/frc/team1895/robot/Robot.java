@@ -125,8 +125,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
-		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
 		//SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
 	}
  
@@ -178,6 +176,11 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
 		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
+		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
+		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
+		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
+		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
+		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(drive_encoder_counter == 10) {

@@ -506,6 +506,7 @@ public class Drivetrain extends Subsystem {
     		SmartDashboard.putNumber("speed2 value:", left_speed);
     		SmartDashboard.putNumber("Rangefinder value from method2", middle_fr_short_rangefinder.getAverageVoltage());
     		SmartDashboard.putNumber("Rangefinder value from method2", fineDistanceFinder());
+    		LiveWindow.addActuator("Autonomous", "middle_fr_short_rangefinder", middle_fr_short_rangefinder);
     		return false;
     	}
     }
@@ -654,6 +655,9 @@ public class Drivetrain extends Subsystem {
 		return gyro.getAngle();
 	}
     
+    public double getAngleAHRS() {
+    	return ahrs.getAngle();
+    }
     public void printTelemetry() {
     	System.out.println("Left encoder: " + left_encoder.getDistance());
     	System.out.println("Right encoderL " + right_encoder.getDistance());
