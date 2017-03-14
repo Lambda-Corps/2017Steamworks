@@ -22,7 +22,7 @@ public class TurnWithGyro extends Command {
     	requires(Robot.drivetrain);
         goalAngle = givenAngle;
         
-        SmartDashboard.putNumber("TP value: ", .007);
+        SmartDashboard.putNumber("TP value: ", .025);
     	SmartDashboard.putNumber("TI value: ", 0.0);
     	SmartDashboard.putNumber("TD value: ", -.005);
     }
@@ -30,7 +30,7 @@ public class TurnWithGyro extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	double p, i , d;
-    	p = SmartDashboard.getNumber("TP value: ", .007);
+    	p = SmartDashboard.getNumber("TP value: ", .025);
     	i = SmartDashboard.getNumber("TI value: ", 0.0);
     	d = SmartDashboard.getNumber("TD value: ", -.005);
     	Robot.drivetrain.makeNewPidTurning(p, i, d); //get p,i,d from smartdashboard
@@ -52,6 +52,8 @@ public class TurnWithGyro extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	goalAngle = 0.0;
+    	done = false;
     }
 
     // Called when another command which requires one or more of the same

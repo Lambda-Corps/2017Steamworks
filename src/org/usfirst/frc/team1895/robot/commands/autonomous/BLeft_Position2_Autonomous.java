@@ -27,15 +27,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			10. Use ShiftGears Command to shift into high gear to allow for faster movement.
  * 			11. Use DriveStraightSeteDistance Command to drive [] feet to pass the baseline and head into 
  * 				the neutral zone.  
- * 		Commands needed: 
- * 			- DriveStraightSeteDistance, AlignToHighGoal, DeployGearHolder, GetGearPresence, RetractGearHolder,
- * 				TurnWithGyro
  * 		Field Pieces needed:
  * 			- 1 preloaded gear
  * 			- 10 preloaded fuel (to be used once tele-op starts)
  * 		Estimated Time needed to complete: [] SECONDS
  * 		To do still:
- * 			- Finish the other commands so we can add them in
  * 			- TEST TEST TEST
  */
 public class BLeft_Position2_Autonomous extends CommandGroup {
@@ -45,14 +41,14 @@ public class BLeft_Position2_Autonomous extends CommandGroup {
     	//mock autonomous
     	System.out.println("creating auto left 2");
     	addSequential(new DriveStraightSetDistance(-54));
-    	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
+    	addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
     	//should re-adjust if necessary
-    	addSequential(new DriveToObstacle(16, 0.15)); 		//should this be larger and then replace with driveStraight?
-    	//addSequential(new DriveStraightSetDistance(3));
+    	addSequential(new DriveToObstacle(14, 0.15)); 		//should this be larger and then replace with driveStraight?
     	addSequential(new DeployGearHolder());
     	addSequential(new WaitUntilGearGone());
     	addSequential(new DriveStraightSetDistance(100));
+
      	/*addSequential(new DriveStraightSetDistance(30));
      	addSequential(new TurnWithGyro(-60));
      	addSequential(new DriveStraightSetDistance(-50));

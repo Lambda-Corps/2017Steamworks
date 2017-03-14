@@ -91,7 +91,7 @@ public class FilteredCamera extends Subsystem {
 																	// instead
 																	// of the
 																	// mat
-					SmartDashboard.putString("Vision State", "Couldn't grab frame");
+					//SmartDashboard.putString("Vision State", "Couldn't grab frame");
 					continue; // skip to the next iteration of the thread
 			} 
 
@@ -130,7 +130,7 @@ public class FilteredCamera extends Subsystem {
 					// new Point((r2.x+50), (r2.x+50)), new Scalar(255, 255,
 					// 255), 5);
 				} else {
-					SmartDashboard.putString("Vision State", "FAILED TO FIND TARGET");
+					//SmartDashboard.putString("Vision State", "FAILED TO FIND TARGET");
 				}
 				outputStream.putFrame(mat); // Give stream (and CameraServer) a
 											// new frame
