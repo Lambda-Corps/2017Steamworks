@@ -6,15 +6,9 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autono
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.RetryDeployGearHolder1;
+import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -22,6 +16,7 @@ import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.buttons.InternalButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -52,6 +47,8 @@ public class Robot extends IterativeRobot {
 	
 	int drive_encoder_counter;
 	public static FilteredCamera gear_camera;
+	
+	public static InternalButton retryButton;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
@@ -69,6 +66,8 @@ public class Robot extends IterativeRobot {
 		gear_camera = new FilteredCamera();
 		//fuel_camera = new FilteredCamera();
 		
+		retryButton = new InternalButton();
+		
 		//choices for the user to pick autonomouses in smart dashboard
 		chooser.addDefault("LEFT BOILER Position 3", new BLeft_Position3_Autonomous());
 		chooser.addObject("LEFT BOILER Position 2", new BLeft_Position2_Autonomous());
@@ -76,7 +75,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
-
+		chooser.addObject("Align to Peg", new AlignToPeg());
+		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -109,7 +109,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//autonomousCommand = chooser.getSelected();
+//		autonomousCommand = chooser.getSelected();
 		autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -127,7 +127,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		//SmartDashboard.putNumber("Inslot rangefinder:", gearholder.getVolatage());
+		SmartDashboard.putNumber("rangefinder:", drivetrain.getVoltage());
 	}
  
 	@Override
@@ -147,8 +147,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
         
         SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
-        SmartDashboard.putData("deploy", new DeployGearHolder());
-        SmartDashboard.putData("retract", new RetractGearHolder());*/
+        SmartDashboard.putData("deploy", new DeployGearHolder()); */
+//        SmartDashboard.putData("test retractdeploygearholder ", new WaitUntilGearGoneOrTimeOut(2));
+        SmartDashboard.putData("test xxxxx ", new RetryDeployGearHolder1());
+       // SmartDashboard.putData("Align to Peg ", new AlignToPeg());
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
@@ -190,4 +192,14 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		//Robot.gear_camera.stopVisionThread();
 	}
+	
+	public static void setRetryButton(boolean state) {
+		retryButton.setPressed(state);
+	}
+	
+	
+	
+	
+	
+	
 }

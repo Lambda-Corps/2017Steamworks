@@ -22,27 +22,25 @@ public class AlignToPeg extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		
+		Robot.drivetrain.resetGyro();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		// This is the offset from the camera to the center of the
-		// target.
-		double offset = Robot.gear_camera.getOffset();
+		// This is the offset from the camera to the target
+		double offset = Robot.gear_camera.getOffset() + 10.25;
+		double angle = Math.atan((offset/24));
+		System.out.println(angle + "------------------");
+		SmartDashboard.putNumber("Angle ----- ", angle);
 		
-		// Allow a 2 inch tolerance both ways
-		if (offset < -2) {
-			Robot.drivetrain.tankDrive(0.3, 0.2);
-		} 
-		else if (offset > 2) {
-			Robot.drivetrain.tankDrive(0.2, 0.3);
-		} 
+		if (Robot.drivetrain.getGyroAngle() < angle) {
+			Robot.drivetrain.tankDrive(0.1, -0.1);
+		}
 		else {
 			Robot.drivetrain.tankDrive(0.0, 0.0);
-			System.out.println("-----Aligned!!!-----");
 			stopVision = true;
 		}
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

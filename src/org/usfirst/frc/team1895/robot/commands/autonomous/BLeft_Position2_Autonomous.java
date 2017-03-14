@@ -2,10 +2,8 @@ package org.usfirst.frc.team1895.robot.commands.autonomous;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -53,9 +51,8 @@ public class BLeft_Position2_Autonomous extends CommandGroup {
     	addSequential(new DriveToObstacle(16, 0.15)); 		//should this be larger and then replace with driveStraight?
     	//addSequential(new DriveStraightSetDistance(3));
     	addSequential(new DeployGearHolder());
-    	addSequential(new WaitUntilGearGoneOrTimeOut(4));
-    	 
-    	addParallel(new RetractGearHolder());
+    	addSequential(new WaitUntilGearGone());
+    	addSequential(new DriveStraightSetDistance(100));
      	/*addSequential(new DriveStraightSetDistance(30));
      	addSequential(new TurnWithGyro(-60));
      	addSequential(new DriveStraightSetDistance(-50));

@@ -31,6 +31,7 @@ public class DriveStraightSetDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("running: DSSD with distance " + goalDistance + "----------------");
     	double p, i , d;
 //    	p = SmartDashboard.getNumber("P value: ", .1);
 //    	i = SmartDashboard.getNumber("I value: ", 0.0);

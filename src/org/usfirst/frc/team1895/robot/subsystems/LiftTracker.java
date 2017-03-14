@@ -72,14 +72,14 @@ public class LiftTracker {
 		double filterContoursMinArea = 0.0;
 		double filterContoursMinPerimeter = 0.0;
 		double filterContoursMinWidth = 0.0;
-		double filterContoursMaxWidth = 10000.0;
+		double filterContoursMaxWidth = 0.0;
 		double filterContoursMinHeight = 0.0;
 		double filterContoursMaxHeight = 600.0;
 		double[] filterContoursSolidity = {0.0, 100.0};
-		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMaxVertices = 0.0;
 		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.0;
-		double filterContoursMaxRatio = 1000.0;
+		double filterContoursMaxRatio = 0.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}

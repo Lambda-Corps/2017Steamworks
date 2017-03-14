@@ -218,6 +218,12 @@ public class Drivetrain extends Subsystem {
 
 	}
 	
+    public double getVoltage(){
+    	return middle_fr_short_rangefinder.getAverageVoltage();
+    }
+	
+	
+	
 //==FOR TELE-OP DRIVING=======================================================================================
 	// For: DefaultDrive Command
     // Sensors: None
@@ -230,7 +236,7 @@ public class Drivetrain extends Subsystem {
 		if(right >  1.0) right =  1.0;
 		if(right < -1.0) right = -1.0;
 		left_motorgroup.set(  left);
-		right_motorgroup.set(-right);
+		right_motorgroup.set( right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
     	//shiftGears();
@@ -292,8 +298,8 @@ public class Drivetrain extends Subsystem {
 		pidControllerDriving.setAbsoluteTolerance(1);
 		SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		arcadeDrive((myPIDOutputDriving.get()), error);
-		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
-		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
+//		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
+//		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
 		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
 		done = pidControllerDriving.onTarget();
 		

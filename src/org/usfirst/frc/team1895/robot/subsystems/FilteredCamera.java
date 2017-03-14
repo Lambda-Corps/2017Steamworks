@@ -39,7 +39,7 @@ public class FilteredCamera extends Subsystem {
 	static double pixelsPerInch;
 
 	public static final double WIDTH_BETWEEN_TARGET = 8;
-	public static final double WIDTH_OF_TAPE = 2.5; //INCHES
+	public static final double WIDTH_OF_TAPE = 2; //INCHES
 
 	public FilteredCamera() {
 		startGearVisionThread();
@@ -62,7 +62,7 @@ public class FilteredCamera extends Subsystem {
 		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
 		// Set the resolution
 		// camera.setResolution(640, 480);
-		liftPegCamera.setExposureManual(5);
+		liftPegCamera.setExposureManual(2);
 		//liftPegCamera.setBrightness(0);
 
 		CvSink cvSink = CameraServer.getInstance().getVideo(); // capture mats
@@ -100,7 +100,7 @@ public class FilteredCamera extends Subsystem {
 											// change the mat, and has an
 											// internal output to pipeline
 
-				System.out.println(gearPipeline.filterContoursOutput().size());
+				System.out.println("SIZE ----- " + gearPipeline.filterContoursOutput().size());
 
 				// Calculate centerX
 				if (gearPipeline.filterContoursOutput().size() >= 1) {
@@ -117,10 +117,9 @@ public class FilteredCamera extends Subsystem {
 					// Calculate the angle to the target
 					// angleToTarget =
 					// Math.toDegrees(Math.atan((centerAverage-319.5) / 554.3));
-					SmartDashboard.putDouble("centerX: ", centerX);
-					SmartDashboard.putDouble("Width in pixels: ", r1.width);
-					SmartDashboard.putDouble("Offset:  ", horizontalOffset);
-					
+//					SmartDashboard.putDouble("centerX: ", centerX);
+//					SmartDashboard.putDouble("Width in pixels: ", r1.width);
+//					SmartDashboard.putDouble("Offset:  ", horizontalOffset);
 
 					// Put a rectangle on the image based off of the imaginary
 					// one
