@@ -304,7 +304,9 @@ public class Drivetrain extends Subsystem {
 		arcadeDrive((myPIDOutputDriving.get()), error);
 		//SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
 		//SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
-		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
+		LiveWindow.addSensor("Autonomous", "Left encoder value ", left_encoder);
+		LiveWindow.addSensor("Autonomous", "Right encoder value ", right_encoder);
+		
 		done = pidControllerDriving.onTarget();
 		
 		if (done){
@@ -685,6 +687,25 @@ public class Drivetrain extends Subsystem {
 		
 	}
     
+    public boolean turnWithGyroNP(double turnAngle, double s) {
+    	double currentAngle = getAngle();
+    	double desiredAngle = currentAngle + turnAngle;
+    	double tolerance = 2;
+    	//turning left
+    	if(turnAngle >= 0) {
+    		tankDrive(s, -.33*s);
+    	}
+    	//turning right
+    	if(turnAngle < 0) {
+    		tankDrive(-.33*s, s);
+    	}
+    	double difference = Math.abs(desiredAngle - currentAngle);
+    	if(difference <= tolerance) {
+    		tankDrive(0.0,0.0);
+    		return true;	
+    	}
+    	return false;
+    }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 
     // a MotorGroup will handle setting multiple motors to the same value as if it were one motor.
