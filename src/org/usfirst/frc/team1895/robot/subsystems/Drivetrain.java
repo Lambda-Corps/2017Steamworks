@@ -242,11 +242,11 @@ public class Drivetrain extends Subsystem {
 		if(left < -1.0) left = -1.0;
 		if(right >  1.0) right =  1.0;
 		if(right < -1.0) right = -1.0;
-		left_motorgroup.set(  left);
+		left_motorgroup.set(  -left);
 		right_motorgroup.set( right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -282,7 +282,7 @@ public class Drivetrain extends Subsystem {
     	//right_motor1.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -506,8 +506,8 @@ public class Drivetrain extends Subsystem {
         		difference = right_encoder.getDistance() - left_encoder.getDistance();
         		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
     		}*/
-    			
-    		tankDrive((right_speed/variableMaxspeedRight), (left_speed/variableMaxspeedLeft));
+    		tankDrive(speed, speed);	
+    		//tankDrive((right_speed/variableMaxspeedRight), (left_speed/variableMaxspeedLeft));
     		SmartDashboard.putNumber("speed2 value:", left_speed);
     		SmartDashboard.putNumber("Rangefinder value from method2", middle_fr_short_rangefinder.getAverageVoltage());
     		SmartDashboard.putNumber("Rangefinder value from method2", fineDistanceFinder());
