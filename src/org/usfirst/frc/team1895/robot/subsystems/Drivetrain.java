@@ -480,10 +480,8 @@ public class Drivetrain extends Subsystem {
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
     	SmartDashboard.putNumber("goalDistance in method", goaldistance);
-    	double left_speed= SmartDashboard.getNumber("speed2 value:", 1);
+    	double left_speed= 1*(SmartDashboard.getNumber("speed scalar for left side:", 1));
     	double right_speed=1;
-    	double variableMaxspeedRight = (1/(speed));
-    	double variableMaxspeedLeft = (1/speed);
     	double difference;
 		
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
@@ -502,10 +500,9 @@ public class Drivetrain extends Subsystem {
         		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
     		}*/
     			
-    		tankDrive((right_speed/variableMaxspeedRight), (left_speed/variableMaxspeedLeft));
-    		SmartDashboard.putNumber("speed2 value:", left_speed);
-    		SmartDashboard.putNumber("Rangefinder value from method2", middle_fr_short_rangefinder.getAverageVoltage());
-    		SmartDashboard.putNumber("Rangefinder value from method2", fineDistanceFinder());
+    		tankDrive(right_speed, left_speed);
+    		SmartDashboard.putNumber("motor left speed value value:", left_speed);
+    		SmartDashboard.putNumber("Rangefinder value from method2 in inches", fineDistanceFinder());
     		LiveWindow.addActuator("Autonomous", "middle_fr_short_rangefinder", middle_fr_short_rangefinder);
     		return false;
     	}
