@@ -41,6 +41,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class BLeft_Position1_Autonomous extends CommandGroup {
 
     public BLeft_Position1_Autonomous() {
+    
+    	//UPDATED WITH RETRY CODE
+    	
     	
     	//mock autonomous
     	//DRIVE UP
@@ -55,7 +58,7 @@ public class BLeft_Position1_Autonomous extends CommandGroup {
     	addSequential(new DeployGearHolder());
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
-    	//addSequential(new WaitUntilGearGoneOrTimeOut(5));
+    	addSequential(new WaitUntilGearGone());
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addSequential(new RetractGearHolder());

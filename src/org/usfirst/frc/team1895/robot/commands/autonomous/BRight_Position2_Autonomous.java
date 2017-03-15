@@ -15,8 +15,20 @@ public class BRight_Position2_Autonomous extends CommandGroup {
 
     public BRight_Position2_Autonomous() {
         
+    	//UPDATED WITH RETRY CODE
     	
-    	addSequential(new DriveToObstacle(14, .4));
+    	System.out.println("creating auto left 2");
+    	addSequential(new DriveStraightSetDistance(-54));
+    	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
+    	//addSequential(new AlignToPeg());
+    	//should re-adjust if necessary
+    	addSequential(new DriveToObstacle(14, 0.15)); 		//should this be larger and then replace with driveStraight?
+    	addSequential(new DeployGearHolder());
+    	addSequential(new WaitUntilGearGone());
+    	addSequential(new DriveStraightSetDistance(54));
+    	
+    	
+//    	addSequential(new DriveToObstacle(14, .4));
 //    	addSequential(new DriveStraightSetDistance(-54));
     	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());

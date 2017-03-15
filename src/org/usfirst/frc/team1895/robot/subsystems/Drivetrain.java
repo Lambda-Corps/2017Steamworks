@@ -246,7 +246,7 @@ public class Drivetrain extends Subsystem {
 		right_motorgroup.set( right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
 	}
 	
 	// For: DefaultDrive Command
@@ -484,12 +484,9 @@ public class Drivetrain extends Subsystem {
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
-    	SmartDashboard.putNumber("goalDistance in method", goaldistance);
-    	double left_speed= SmartDashboard.getNumber("speed2 value:", 1);
-    	double right_speed=1;
-    	double variableMaxspeedRight = (1/(speed));
-    	double variableMaxspeedLeft = (1/speed);
-    	double difference;
+    	//SmartDashboard.putNumber("goalDistance in method", goaldistance);
+    	double left_speed= speed*(SmartDashboard.getNumber("value of left-side scalar:", 1));
+    	double right_speed= speed;
 		
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
@@ -497,21 +494,9 @@ public class Drivetrain extends Subsystem {
   			return true;
   		}
     	else {// if it hasn't crossed it will run at a determined speed
-    		//This is suppose to autocorrect
-    		/*if (right_encoder.getDistance()<=left_encoder.getDistance()){
-    			difference = left_encoder.getDistance() - right_encoder.getDistance();
-    			variableMaxspeedRight = (variableMaxspeedRight + (difference/4));
-    		}
-    		if (left_encoder.getDistance()<=right_encoder.getDistance()){
-        		difference = right_encoder.getDistance() - left_encoder.getDistance();
-        		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
-    		}*/
-    		tankDrive(speed, speed);	
-    		//tankDrive((right_speed/variableMaxspeedRight), (left_speed/variableMaxspeedLeft));
-    		SmartDashboard.putNumber("speed2 value:", left_speed);
-    		SmartDashboard.putNumber("Rangefinder value from method2", middle_fr_short_rangefinder.getAverageVoltage());
-    		SmartDashboard.putNumber("Rangefinder value from method2", fineDistanceFinder());
-    		LiveWindow.addActuator("Autonomous", "middle_fr_short_rangefinder", middle_fr_short_rangefinder);
+    		tankDrive(left_speed, right_speed);	
+    		SmartDashboard.putNumber("left side speed value:", left_speed);
+    		SmartDashboard.putNumber("Rangefinder value from drive to obstacle", fineDistanceFinder());
     		return false;
     	}
     }

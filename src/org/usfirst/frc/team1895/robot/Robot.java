@@ -8,10 +8,8 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Auton
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.RetryDeployGearHolder1;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithoutPID;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -143,7 +141,9 @@ public class Robot extends IterativeRobot {
             autonomousCommand.cancel();
         SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(90));
         SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
-        DriveToObstacle testCmd = new DriveToObstacle(24, 0.5);
+        
+        SmartDashboard.putData("Test turning clockwise NO PID", new TurnWithoutPID(90, 0.5));
+        SmartDashboard.putData("Test turning counterclockwise NO PID", new TurnWithoutPID(-90, 0.5));
         /*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
         //PID related commands
         SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
@@ -155,12 +155,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
         SmartDashboard.putData("deploy", new DeployGearHolder()); */
 //        SmartDashboard.putData("test retractdeploygearholder ", new WaitUntilGearGoneOrTimeOut(2));
-        SmartDashboard.putData("test xxxxx ", new RetryDeployGearHolder1());
        // SmartDashboard.putData("Align to Peg ", new AlignToPeg());
        
-        SmartDashboard.putData("deploy", new DeployGearHolder());
-        SmartDashboard.putData("retract", new RetractGearHolder());
-		
+        SmartDashboard.putData("DriveToObstacle", new DriveToObstacle(16, 0.5));
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}

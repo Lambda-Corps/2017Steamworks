@@ -45,6 +45,8 @@ public class BLeft_Position3_Autonomous extends CommandGroup {
 
     public BLeft_Position3_Autonomous() {
     	 
+    	//UPDATED WITH RETRY CODE
+    	
     	//mock autonomous
     	//DRIVE UP
     	addSequential(new DriveStraightSetDistance(-83));
@@ -57,15 +59,15 @@ public class BLeft_Position3_Autonomous extends CommandGroup {
     	addSequential(new DeployGearHolder());
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
-    	//addSequential(new WaitUntilGearGoneOrTimeOut(4));
+    	addSequential(new WaitUntilGearGone());
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addSequential(new RetractGearHolder());
-    	/*addSequential(new DriveStraightSetDistance(31));
+    	addSequential(new DriveStraightSetDistance(31));
     	//TURN
     	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
-    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone */
+    	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone 
 
     }
 }

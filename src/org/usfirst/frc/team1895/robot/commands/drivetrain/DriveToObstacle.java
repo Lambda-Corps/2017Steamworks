@@ -19,17 +19,15 @@ public class DriveToObstacle extends Command {
         //goalDistance = distancetoObstacle;
 //        this.speed = speed;
         done = false;
-        SmartDashboard.putNumber("Speed in DriveToObstacle: ", .1);
+        SmartDashboard.putNumber("Speed in DriveToObstacle: ", .5);
         SmartDashboard.putNumber("goalDistance ", distancetoObstacle);
     	SmartDashboard.putNumber("speed_drivetoobstacle", 1.0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	speed = SmartDashboard.getNumber("Speed in DriveToObstacle: ", .1);
-    	//goalDistance = SmartDashboard.getNumber("goalDistance", goalDistance);
-    	speed = SmartDashboard.getNumber("speed_drivetoobstacle", 0.5);
-    	goalDistance = SmartDashboard.getNumber("goalDistance ", goalDistance);
+    	speed = SmartDashboard.getNumber("Speed in DriveToObstacle: ", .5);
+    	goalDistance = SmartDashboard.getNumber("goalDistance ", 13);
     
     }
 

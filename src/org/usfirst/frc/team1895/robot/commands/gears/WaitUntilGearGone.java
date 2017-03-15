@@ -2,6 +2,7 @@ package org.usfirst.frc.team1895.robot.commands.gears;
 
 import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetryDeployGearHolder1;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.RetryGearDeploymentCommandGroup;
 
 import edu.wpi.first.wpilibj.buttons.InternalButton;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,7 +31,7 @@ public class WaitUntilGearGone extends Command {
         requires(Robot.gearholder);
         retryGearDeployment = false;
         retryButton = new InternalButton();
-        retryButton.whenPressed(new RetryDeployGearHolder1());
+        retryButton.whenPressed(new RetryGearDeploymentCommandGroup());
         SmartDashboard.putData("button", retryButton);
 
     }
