@@ -7,9 +7,13 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Auton
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithoutPID;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -142,20 +146,20 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(90));
         SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
         
-        SmartDashboard.putData("Test turning clockwise NO PID", new TurnWithoutPID(90, 0.5));
-        SmartDashboard.putData("Test turning counterclockwise NO PID", new TurnWithoutPID(-90, 0.5));
-        /*SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
+        SmartDashboard.putData("Test turning clockwise NO PID", new TurnWithoutPID(90, 0.4));
+        SmartDashboard.putData("Test turning counterclockwise NO PID", new TurnWithoutPID(-90, 0.4));
+        SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
         //PID related commands
         SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
         SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
-        SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(45));
+        /*SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(45));
         SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-45));
         SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
         
         SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
-        SmartDashboard.putData("deploy", new DeployGearHolder()); */
+        SmartDashboard.putData("deploy", new DeployGearHolder()); 
 //        SmartDashboard.putData("test retractdeploygearholder ", new WaitUntilGearGoneOrTimeOut(2));
-       // SmartDashboard.putData("Align to Peg ", new AlignToPeg());
+       // SmartDashboard.putData("Align to Peg ", new AlignToPeg());*/
        
         SmartDashboard.putData("DriveToObstacle", new DriveToObstacle(16, 0.5));
         drivetrain.resetEncoders();

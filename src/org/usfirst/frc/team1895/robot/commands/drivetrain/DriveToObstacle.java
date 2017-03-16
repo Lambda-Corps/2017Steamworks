@@ -22,6 +22,7 @@ public class DriveToObstacle extends Command {
         SmartDashboard.putNumber("Speed in DriveToObstacle: ", .5);
         SmartDashboard.putNumber("goalDistance ", distancetoObstacle);
     	SmartDashboard.putNumber("speed_drivetoobstacle", 1.0);
+    	SmartDashboard.putNumber("value of left-side scalar:", 1);
     }
 
     // Called just before this Command runs the first time

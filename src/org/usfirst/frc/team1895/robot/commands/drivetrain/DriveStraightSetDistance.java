@@ -24,19 +24,19 @@ public class DriveStraightSetDistance extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain); 
         goalDistance = givenDistance;
-//        SmartDashboard.putNumber("P value: ", .1);
-//    	SmartDashboard.putNumber("I value: ", 0.0);
-//    	SmartDashboard.putNumber("D value: ", -.01);
+        SmartDashboard.putNumber("P value: ", .1);
+    	SmartDashboard.putNumber("I value: ", 0.0);
+    	SmartDashboard.putNumber("D value: ", -.01);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	System.out.println("running: DSSD with distance " + goalDistance + "----------------");
     	double p, i , d;
-//    	p = SmartDashboard.getNumber("P value: ", .1);
-//    	i = SmartDashboard.getNumber("I value: ", 0.0);
-//    	d = SmartDashboard.getNumber("D value: ", -.01);
-//    	Robot.drivetrain.makeNewPidDriving(p, i, d); //get p,i,d from smartdashboard
+    	p = SmartDashboard.getNumber("P value: ", .1);
+    	i = SmartDashboard.getNumber("I value: ", 0.0);
+    	d = SmartDashboard.getNumber("D value: ", -.01);
+    	Robot.drivetrain.makeNewPidDriving(p, i, d); //get p,i,d from smartdashboard
     	Robot.drivetrain.setPIDSetpoints(goalDistance);
     }
 

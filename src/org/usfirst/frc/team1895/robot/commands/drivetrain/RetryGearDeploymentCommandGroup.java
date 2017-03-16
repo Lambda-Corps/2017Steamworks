@@ -30,7 +30,7 @@ public class RetryGearDeploymentCommandGroup extends CommandGroup {
     	
     	
     	addSequential(new RetractGearHolder());
-    	addSequential(new DriveStraightSetDistance(10));  //reverse
+    	addSequential(new DriveStraightSetDistance(20));  //reverse
     	//addSequential(new AlignToPeg());					//includes driving forward
     	addSequential(new DriveToObstacle(14, 0.5));
     	addSequential(new DeployGearHolder());

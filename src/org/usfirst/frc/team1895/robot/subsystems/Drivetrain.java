@@ -161,8 +161,8 @@ public class Drivetrain extends Subsystem {
 //    	right_motor3.setVoltageRampRate(TALON_RAMP_RATE);
     	
     	// Digital IO
-    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
-    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
+    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, true, EncodingType.k4X);
+    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, true, EncodingType.k4X);
     	
     	// Analog IO
     	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
@@ -242,8 +242,8 @@ public class Drivetrain extends Subsystem {
 		if(left < -1.0) left = -1.0;
 		if(right >  1.0) right =  1.0;
 		if(right < -1.0) right = -1.0;
-		left_motorgroup.set(  -left);
-		right_motorgroup.set( right);
+		left_motorgroup.set(  left);
+		right_motorgroup.set(-right);
 		
 		//Check to see if gear shifting is necessary. if it is, then shift
     	//shiftGears();
@@ -282,7 +282,7 @@ public class Drivetrain extends Subsystem {
     	//right_motor1.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	shiftGears();
+    	//shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
@@ -297,13 +297,15 @@ public class Drivetrain extends Subsystem {
 
 	public boolean driveStraightWithPID(double desiredMoveDistance) {
 		double speedfactor = 0.1;   // This is the "P" factor to scale the error between encoders values to the motor drive bias
-		double maxErrorValue = 0.1;   // Limits the control the error has on driving	
+		double maxErrorValue = 0.01;   // Limits the control the error has on driving	
 		double error = speedfactor*(left_encoder.getDistance() - right_encoder.getDistance()); 
-		if (error >= maxErrorValue) error = 0.1;
-		if (error <= -maxErrorValue) error = -0.1;
+		if (error >= maxErrorValue) error = maxErrorValue;
+		if (error <= -maxErrorValue) error = -maxErrorValue;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
 		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
+		System.out.println("my PID output   " + myPIDOutputDriving.get());
+		System.out.println("ERROR in drive straight with pid    " + error);
 		arcadeDrive((myPIDOutputDriving.get()), error);
 //		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
 //		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
@@ -487,7 +489,6 @@ public class Drivetrain extends Subsystem {
     	//SmartDashboard.putNumber("goalDistance in method", goaldistance);
     	double left_speed= speed*(SmartDashboard.getNumber("value of left-side scalar:", 1));
     	double right_speed= speed;
-		
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
   			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
@@ -642,7 +643,7 @@ public class Drivetrain extends Subsystem {
     }
     
     public double getAngle() {
-		return gyro.getAngle();
+		return ahrs.getAngle();
 	}
     
     public double getAngleAHRS() {
@@ -682,18 +683,20 @@ public class Drivetrain extends Subsystem {
 	}
     
     public boolean turnWithGyroNP(double turnAngle, double s) {
-    	double currentAngle = getAngle();
-    	double desiredAngle = currentAngle + turnAngle;
+    	double currentAngle = ahrs.getAngle();
+    	double desiredAngle = turnAngle;
     	double tolerance = 2;
-    	//turning left
-    	if(turnAngle >= 0) {
-    		tankDrive(s, -.33*s);
-    	}
+    	double difference = 0;
     	//turning right
-    	if(turnAngle < 0) {
-    		tankDrive(-.33*s, s);
+    	if(turnAngle >= 0 && currentAngle < turnAngle) {
+    		difference = turnAngle - currentAngle;
+    		tankDrive(-s, s);
     	}
-    	double difference = Math.abs(desiredAngle - currentAngle);
+    	//turning left
+    	else if(turnAngle < 0 && currentAngle > turnAngle) {
+    		difference = -turnAngle - -currentAngle;
+    		tankDrive(s, -s);
+    	}
     	if(difference <= tolerance) {
     		tankDrive(0.0,0.0);
     		return true;	
