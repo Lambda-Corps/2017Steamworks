@@ -6,15 +6,8 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autono
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
+import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -76,7 +69,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
-
+		chooser.addObject("Align to Peg", new AlignToPeg());
+		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -109,8 +103,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//autonomousCommand = chooser.getSelected();
-		autonomousCommand = new BLeft_Position2_Autonomous();
+		autonomousCommand = chooser.getSelected();
+		//autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
@@ -152,6 +146,7 @@ public class Robot extends IterativeRobot {
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
+        //SmartDashboard.putData("AlignToPeg ", new AlignToPeg());
 	}
  
 	@Override
@@ -188,6 +183,5 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		//Robot.gear_camera.stopVisionThread();
 	}
 }
