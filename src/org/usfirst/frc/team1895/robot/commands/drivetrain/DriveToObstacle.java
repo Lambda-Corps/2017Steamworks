@@ -13,30 +13,24 @@ public class DriveToObstacle extends Command {
 	double goalDistance;
 	boolean done;
 	double speed;
-    public DriveToObstacle(double distancetoObstacle, double speed2) {
+    public DriveToObstacle(double distancetoObstacle, double speed) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.drivetrain);
         //goalDistance = distancetoObstacle;
 //        this.speed = speed;
         done = false;
-        SmartDashboard.putNumber("Speed in DriveToObstacle: ", .5);
-        SmartDashboard.putNumber("goalDistance ", distancetoObstacle);
-    	SmartDashboard.putNumber("speed_drivetoobstacle", 1.0);
-    	SmartDashboard.putNumber("value of left-side scalar:", 1);
+        this.speed = speed;
+        goalDistance = distancetoObstacle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	speed = SmartDashboard.getNumber("Speed in DriveToObstacle: ", .5);
-    	goalDistance = SmartDashboard.getNumber("goalDistance ", 13);
     
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);//ten is distance in inches and .5 is speed
-    	SmartDashboard.putNumber("LeftEncoder: ", Robot.drivetrain.getLEncoderValues());
-		SmartDashboard.putNumber("RightEncoder: ", Robot.drivetrain.getREncoderValues());
+    	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

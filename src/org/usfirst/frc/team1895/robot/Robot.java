@@ -6,20 +6,13 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autono
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.StopRobot;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithoutPID;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.GetAverageVoltage;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
+import org.usfirst.frc.team1895.robot.testcommands.*;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.InternalButton;
@@ -59,6 +52,7 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
+
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
@@ -81,7 +75,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
 		chooser.addDefault("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
 		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
-		chooser.addObject("Align to Peg", new AlignToPeg());
+		chooser.addObject("Test Commands", new TestEmptyCommand());
 		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
@@ -123,8 +117,53 @@ public class Robot extends IterativeRobot {
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		// If we are in test mode, we are using the dashboard to rapidly iterate 
+		// command testing, such as PID tuning, turning, etc.
+		//
+		// These commands are in autonomous Init because they are run only during
+		// the autonomous sequence.  We need to ensure we're not shifting, or doing
+		// anything other than simulating the test environment.
+		if(!autonomousCommand.getName().contains("Test")){
+			if (autonomousCommand != null) {
+				autonomousCommand.start();
+			}
+		}
+		else{
+			// We are in test mode, add all the relevant pieces to the smart 
+			// dashboard for testing
+			// Testing Turning
+			SmartDashboard.putNumber("Turn P value: ", .025);
+	    	SmartDashboard.putNumber("Turn I value: ", 0.0);
+	    	SmartDashboard.putNumber("Turn D value: ", -.005);
+	    	SmartDashboard.putNumber("Test Turn Angle: ", 90.0);
+	    	SmartDashboard.putNumber("Test Turn NP Speed: ", .4);
+	    	
+			SmartDashboard.putData("Test PID Turn", new TestTurnWithGyro());
+	        SmartDashboard.putData("Test Turn - NO PID", new TestTurnWithoutPID());
+	        
+	        
+	        // Distance Related Testing
+	        SmartDashboard.putNumber("Distance P value: ", .1);
+	    	SmartDashboard.putNumber("Distance I value: ", 0.0);
+	    	SmartDashboard.putNumber("Distance D value: ", -.01);
+	    	SmartDashboard.putNumber("Test Drive Distance: ", 20.0);
+	    	SmartDashboard.putNumber("Test Drive Tank Speed: ", .4);
+	    	SmartDashboard.putNumber("Test Drive Tank Scalar:", .94);
+	    	
+	        SmartDashboard.putData("Test Drive PID Distance", new TestDriveStraightSetDistance());
+	        SmartDashboard.putData("Test Drive RangeFinder", new TestDriveToObstacle());
+	        
+	        // Gear Holder Related Testing
+	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
+	        //SmartDashboard.putData("Align to Peg ", new AlignToPeg());*/
+	        
+	        // Camera Alignment Testing
+	        // Add Relevant Dashboard values and Commands here
+	        
+	        // Shooter Testing
+	        // Add relevant Dashboard values and Commands here
+		}
+			
 	}
 
 	/**
@@ -133,7 +172,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("rangefinder:", drivetrain.getVoltage());
 	}
  
 	@Override
@@ -143,25 +181,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-        SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(90));
-        SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-90));
         
-        SmartDashboard.putData("Test turning clockwise NO PID", new TurnWithoutPID(90, 0.4));
-        SmartDashboard.putData("Test turning counterclockwise NO PID", new TurnWithoutPID(-90, 0.4));
-        SmartDashboard.putData("Test data: voltage and distance", new GetAverageVoltage());
-        //PID related commands
-        SmartDashboard.putData("Test driving forward", new DriveStraightSetDistance(-50));
-        SmartDashboard.putData("Test driving backward", new DriveStraightSetDistance(50));
-        /*SmartDashboard.putData("Test turning clockwise", new TurnWithGyro(45));
-        SmartDashboard.putData("Test turning counterclockwise", new TurnWithGyro(-45));
-        SmartDashboard.putData("Test DriveToObstacle (rangefinder) ", new DriveToObstacle(15, 0.5));
-        
-        SmartDashboard.putData("Test data: voltage and distance", new StopRobot(2));
-        SmartDashboard.putData("deploy", new DeployGearHolder()); 
-//        SmartDashboard.putData("test retractdeploygearholder ", new WaitUntilGearGoneOrTimeOut(2));
-       // SmartDashboard.putData("Align to Peg ", new AlignToPeg());*/
-       
-        SmartDashboard.putData("DriveToObstacle", new DriveToObstacle(16, 0.5));
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}
@@ -185,17 +205,17 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
-		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
-		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
-		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
-		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
-		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
+//		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
+//		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
+//		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
+//		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
+//		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
+//		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
 		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(drive_encoder_counter == 10) {
-    		drivetrain.printTelemetry();
+    		//drivetrain.printTelemetry();
     		drive_encoder_counter = 0;
     	}
 		
@@ -213,10 +233,4 @@ public class Robot extends IterativeRobot {
 	public static void setRetryButton(boolean state) {
 		retryButton.setPressed(state);
 	}
-	
-	
-	
-	
-	
-	
 }

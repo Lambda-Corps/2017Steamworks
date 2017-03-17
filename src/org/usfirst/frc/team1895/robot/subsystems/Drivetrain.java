@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -65,7 +66,7 @@ public class Drivetrain extends Subsystem {
 	// Instance variables. There should only be one instance of Drivetrain, but we are
 	// assuming the programmer will not accidently create multiple instances
 	
-	// Create CANTalons here so we can access them in the future, if we need to
+	// Create CANTalons here so we can access them in the future, if we need to	
 	private CANTalon left_motor1;
 	private CANTalon left_motor2;
 	//private CANTalon left_motor3;
@@ -74,6 +75,11 @@ public class Drivetrain extends Subsystem {
 	//private CANTalon right_motor3;
 	
 	private static final double TALON_RAMP_RATE = 48.0;
+	
+	// The two motors mounted as a mirror to one another do not output the 
+	// exact same force. This value will modify the the dominant side to 
+	// help the robot drive straight
+	private static final double TANK_DRIVE_SCALAR = .94;
 	
 	
 	// Motorgroups
@@ -105,8 +111,8 @@ public class Drivetrain extends Subsystem {
 	//final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
 	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
-	boolean done = false;
-	int index = 0;
+	boolean pid_done = false;
+	int printCounter = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
 	 * raise D constant to damp oscillation, causing it to converge. D also slows controller's approach to setpoint so will need to tweak balance of P and D
 	 * if P + D are tuned and it oscillates + converges, but not to correct setpoint, increase I 
@@ -148,9 +154,9 @@ public class Drivetrain extends Subsystem {
 		right_motor1 = new CANTalon(RobotMap.RIGHT_MOTOR1_PORT);
 		right_motor2 = new CANTalon(RobotMap.RIGHT_MOTOR2_PORT);
 		//right_motor3 = new CANTalon(RobotMap.RIGHT_MOTOR3_PORT);
-//		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
-//    	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
-		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2);
+		//left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
+    	//right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
+    	left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2);
     	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2);
     	
 //    	left_motor1.setVoltageRampRate(TALON_RAMP_RATE);
@@ -184,7 +190,7 @@ public class Drivetrain extends Subsystem {
     	myPIDOutputDriving = new MyPIDOutput();
         myPIDOutputTurning = new MyPIDOutput();
         pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving);   // Input are P, I, D, Input , output
-//		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
+		//pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
 		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, ahrs, myPIDOutputTurning);
 		
     	// Solenoids
@@ -217,6 +223,7 @@ public class Drivetrain extends Subsystem {
 		LiveWindow.addActuator("Drive TrainR", "Right First Motor", right_motor1);
 		LiveWindow.addActuator("Drive TrainL", "Left Center Motor", left_motor2);
 		LiveWindow.addActuator("Drive TrainR", "Right Center Motor", right_motor2);
+		
 		//LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
 		//LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
 		
@@ -282,17 +289,17 @@ public class Drivetrain extends Subsystem {
     	//right_motor1.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
 	
 	//to reset encoders and set the PID setpoints
 	public void setPIDSetpoints(double setpoint) {
-			pidControllerDriving.setSetpoint(setpoint);
-			pidControllerDriving.enable();
-			left_encoder.reset();
-			right_encoder.reset();
+		left_encoder.reset();
+		right_encoder.reset();
+		pidControllerDriving.setSetpoint(setpoint);
+		pidControllerDriving.enable();
 	}
 
 	public boolean driveStraightWithPID(double desiredMoveDistance) {
@@ -304,23 +311,26 @@ public class Drivetrain extends Subsystem {
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
 		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
-		System.out.println("my PID output   " + myPIDOutputDriving.get());
-		System.out.println("ERROR in drive straight with pid    " + error);
-		arcadeDrive((myPIDOutputDriving.get()), error);
-//		SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
-//		SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
-		//SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
-		//SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
-		LiveWindow.addSensor("Autonomous", "Left encoder value ", left_encoder);
-		LiveWindow.addSensor("Autonomous", "Right encoder value ", right_encoder);
-		
-		done = pidControllerDriving.onTarget();
-		
-		if (done){
-			pidControllerDriving.disable();
-			System.out.println("done is true======================");
+		if(++printCounter % 10 == 0){
+			System.out.println("my PID output   " + myPIDOutputDriving.get());
+			System.out.println("ERROR in drive straight with pid    " + error);
 		}
-		return done;
+		
+		double pidOutput = myPIDOutputDriving.get();
+		if(Double.isNaN(pidOutput)){
+			System.out.println("Got invalid PID output for driving");
+		}
+		else{
+			arcadeDrive((myPIDOutputDriving.get()), error);
+		}
+		
+		pid_done = pidControllerDriving.onTarget();
+		
+		if (pid_done){
+			pidControllerDriving.disable();
+			printCounter = 0;
+		}
+		return pid_done;
 	}	
 	
 	public double getGyroAngle(){
@@ -350,23 +360,30 @@ public class Drivetrain extends Subsystem {
 		pidControllerTurning.setAbsoluteTolerance(2.0);		
 		
 		//basicArcadeDrive uses x, y inputs so it should be 0 for y and whatever the PIDcontroller calculates as x
-		arcadeDrive(0.0, (myPIDOutputTurning.get()));
+		double pidOuput = myPIDOutputTurning.get();
+		if (Double.isNaN(pidOuput)){
+			System.out.println("Got invalid output from Turn PID Controller");
+		}
+		else{
+			arcadeDrive(0.0, pidOuput);
+		}
 				
-		index++;
+		printCounter++;
 		
-		if (index>10)  {		
-		System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f", 
+		// Every tenth iteration, print to the log
+		if (printCounter % 10 == 0)  {		
+			System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f", 
 				left_encoder.getDistance(), right_encoder.getDistance(), pidControllerTurning.getSetpoint(), gyro.getAngle(), myPIDOutputTurning.get()));
-		index = 0; 
 		}
 		
-		done = pidControllerTurning.onTarget();
+		pid_done = pidControllerTurning.onTarget();
 	
-		if (done)   {
-		pidControllerTurning.disable();
-//		System.out.println("done is true======================");
+		if (pid_done)   {
+			pidControllerTurning.disable();
+			printCounter = 0; 
 		}
-		return done;
+		
+		return pid_done;
 	}
 
 	
@@ -487,7 +504,7 @@ public class Drivetrain extends Subsystem {
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
     	//SmartDashboard.putNumber("goalDistance in method", goaldistance);
-    	double left_speed= speed*(SmartDashboard.getNumber("value of left-side scalar:", 1));
+    	double left_speed= speed* TANK_DRIVE_SCALAR;
     	double right_speed= speed;
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
@@ -496,8 +513,19 @@ public class Drivetrain extends Subsystem {
   		}
     	else {// if it hasn't crossed it will run at a determined speed
     		tankDrive(left_speed, right_speed);	
-    		SmartDashboard.putNumber("left side speed value:", left_speed);
-    		SmartDashboard.putNumber("Rangefinder value from drive to obstacle", fineDistanceFinder());
+    		return false;
+    	}
+    }
+    
+    public boolean testdriveRangeFinderDistance(double goaldistance, double speed, double scalar){
+    	double left_speed= speed* scalar;
+    	double right_speed= speed;
+    	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
+  			tankDrive(0,0);
+  			return true;
+  		}
+    	else {// if it hasn't crossed it will run at a determined speed
+    		tankDrive(left_speed, right_speed);	
     		return false;
     	}
     }
@@ -634,13 +662,13 @@ public class Drivetrain extends Subsystem {
     	return right_encoder.getDistance();
     }
     
-    public double lMCurrent() {
-    	return left_motor1.getOutputCurrent();
-    }
-    
-    public double rMCurrent() {
-    	return right_motor1.getOutputCurrent();
-    }
+//    public double lMCurrent() {
+//    	return left_motor1.getOutputCurrent();
+//    }
+//    
+//    public double rMCurrent() {
+//    	return right_motor1.getOutputCurrent();
+//    }
     
     public double getAngle() {
 		return ahrs.getAngle();
@@ -649,19 +677,19 @@ public class Drivetrain extends Subsystem {
     public double getAngleAHRS() {
     	return ahrs.getAngle();
     }
-    public void printTelemetry() {
-    	System.out.println("Left encoder: " + left_encoder.getDistance());
-    	System.out.println("Right encoderL " + right_encoder.getDistance());
-    	
-    	System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
-    	System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
-    	
-    	System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
-    	System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
-    	
-    	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
-    	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
-    }
+//    public void printTelemetry() {
+//    	System.out.println("Left encoder: " + left_encoder.getDistance());
+//    	System.out.println("Right encoderL " + right_encoder.getDistance());
+//    	
+//    	System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
+//    	System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
+//    	
+//    	System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
+//    	System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
+//    	
+//    	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
+//    	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
+//    }
     
     public boolean driveWithEncoders(double v, double distancetoTravel) {
 		//sets initial return value as false

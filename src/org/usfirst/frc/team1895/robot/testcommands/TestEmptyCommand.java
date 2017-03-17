@@ -1,38 +1,28 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
-
-import org.usfirst.frc.team1895.robot.Robot;
+package org.usfirst.frc.team1895.robot.testcommands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class TurnWithoutPID extends Command {
+public class TestEmptyCommand extends Command {
 
-	private boolean finished;
-	double angle = 0.0;
-	double speed = 0.0;
-	
-    public TurnWithoutPID(double angle, double speed) {
-    	requires(Robot.drivetrain);
-    	finished = false;
-    	this.angle = angle;
-    	this.speed = speed;
+    public TestEmptyCommand() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
+
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.drivetrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	finished = Robot.drivetrain.turnWithGyroNP(angle, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return finished;
+        return false;
     }
 
     // Called once after isFinished returns true
