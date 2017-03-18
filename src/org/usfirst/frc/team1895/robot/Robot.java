@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position1_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position2_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_Position3_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position1_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position2_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_Position3_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_LeftPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_CenterPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_CenterPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_LeftPos_Autonomous;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -69,12 +69,12 @@ public class Robot extends IterativeRobot {
 		retryButton = new InternalButton();
 		
 		//choices for the user to pick autonomouses in smart dashboard
-		chooser.addObject("LEFT BOILER Position 3", new BLeft_Position3_Autonomous());
-		chooser.addObject("LEFT BOILER Position 2", new BLeft_Position2_Autonomous());
-		chooser.addObject("LEFT BOILER Position 1", new BLeft_Position1_Autonomous());
-		chooser.addObject("RIGHT BOILER Position 3", new BRight_Position3_Autonomous());
-		chooser.addDefault("RIGHT BOILER Position 2", new BRight_Position2_Autonomous());
-		chooser.addObject("RIGHT BOILER Position 1", new BRight_Position1_Autonomous());
+		chooser.addObject("LEFT BOILER Position 3", new BRight_RightPos_Autonomous());
+		chooser.addObject("LEFT BOILER Position 2", new BLeft_CenterPos_Autonomous());
+		chooser.addObject("LEFT BOILER Position 1", new BRight_LeftPos_Autonomous());
+		chooser.addObject("RIGHT BOILER Position 3", new BLeft_LeftPos_Autonomous());
+		chooser.addDefault("RIGHT BOILER Position 2", new BRight_CenterPos_Autonomous());
+		chooser.addObject("RIGHT BOILER Position 1", new BLeft_RightPos_Autonomous());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
 		
 		SmartDashboard.putData("Auto mode", chooser);

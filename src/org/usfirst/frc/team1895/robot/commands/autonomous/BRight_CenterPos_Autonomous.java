@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class BRight_Position2_Autonomous extends CommandGroup {
+public class BRight_CenterPos_Autonomous extends CommandGroup {
 
-    public BRight_Position2_Autonomous() {
+    public BRight_CenterPos_Autonomous() {
         
     	//UPDATED WITH RETRY CODE
     	
