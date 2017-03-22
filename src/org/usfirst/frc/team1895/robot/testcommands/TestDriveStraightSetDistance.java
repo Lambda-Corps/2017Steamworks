@@ -15,7 +15,6 @@ public class TestDriveStraightSetDistance extends Command {
 	
     public TestDriveStraightSetDistance() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.drivetrain);
     	m_done = false;
     }
