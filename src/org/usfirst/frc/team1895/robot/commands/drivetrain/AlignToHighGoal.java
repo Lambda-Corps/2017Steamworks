@@ -20,6 +20,7 @@ public class AlignToHighGoal extends Command {
 
     public AlignToHighGoal() {
         requires(Robot.drivetrain);
+        //requires(Robot.fuel_camera);
     }
 
     // Called just before this Command runs the first time

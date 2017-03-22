@@ -21,19 +21,10 @@ public class TurnWithGyro extends Command {
     public TurnWithGyro(double givenAngle) {
     	requires(Robot.drivetrain);
         goalAngle = givenAngle;
-        
-        SmartDashboard.putNumber("TP value: ", .025);
-    	SmartDashboard.putNumber("TI value: ", 0.0);
-    	SmartDashboard.putNumber("TD value: ", -.005);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	double p, i , d;
-    	p = SmartDashboard.getNumber("TP value: ", .025);
-    	i = SmartDashboard.getNumber("TI value: ", 0.0);
-    	d = SmartDashboard.getNumber("TD value: ", -.005);
-    	Robot.drivetrain.makeNewPidTurning(p, i, d); //get p,i,d from smartdashboard
     	Robot.drivetrain.resetGyro();
     	Robot.drivetrain.setUpPIDTurning(goalAngle);
     }
@@ -41,8 +32,6 @@ public class TurnWithGyro extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	done = 	Robot.drivetrain.turnWithPID(goalAngle);
-    	double gyroAngle = Robot.drivetrain.getGyroAngle();
-    	System.out.println("Gyro--------: " + gyroAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()

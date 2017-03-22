@@ -3,34 +3,36 @@ package org.usfirst.frc.team1895.robot.commands.drivetrain;
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Use camera to detect the loading station, then drive up to it using the cameras. The middle front rangefinder 
- * 		can be used to help the robot determine whether it has reached its destination or not. Will be PID-controlled.
- * 			- Desired arguments: speed? (or do we want it to be hardcoded)
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ *
  */
-public class AlignToLoadingStation extends Command {
+public class TurnWithoutPID extends Command {
 
-    public AlignToLoadingStation() {
-        requires(Robot.drivetrain);
+	private boolean finished;
+	double angle = 0.0;
+	double speed = 0.0;
+	
+    public TurnWithoutPID(double angle, double speed) {
+    	requires(Robot.drivetrain);
+    	finished = false;
+    	this.angle = angle;
+    	this.speed = speed;
     }
-
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	finished = Robot.drivetrain.turnWithGyroNP(angle, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     // Called once after isFinished returns true

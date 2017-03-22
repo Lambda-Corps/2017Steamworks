@@ -5,7 +5,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class BRight_Position3_Autonomous extends CommandGroup {
 
     public BRight_Position3_Autonomous() {
+    	
+    	//UPDATED WITH RETRY CODE
     	
     	addSequential(new DriveStraightSetDistance(-83)); //117
     	//TURN TOWARD TO AIRSHIP'S LIFT
@@ -27,16 +29,16 @@ public class BRight_Position3_Autonomous extends CommandGroup {
     	addSequential(new DriveToObstacle(16, 0.15)); 	//
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
-    	addSequential(new WaitUntilGearGoneOrTimeOut(4));
+    	addSequential(new WaitUntilGearGone());
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addSequential(new RetractGearHolder());
-    	/*addSequential(new DriveStraightSetDistance(31));
+    	addSequential(new DriveStraightSetDistance(31));
     	//TURN SO FACING FORWARD AGAIN
     	addSequential(new TurnWithGyro(-60.0));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
     	addSequential(new DriveStraightSetDistance(-40));	
     	addSequential(new TurnWithGyro(60.0));		//Mr.Brey wants us to drive toward the boiler but stay in NZ
-    	addSequential(new DriveStraightSetDistance(-50));*/
+    	addSequential(new DriveStraightSetDistance(-50));
     }
 }

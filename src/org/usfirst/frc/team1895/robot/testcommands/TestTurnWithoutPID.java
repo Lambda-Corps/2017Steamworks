@@ -23,8 +23,8 @@ public class TestTurnWithoutPID extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	m_GoalAngle = SmartDashboard.getNumber("Test Turn Angle: ", 170.0);
     	m_speed = SmartDashboard.getNumber("Test Turn NP Speed: ", 0.35);
+    	m_GoalAngle = SmartDashboard.getNumber("Test Turn Angle: ", 90.0);
     	
     	// Reset the Gyro state
     	Robot.drivetrain.resetGyro();

@@ -1,11 +1,6 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
-import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGoneOrTimeOut;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithoutPID;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -29,32 +24,31 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * 			10. Use ShiftGears Command to shift into high gear to allow for faster movement.
  * 			11. Use DriveStraightSeteDistance Command to drive [] feet to pass the baseline and head into 
  * 				the neutral zone.  
- * 		Commands needed: 
- * 			- DriveStraightSeteDistance, AlignToHighGoal, DeployGearHolder, GetGearPresence, RetractGearHolder,
- * 				TurnWithGyro
  * 		Field Pieces needed:
  * 			- 1 preloaded gear
  * 			- 10 preloaded fuel (to be used once tele-op starts)
  * 		Estimated Time needed to complete: [] SECONDS
  * 		To do still:
- * 			- Finish the other commands so we can add them in
  * 			- TEST TEST TEST
  */
 public class BLeft_Position2_Autonomous extends CommandGroup {
   
     public BLeft_Position2_Autonomous() {
  	
+    	//UPDATED WITH RETRY CODE
+    	
+    	addSequential(new TurnWithoutPID(45.0, 0.5));
     	//mock autonomous
     	System.out.println("creating auto left 2");
-    	addSequential(new DriveStraightSetDistance(-54));
-    	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
+    	/*addSequential(new DriveStraightSetDistance(-54));
+    	addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
     	//should re-adjust if necessary
     	addSequential(new DriveToObstacle(14, 0.15)); 		//should this be larger and then replace with driveStraight?
     	addSequential(new DeployGearHolder());
-    	addSequential(new WaitUntilGearGoneOrTimeOut(4));
-    	 
-    	addSequential(new RetractGearHolder());
+    	addSequential(new WaitUntilGearGone());
+    	addSequential(new DriveStraightSetDistance(100));
+
      	/*addSequential(new DriveStraightSetDistance(30));
      	addSequential(new TurnWithGyro(-60));
      	addSequential(new DriveStraightSetDistance(-50));

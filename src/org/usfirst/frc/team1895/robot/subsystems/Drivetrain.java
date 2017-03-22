@@ -7,6 +7,7 @@ import org.usfirst.frc.team1895.robot.Robot;
 import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DefaultDriveCommand;
 import org.usfirst.frc.team1895.robot.oi.F310;
+import org.usfirst.frc.team1895.robot.subsystems.MyPIDOutput;
 
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
@@ -17,11 +18,13 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -51,14 +54,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * 
  * 2/15/2017: Deleted AlignToRope Command and method from this subsystem.
  * 
-<<<<<<< Updated upstream
  * 2/18/2017: Hand-merged Meredith and Zach's code for driving and turning with PIDs and aligning to peg, excludinng their HangGear 
  * methods and commands. Also fixed a few errors in their methods after testing. Also added code for setting ramp rate of motors, but
  * it is currently commented out. The solenoids are also commented out in every subsystem. Lastly, code to read the NAVX board was 
  * added. More finetuning needs to be done for the PIDs and ramp-rate in the future. 
-=======
- * 2/18/2017:
->>>>>>> Stashed changes
  * 
  */
 
@@ -67,7 +66,7 @@ public class Drivetrain extends Subsystem {
 	// Instance variables. There should only be one instance of Drivetrain, but we are
 	// assuming the programmer will not accidently create multiple instances
 	
-	// Create CANTalons here so we can access them in the future, if we need to
+	// Create CANTalons here so we can access them in the future, if we need to	
 	private CANTalon left_motor1;
 	private CANTalon left_motor2;
 	//private CANTalon left_motor3;
@@ -76,6 +75,11 @@ public class Drivetrain extends Subsystem {
 	//private CANTalon right_motor3;
 	
 	private static final double TALON_RAMP_RATE = 48.0;
+	
+	// The two motors mounted as a mirror to one another do not output the 
+	// exact same force. This value will modify the the dominant side to 
+	// help the robot drive straight
+	private static final double TANK_DRIVE_SCALAR = .94;
 	
 	
 	// Motorgroups
@@ -107,8 +111,8 @@ public class Drivetrain extends Subsystem {
 	//final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
 	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005;	//d smaller = positive
-	boolean done = false;
-	int index = 0;
+	boolean pid_done = false;
+	int printCounter = 0;
 	/* raise P constant until controller oscillates. If oscillation too much, lower constant a bit
 	 * raise D constant to damp oscillation, causing it to converge. D also slows controller's approach to setpoint so will need to tweak balance of P and D
 	 * if P + D are tuned and it oscillates + converges, but not to correct setpoint, increase I 
@@ -136,6 +140,10 @@ public class Drivetrain extends Subsystem {
 	
 	private boolean teleopEnabled = false;
 	
+	//for encoder driving
+	private boolean firsttimeusingEncoder;
+	double desiredDrivingAngle = 0;
+	
 	// Instantiate all of the variables, and add the motors to their respective MotorGroup.
 	public Drivetrain() {
 		
@@ -146,9 +154,9 @@ public class Drivetrain extends Subsystem {
 		right_motor1 = new CANTalon(RobotMap.RIGHT_MOTOR1_PORT);
 		right_motor2 = new CANTalon(RobotMap.RIGHT_MOTOR2_PORT);
 		//right_motor3 = new CANTalon(RobotMap.RIGHT_MOTOR3_PORT);
-//		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
-//    	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
-		left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2);
+		//left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2, left_motor3);
+    	//right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2, right_motor3);
+    	left_motorgroup = new MotorGroup<CANTalon>(left_motor1, left_motor2);
     	right_motorgroup = new MotorGroup<CANTalon>(right_motor1, right_motor2);
     	
 //    	left_motor1.setVoltageRampRate(TALON_RAMP_RATE);
@@ -159,8 +167,8 @@ public class Drivetrain extends Subsystem {
 //    	right_motor3.setVoltageRampRate(TALON_RAMP_RATE);
     	
     	// Digital IO
-    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
-    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, false, EncodingType.k4X);
+    	left_encoder = new Encoder(RobotMap.LEFT_GEARBOX_ENCODER_A_PORT, RobotMap.LEFT_GEARBOX_ENCODER_B_PORT, true, EncodingType.k4X);
+    	right_encoder = new Encoder(RobotMap.RIGHT_GEARBOX_ENCODER_A_PORT, RobotMap.RIGHT_GEARBOX_ENCODER_B_PORT, true, EncodingType.k4X);
     	
     	// Analog IO
     	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
@@ -182,7 +190,7 @@ public class Drivetrain extends Subsystem {
     	myPIDOutputDriving = new MyPIDOutput();
         myPIDOutputTurning = new MyPIDOutput();
         pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving);   // Input are P, I, D, Input , output
-//		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
+		//pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
 		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, ahrs, myPIDOutputTurning);
 		
     	// Solenoids
@@ -215,10 +223,20 @@ public class Drivetrain extends Subsystem {
 		LiveWindow.addActuator("Drive TrainR", "Right First Motor", right_motor1);
 		LiveWindow.addActuator("Drive TrainL", "Left Center Motor", left_motor2);
 		LiveWindow.addActuator("Drive TrainR", "Right Center Motor", right_motor2);
+		
 		//LiveWindow.addActuator("Drive TrainL", "Left Third Motor", left_motor3);
 		//LiveWindow.addActuator("Drive TrainR", "Right Third Motor", right_motor3);
+		
+		//for encoder driving
+		firsttimeusingEncoder = true;
 
 	}
+	
+    public double getVoltage(){
+    	return middle_fr_short_rangefinder.getAverageVoltage();
+    }
+	
+	
 	
 //==FOR TELE-OP DRIVING=======================================================================================
 	// For: DefaultDrive Command
@@ -271,39 +289,48 @@ public class Drivetrain extends Subsystem {
     	//right_motor1.set(right_speed);
     	
     	//Check to see if gear shifting is necessary. if it is, then shift
-    	//shiftGears();
+    	shiftGears();
     }
 
 //==FOR PID DRIVING========================================================================================
 	
 	//to reset encoders and set the PID setpoints
 	public void setPIDSetpoints(double setpoint) {
-			pidControllerDriving.setSetpoint(setpoint);
-			pidControllerDriving.enable();
-			left_encoder.reset();
-			right_encoder.reset();
+		left_encoder.reset();
+		right_encoder.reset();
+		pidControllerDriving.setSetpoint(setpoint);
+		pidControllerDriving.enable();
 	}
 
 	public boolean driveStraightWithPID(double desiredMoveDistance) {
 		double speedfactor = 0.1;   // This is the "P" factor to scale the error between encoders values to the motor drive bias
-		double maxErrorValue = 0.1;   // Limits the control the error has on driving	
+		double maxErrorValue = 0.01;   // Limits the control the error has on driving	
 		double error = speedfactor*(left_encoder.getDistance() - right_encoder.getDistance()); 
-		if (error >= maxErrorValue) error = 0.1;
-		if (error <= -maxErrorValue) error = -0.1;
+		if (error >= maxErrorValue) error = maxErrorValue;
+		if (error <= -maxErrorValue) error = -maxErrorValue;
 		
 		pidControllerDriving.setAbsoluteTolerance(1);
 		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
-		arcadeDrive((myPIDOutputDriving.get()), error);
-		//SmartDashboard.putNumber("Left encoder value: ", left_encoder.getDistance());
-		//SmartDashboard.putNumber("Right encoder value: ", right_encoder.getDistance());
-		System.out.println("LeftEncoder: " + left_encoder.getDistance() + " RightEncoder: " + right_encoder.getDistance() + " error: "+ error);
-		done = pidControllerDriving.onTarget();
-		
-		if (done){
-			pidControllerDriving.disable();
-			System.out.println("done is true======================");
+		if(++printCounter % 10 == 0){
+			System.out.println("my PID output   " + myPIDOutputDriving.get());
+			System.out.println("ERROR in drive straight with pid    " + error);
 		}
-		return done;
+		
+		double pidOutput = myPIDOutputDriving.get();
+		if(Double.isNaN(pidOutput)){
+			System.out.println("Got invalid PID output for driving");
+		}
+		else{
+			arcadeDrive((myPIDOutputDriving.get()), error);
+		}
+		
+		pid_done = pidControllerDriving.onTarget();
+		
+		if (pid_done){
+			pidControllerDriving.disable();
+			printCounter = 0;
+		}
+		return pid_done;
 	}	
 	
 	public double getGyroAngle(){
@@ -333,23 +360,30 @@ public class Drivetrain extends Subsystem {
 		pidControllerTurning.setAbsoluteTolerance(2.0);		
 		
 		//basicArcadeDrive uses x, y inputs so it should be 0 for y and whatever the PIDcontroller calculates as x
-		arcadeDrive(0.0, (myPIDOutputTurning.get()));
+		double pidOuput = myPIDOutputTurning.get();
+		if (Double.isNaN(pidOuput)){
+			System.out.println("Got invalid output from Turn PID Controller");
+		}
+		else{
+			arcadeDrive(0.0, pidOuput);
+		}
 				
-		index++;
+		printCounter++;
 		
-		if (index>10)  {		
-		System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f", 
+		// Every tenth iteration, print to the log
+		if (printCounter % 10 == 0)  {		
+			System.out.println(String.format("Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f", 
 				left_encoder.getDistance(), right_encoder.getDistance(), pidControllerTurning.getSetpoint(), gyro.getAngle(), myPIDOutputTurning.get()));
-		index = 0; 
 		}
 		
-		done = pidControllerTurning.onTarget();
+		pid_done = pidControllerTurning.onTarget();
 	
-		if (done)   {
-		pidControllerTurning.disable();
-//		System.out.println("done is true======================");
+		if (pid_done)   {
+			pidControllerTurning.disable();
+			printCounter = 0; 
 		}
-		return done;
+		
+		return pid_done;
 	}
 
 	
@@ -469,29 +503,31 @@ public class Drivetrain extends Subsystem {
     public boolean driveRangeFinderDistance(double goaldistance, double speed){
     	//SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
     	//System.out.println("Range finder Distance-=-=-=-=-=-=" + fineDistanceFinder());
-    	double speed2=1;
-    	double speed1=1;
-    	double variableMaxspeedRight = (1/speed);
-    	double variableMaxspeedLeft = (1/speed);
-    	double difference;
+    	//SmartDashboard.putNumber("goalDistance in method", goaldistance);
+    	double left_speed= speed* TANK_DRIVE_SCALAR;
+    	double right_speed= speed;
+    	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
+  			tankDrive(0,0);
+  			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
+  			return true;
+  		}
+    	else {// if it hasn't crossed it will run at a determined speed
+    		tankDrive(left_speed, right_speed);	
+    		return false;
+    	}
+    }
+    
+    public boolean testdriveRangeFinderDistance(double goaldistance, double speed, double scalar){
+    	double left_speed= speed* scalar;
+    	double right_speed= speed;
     	if (fineDistanceFinder()<=(goaldistance)){//if the robot crossed the goal distance + buffer then the code will stop
   			tankDrive(0,0);
   			return true;
   		}
-    	else{// if it hasn't crossed it will run at a determined speed
-    		//This is suppose to autocorrect
-    		if (right_encoder.getDistance()>=left_encoder.getDistance()){
-    			difference = right_encoder.getDistance() - left_encoder.getDistance();
-    			variableMaxspeedRight = (variableMaxspeedRight + (difference/4));
-    		}
-    		if (left_encoder.getDistance()>right_encoder.getDistance()){
-        		difference = left_encoder.getDistance() - right_encoder.getDistance();
-        		variableMaxspeedLeft = (variableMaxspeedLeft + (difference/4));		
-    		}
-    			
-    		tankDrive((speed2/variableMaxspeedRight), (speed1/variableMaxspeedLeft));	
+    	else {// if it hasn't crossed it will run at a determined speed
+    		tankDrive(left_speed, right_speed);	
     		return false;
-    		}
+    	}
     }
     
 	// Sensors: Encoders
@@ -604,6 +640,7 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new DefaultDriveCommand());
     }
     
+//==METHODS FOR ACCESSING VALUES AND TESTING THINGS========================================================   
     public void makeNewPidDriving( double p, double i, double d){
     	pidControllerDriving = new PIDController(p, i, d, left_encoder, myPIDOutputDriving);
     }
@@ -617,20 +654,83 @@ public class Drivetrain extends Subsystem {
     	right_encoder.reset();
     }
     
-    public void printTelemetry() {
-    	System.out.println("Left encoder: " + left_encoder.getDistance());
-    	System.out.println("Right encoderL " + right_encoder.getDistance());
-    	
-    	System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
-    	System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
-    	
-    	System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
-    	System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
-    	
-    	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
-    	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
+    public double getLEncoderValues() {
+    	return left_encoder.getDistance();
     }
     
+    public double getREncoderValues() {
+    	return right_encoder.getDistance();
+    }
+    
+//    public double lMCurrent() {
+//    	return left_motor1.getOutputCurrent();
+//    }
+//    
+//    public double rMCurrent() {
+//    	return right_motor1.getOutputCurrent();
+//    }
+    
+    public double getAngle() {
+		return ahrs.getAngle();
+	}
+    
+    public double getAngleAHRS() {
+    	return ahrs.getAngle();
+    }
+//    public void printTelemetry() {
+//    	System.out.println("Left encoder: " + left_encoder.getDistance());
+//    	System.out.println("Right encoderL " + right_encoder.getDistance());
+//    	
+//    	System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
+//    	System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
+//    	
+//    	System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
+//    	System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
+//    	
+//    	System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
+//    	System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
+//    }
+    
+    public boolean driveWithEncoders(double v, double distancetoTravel) {
+		//sets initial return value as false
+		boolean returnValue = false;
+		
+		double l_encoderDistance = left_encoder.getDistance();
+		double r_encoderDistance = right_encoder.getDistance();
+		
+		if(distancetoTravel > l_encoderDistance && distancetoTravel > r_encoderDistance) {
+			tankDrive(v, v);
+		}
+		else {
+			tankDrive(0.0, 0.0);
+		}
+		
+		//return boolean 
+		return returnValue;
+		
+	}
+    
+    public boolean turnWithGyroNP(double turnAngle, double s) {
+    	double currentAngle = ahrs.getAngle();
+    	double desiredAngle = turnAngle;
+    	double tolerance = 2;
+    	double difference = 0;
+    	//turning right
+    	if(turnAngle >= 0 && currentAngle < turnAngle) {
+    		difference = turnAngle - currentAngle;
+    		tankDrive(-s, s);
+    	}
+    	//turning left
+    	else if(turnAngle < 0 && currentAngle > turnAngle) {
+    		difference = -turnAngle - -currentAngle;
+    		tankDrive(s, -s);
+    	}
+    	if(difference <= tolerance) {
+    		tankDrive(0.0,0.0);
+    		return true;	
+    	}
+    	return false;
+    }
     
     // "Thar be dragons when motors on the same gearbox are set differently" (Scott 2017), so 
     // a MotorGroup will handle setting multiple motors to the same value as if it were one motor.
