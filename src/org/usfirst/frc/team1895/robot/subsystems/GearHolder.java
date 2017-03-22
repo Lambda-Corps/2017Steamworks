@@ -50,6 +50,10 @@ public class GearHolder extends Subsystem {
     	return inslot_short_rangefinder.getAverageVoltage();
     }
     
+    public boolean getGearState() {
+    	return gearHOut;
+    }
+    
     public void moveGearHolder(){
     	if(isGearPresent() == true) {
     		System.out.println("Gear is in the slot");

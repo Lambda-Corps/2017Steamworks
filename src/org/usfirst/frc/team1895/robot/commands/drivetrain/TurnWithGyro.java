@@ -22,7 +22,7 @@ public class TurnWithGyro extends Command {
     	requires(Robot.drivetrain);
         goalAngle = givenAngle;
     }
-
+ 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.resetGyro();
