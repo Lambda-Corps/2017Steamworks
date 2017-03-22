@@ -3,39 +3,46 @@ package org.usfirst.frc.team1895.robot.commands.drivetrain;
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  *
  */
-public class DriveToObstacle extends Command {
-
-	double goalDistance;
+public class RetryDeployGearHolder1 extends Command {
+	double counter;
 	boolean done;
-	double speed;
-    public DriveToObstacle(double distancetoObstacle, double speed) {
+	int attempt;
+	
+	boolean retryGearDeployment;
+
+    public RetryDeployGearHolder1() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
-        //goalDistance = distancetoObstacle;
-//        this.speed = speed;
-        done = false;
-        this.speed = speed;
-        goalDistance = distancetoObstacle;
+        // eg. requires(chassis);
+    	counter = 0.0;
+    	done = false;
+    	attempt = 0;
+    	System.out.println("constructing: RetryDeployGearHolder (1/2) --------------------------");
+    	
+    	retryGearDeployment = false;
+//        Robot.retryButton.whenPressed(new DeployGearHolderDummyCommandGroup());
+
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+    	System.out.println("running: RetryDeployGearHolder --------------------------");
+    	attempt ++;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);
+    	new RetryGearDeploymentCommandGroup();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return done;
+        return !Robot.retryButton.get();
     }
 
     // Called once after isFinished returns true
