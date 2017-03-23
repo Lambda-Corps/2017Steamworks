@@ -95,7 +95,8 @@ public class Drivetrain extends Subsystem {
 	private Encoder right_encoder;
 	
 	// Analog sensors
-	AHRS ahrs;
+	//AHRS ahrs;
+	AnalogGyro ahrs;
 	private AnalogGyro  gyro;
 	private AnalogInput middle_fr_short_rangefinder;
 	// if the plan on using three rangefinders to align to boiler is confirmed
@@ -172,14 +173,14 @@ public class Drivetrain extends Subsystem {
     	
     	// Analog IO
     	gyro = new AnalogGyro(RobotMap.GYRO_PORT);
-    	try {
-            /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
-            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-            ahrs = new AHRS(SPI.Port.kMXP); 
-        } catch (RuntimeException ex ) {
-            DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
-        }
+//    	try {
+//            /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
+//            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
+//            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
+//            ahrs = new AHRS(SPI.Port.kMXP); 
+//        } catch (RuntimeException ex ) {
+//            DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
+//        }
     	middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
     	// if the plan on using three rangefinders to align to boiler is confirmed
     	left_fr_long_rangefinder = new AnalogInput(RobotMap.LEFT_FR_LONG_RANGEFINDER_PORT);
@@ -190,8 +191,8 @@ public class Drivetrain extends Subsystem {
     	myPIDOutputDriving = new MyPIDOutput();
         myPIDOutputTurning = new MyPIDOutput();
         pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving);   // Input are P, I, D, Input , output
-		//pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
-		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, ahrs, myPIDOutputTurning);
+		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
+		//pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, ahrs, myPIDOutputTurning);
 		
     	// Solenoids
     	//left_solenoid = new DoubleSolenoid(RobotMap.L_DRIVETRAIN_SOLENOID_A_PORT, RobotMap.L_DRIVETRAIN_SOLENOID_B_PORT);
@@ -339,7 +340,7 @@ public class Drivetrain extends Subsystem {
 	
 	public void resetGyro(){
         gyro.reset();
-        ahrs.zeroYaw();
+       // ahrs.zeroYaw();
     }
     
     public void setUpPIDTurning(double angle){

@@ -155,10 +155,16 @@ public class Robot extends IterativeRobot {
 	        
 	        // Gear Holder Related Testing
 	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
-	        //SmartDashboard.putData("Align to Peg ", new AlignToPeg());*/
 	        
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
+	        
+	        SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getCenterX());
+	        // SmartDashboard.putNumber("Number of targets: ", Robot.gear_camera.getDetectedContours());
+	        SmartDashboard.putNumber("Offset: ", Robot.gear_camera.getOffset());
+	        SmartDashboard.putNumber("Estimated angle: ", Robot.gear_camera.angleToTarget());
+	        
+	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here

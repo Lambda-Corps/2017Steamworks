@@ -74,13 +74,13 @@ public class LEDStripDriver extends Thread {
 			byte[] packet = new byte[totalLength];
 			
 			// Gather the data from each strip and put it in the packet array.
-			for(int led = 0; led < ledStrips.size(); led++) {
-				//System.out.println(led);
-				byte[] data = ledStrips.get(led).update();
-				for(int i = 0; i < data.length; i++, a++) {
-					packet[a] = data[i];
-				}
-			}
+//			for(int led = 0; led < ledStrips.size(); led++) {
+//				//System.out.println(led);
+//				byte[] data = ledStrips.get(led).update();
+//				for(int i = 0; i < data.length; i++, a++) {
+//					packet[a] = data[i];
+//				}
+//			}
 			
 			// Write to the spi port on the roboRIO the data for the LEDs.
 			// If packet.length is incorrect, nothing bad happens.
