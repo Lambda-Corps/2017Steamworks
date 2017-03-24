@@ -28,7 +28,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Shooter extends Subsystem {
 
 	private CANTalon indexer_motor;		//smaller wheel
-	private CANTalon flywheel_motor; 	//larger wheel -- speed will be PID controlled
+	private CANTalon flywheel_motor; 	//larger wheel -- speed will be PID controlled, needs to be variable
+	//possible regulator motor needed
+	//intake motors
 	private Encoder indexer_encoder;
 	private Encoder flywheel_encoder;
 	//private DoubleSolenoid shooter_solenoid;
