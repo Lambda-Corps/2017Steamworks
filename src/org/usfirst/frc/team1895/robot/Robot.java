@@ -159,6 +159,10 @@ public class Robot extends IterativeRobot {
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
 	        
+	        SmartDashboard.putNumber("lowSpeed: ", 0.2);
+			SmartDashboard.putNumber("highSpeed: ", 0.3);
+			SmartDashboard.putNumber("neutralSpeed: ", 0.3);
+	        
 	        Robot.gear_camera.startVisionThread();
 	        
 	        System.out.println("------------HERE------------");

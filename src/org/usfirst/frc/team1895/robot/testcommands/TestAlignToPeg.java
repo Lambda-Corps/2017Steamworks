@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TestAlignToPeg extends Command {
 	public boolean stopVision;
 	public double centerX;
+	double lowS;
+	double highS;
+	double neutralS;
 	
 	public TestAlignToPeg() {
 		requires(Robot.drivetrain);
@@ -25,15 +28,16 @@ public class TestAlignToPeg extends Command {
 	protected void initialize() {
 		Robot.drivetrain.resetGyro();
 		
+		lowS = SmartDashboard.getNumber("lowSpeed: ", 0.2);
+		highS = SmartDashboard.getNumber("highSpeed: ", 0.3);
+		neutralS = SmartDashboard.getNumber("neutralSpeed: ", 0.3);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		centerX = Robot.gear_camera.getAvgCenterX();
-		
-		System.out.println("AlignToPeg centerX: " + centerX);
-		
-		stopVision = Robot.drivetrain.driveToPeg(centerX);
+				
+		stopVision = Robot.drivetrain.testDriveToPeg(centerX, lowS, highS, neutralS);
 
 	}
 

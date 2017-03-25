@@ -621,6 +621,28 @@ public class Drivetrain extends Subsystem {
 
 	}
 
+	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {
+		final double DISTANCE_TO_PEG = 16.0;
+		double distanceToGo = fineDistanceFinder();
+
+		if (distanceToGo < 16) {
+			tankDrive(0.0, 0.0);
+			return true;
+		} else {
+			if (heading < 375) {
+				tankDrive(lowSpeed, highSpeed);
+				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+			} else if (heading >= 405) {
+				tankDrive(highSpeed, lowSpeed);
+				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+			} else {
+				tankDrive(neutralSpeed, neutralSpeed);
+			}
+			return false;
+		}
+
+	}
+	
 	// Sensors: Encoders
 	/**
 	 * This method should check to see if the left or right encoder read a value
