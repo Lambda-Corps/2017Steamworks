@@ -167,10 +167,15 @@ public class Robot extends IterativeRobot {
 	        
 	        // Gear Holder Related Testing
 	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
-	        //SmartDashboard.putData("Align to Peg ", new AlignToPeg());*/
 	        
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
+	        
+	        Robot.gear_camera.startVisionThread();
+	        
+	        System.out.println("------------HERE------------");
+	        
+	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here
@@ -183,6 +188,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.putNumber("avgCenterX: ", Robot.gear_camera.getAvgCenterX());
+		
 		Scheduler.getInstance().run();
 	}
  
@@ -196,6 +203,7 @@ public class Robot extends IterativeRobot {
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
+        //SmartDashboard.putData("AlignToPeg ", new AlignToPeg());
 	}
  
 	@Override
@@ -223,6 +231,8 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
 //		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
 //		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
+		SmartDashboard.putNumber("Range Finder: ", Robot.drivetrain.fineDistanceFinder());
+		SmartDashboard.putNumber("Range finder voltage: ", Robot.drivetrain.getVoltage());
 		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
@@ -239,7 +249,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		//Robot.gear_camera.stopVisionThread();
 	}
 	
 	public static void setRetryButton(boolean state) {
