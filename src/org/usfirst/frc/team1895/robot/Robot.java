@@ -159,10 +159,9 @@ public class Robot extends IterativeRobot {
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
 	        
-	        SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getCenterX());
-	        // SmartDashboard.putNumber("Number of targets: ", Robot.gear_camera.getDetectedContours());
-	        SmartDashboard.putNumber("Offset: ", Robot.gear_camera.getOffset());
-	        SmartDashboard.putNumber("Estimated angle: ", Robot.gear_camera.angleToTarget());
+	        Robot.gear_camera.startVisionThread();
+	        
+	        System.out.println("------------HERE------------");
 	        
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        
@@ -177,6 +176,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		SmartDashboard.putNumber("avgCenterX: ", Robot.gear_camera.getAvgCenterX());
+		
 		Scheduler.getInstance().run();
 	}
  
@@ -218,6 +219,8 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
 //		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
 //		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
+		SmartDashboard.putNumber("Range Finder: ", Robot.drivetrain.fineDistanceFinder());
+		SmartDashboard.putNumber("Range finder voltage: ", Robot.drivetrain.getVoltage());
 		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second

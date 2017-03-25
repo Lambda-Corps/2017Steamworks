@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TestAlignToPeg extends Command {
 	public boolean stopVision;
+	public double centerX;
 	
 	public TestAlignToPeg() {
 		requires(Robot.drivetrain);
 		requires(Robot.gear_camera);
-
-		Robot.gear_camera.startVisionThread();
+		
 		stopVision = false;
 	}
 
@@ -29,8 +29,11 @@ public class TestAlignToPeg extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		centerX = Robot.gear_camera.getAvgCenterX();
 		
+		System.out.println("AlignToPeg centerX: " + centerX);
 		
+		stopVision = Robot.drivetrain.driveToPeg(centerX);
 
 	}
 
@@ -42,6 +45,9 @@ public class TestAlignToPeg extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivetrain.resetGyro();
+		
+		SmartDashboard.putNumber("Final distance: ", Robot.drivetrain.fineDistanceFinder());
+		SmartDashboard.putNumber("Final centerX: ", Robot.gear_camera.getAvgCenterX());
 	}
 
 	// Called when another command which requires one or more of the same
