@@ -605,20 +605,14 @@ public class Drivetrain extends Subsystem {
 		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
 
-		if (hitThreshold == false) {
-			if (distanceToGo > 19) {
-				hitThreshold = true;
-			}
-		}
-
-		if (distanceToGo > 11 && distanceToGo < 12) {
+		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
 			if (heading < 375) {
-				tankDrive(0.2, 0.3);
+				tankDrive(0.3, 0.4);
 			} else if (heading >= 405) {
-				tankDrive(0.3, 0.2);
+				tankDrive(0.4, 0.3);
 			} else {
 				tankDrive(0.3, 0.3);
 			}
