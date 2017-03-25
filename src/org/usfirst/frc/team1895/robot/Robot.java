@@ -6,6 +6,10 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_RightPos_Autonom
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_CenterPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_LeftPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupFalse;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupTrue;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -79,6 +83,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject( "BLUE Left Position Autonomous", new BRight_LeftPos_Autonomous());
 		chooser.addDefault("BLUE Center Position Autonomous", new BRight_CenterPos_Autonomous());
 		chooser.addObject( "BLUE Right Position Autonomous", new BRight_RightPos_Autonomous());
+		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
 		
 		SmartDashboard.putData("Auto mode", chooser);
@@ -144,6 +149,9 @@ public class Robot extends IterativeRobot {
 	    	
 			SmartDashboard.putData("Test PID Turn", new TestTurnWithGyro());
 	        SmartDashboard.putData("Test Turn - NO PID", new TestTurnWithoutPID());
+	        
+			SmartDashboard.putData("Test Conditional Command", new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
+
 	        
 	        
 	        // Distance Related Testing
