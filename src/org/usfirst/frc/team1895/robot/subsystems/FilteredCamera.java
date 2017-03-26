@@ -155,19 +155,16 @@ public class FilteredCamera extends Subsystem {
 				centerX = 0.0;
 				try {
 					Rect r1 = Imgproc.boundingRect(contours.get(0));
-					System.out.println("Center of rect: " + (r1.x + r1.width/2) + ", " + (r1.y + r1.width/2));
 					centerX += (r1.x + r1.width/2);
 				} catch(Exception e) {}
 				
 				try {
 					Rect r2 = Imgproc.boundingRect(contours.get(1));
-					System.out.println("Center of rect: " + (r2.x + r2.width/2) + ", " + (r2.y + r2.width/2));
 					centerX += (r2.x + r2.width/2);
 				} catch(Exception e) {}
 				
 				//////////////////////////////////////////////
 				centerX /= 2;
-				System.out.println("AVERAGE CENTER X --------" + centerX);
 				
 				outputStream.putFrame(mask);
 			}
