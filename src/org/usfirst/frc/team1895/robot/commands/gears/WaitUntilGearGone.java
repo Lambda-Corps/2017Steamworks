@@ -38,12 +38,6 @@ public class WaitUntilGearGone extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("running: WUGGOTO--------------------------");
-    	System.out.println("I_Counter: " + counter);
-    	System.out.println("I_Counter for gear: " + counterforgear);
-    	System.out.println("I_done state: " + done);
-    	System.out.println("I_gearNotTakenTimeout: " + gearNotTakenTimeout);
-    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -80,10 +74,6 @@ public class WaitUntilGearGone extends Command {
     	counter = 0.0;
     	counterforgear = 0.0;
     	done = false;
-//    	System.out.println("E_Counter: " + counter);
-//    	System.out.println("E_Counter for gear: " + counterforgear);
-//    	System.out.println("E_done state: " + done);
-//    	System.out.println("E_gearNotTakenTimeout: " + gearNotTakenTimeout);
     }
 
     //If done equals true then our is finished will be true and it will then do end()

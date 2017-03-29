@@ -11,7 +11,6 @@ public class CommandGroupFalse extends CommandGroup {
 
     public CommandGroupFalse() {
     	
-    	System.out.println("False");
 //    	addSequential(new DriveStraightSetDistance(10));
     	
     	addSequential(new WaitCommandForAuto1());

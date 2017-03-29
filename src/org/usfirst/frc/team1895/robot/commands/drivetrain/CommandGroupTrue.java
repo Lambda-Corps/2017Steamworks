@@ -12,7 +12,6 @@ public class CommandGroupTrue extends CommandGroup {
 
     public CommandGroupTrue() {
     	
-    	System.out.println("True");
 //    	addSequential(new DriveStraightSetDistance(-10));
     	
     	

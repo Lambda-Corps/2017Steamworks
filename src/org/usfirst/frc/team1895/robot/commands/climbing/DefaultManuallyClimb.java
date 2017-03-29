@@ -28,11 +28,9 @@ public class DefaultManuallyClimb extends Command {
     	//drives up
     	if(Robot.oi.gamepad2.getAxis(F310.LT) > Robot.oi.gamepad2.getAxis(F310.RT) && Robot.oi.gamepad2.getAxis(F310.LT) > 0.2) {
     		Robot.winch.manualClimbing(Robot.oi.gamepad2.getAxis(F310.LT)); //for gamepad2
-    		System.out.println("Climbing up");
     	} else if(Robot.oi.gamepad2.getAxis(F310.RT) > Robot.oi.gamepad2.getAxis(F310.LT) && 
     			Robot.oi.gamepad2.getAxis(F310.RT) > 0.2 && Robot.oi.gamepad2.getButton(F310.BACK)) {
     		Robot.winch.manualClimbing(-Robot.oi.gamepad2.getAxis(F310.RT)); //for gamepad2
-    		System.out.println("Climbing down");
     	} else {
     		Robot.winch.manualClimbing(0.0);
     	}

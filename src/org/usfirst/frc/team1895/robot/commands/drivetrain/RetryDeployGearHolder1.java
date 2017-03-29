@@ -21,7 +21,6 @@ public class RetryDeployGearHolder1 extends Command {
     	counter = 0.0;
     	done = false;
     	attempt = 0;
-    	System.out.println("constructing: RetryDeployGearHolder (1/2) --------------------------");
     	
     	retryGearDeployment = false;
 //        Robot.retryButton.whenPressed(new DeployGearHolderDummyCommandGroup());
@@ -30,7 +29,6 @@ public class RetryDeployGearHolder1 extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("running: RetryDeployGearHolder --------------------------");
     	attempt ++;
     }
 

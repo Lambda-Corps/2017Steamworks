@@ -368,17 +368,14 @@ public class Drivetrain extends Subsystem {
 			error = -maxErrorValue;
 
 		pidControllerDriving.setAbsoluteTolerance(1);
-		// SmartDashboard.putNumber("MyPIDOutput.get value",
-		// myPIDOutputDriving.get());
-		if (++printCounter % 10 == 0) {
-			System.out.println("my PID output   " + myPIDOutputDriving.get());
-			System.out.println("ERROR in drive straight with pid    " + error);
+		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
+		if(++printCounter % 10 == 0){
 		}
 
 		double pidOutput = myPIDOutputDriving.get();
-		if (Double.isNaN(pidOutput)) {
-			System.out.println("Got invalid PID output for driving");
-		} else {
+		if(Double.isNaN(pidOutput)){
+		}
+		else{
 			arcadeDrive((myPIDOutputDriving.get()), error);
 		}
 
@@ -420,20 +417,17 @@ public class Drivetrain extends Subsystem {
 		// basicArcadeDrive uses x, y inputs so it should be 0 for y and
 		// whatever the PIDcontroller calculates as x
 		double pidOuput = myPIDOutputTurning.get();
-		if (Double.isNaN(pidOuput)) {
-			System.out.println("Got invalid output from Turn PID Controller");
-		} else {
+
+		if (Double.isNaN(pidOuput)){
+		}
+		else{
 			arcadeDrive(0.0, pidOuput);
 		}
 
 		printCounter++;
 
 		// Every tenth iteration, print to the log
-		if (printCounter % 10 == 0) {
-			System.out.println(String.format(
-					"Left Encoder: %5.1f    Right Encoder: %5.1f    SetPointTurning:  %5.1f     Gyro Angle:   %5.1f     PIDOutputTurning: %5.1f",
-					left_encoder.getDistance(), right_encoder.getDistance(), pidControllerTurning.getSetpoint(),
-					gyro.getAngle(), myPIDOutputTurning.get()));
+		if (printCounter % 10 == 0)  {		
 		}
 
 		pid_done = pidControllerTurning.onTarget();
@@ -643,6 +637,7 @@ public class Drivetrain extends Subsystem {
 
 	}
 	
+    
 	// Sensors: Encoders
 	/**
 	 * This method should check to see if the left or right encoder read a value
@@ -703,7 +698,6 @@ public class Drivetrain extends Subsystem {
 
 			break;
 		case 2: // In high gear, if need to switch to low
-			// System.out.println("STATE 2");
 			if (max < 12.0) {
 				// changed the original 42.0 in/sec to 12.0
 				shiftHighGear(false);

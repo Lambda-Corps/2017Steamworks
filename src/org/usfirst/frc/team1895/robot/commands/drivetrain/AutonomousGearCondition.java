@@ -23,7 +23,6 @@ public class AutonomousGearCondition extends ConditionalCommand {
 //    	else
 //    		return false;
     	
-    	System.out.println("var: " + var);
     	if (var==1)
     		return true;
     	else

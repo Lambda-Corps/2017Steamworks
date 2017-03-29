@@ -75,8 +75,6 @@ public class Winch extends Subsystem {
     	cl_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(cl_counter == 10) {
-    		System.out.println("Winch motor Current: " + current);
-    		System.out.println("winch Encoder distance: " + distance);
     		cl_counter = 0;
     	}
     	//winch motors are set to zero once the touchpad has been reached
@@ -104,8 +102,6 @@ public class Winch extends Subsystem {
     	cl_counter++;
     	//for printing values, will print the current and encoder values only 5 times a second
     	if(cl_counter == 10) {
-    		System.out.println("Current: " + current);
-    		System.out.println("Encoder distance of winch: " + distance);
     		cl_counter = 0;
     	}
     	//winch motors are set to zero once the rope has been caught

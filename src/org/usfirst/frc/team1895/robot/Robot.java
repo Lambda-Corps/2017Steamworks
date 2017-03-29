@@ -16,6 +16,7 @@ import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
+import org.usfirst.frc.team1895.robot.testcommands.TestAlignToPeg;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveToObstacle;
 import org.usfirst.frc.team1895.robot.testcommands.TestEmptyCommand;

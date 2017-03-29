@@ -64,7 +64,6 @@ public class LEDStripDriver extends Thread {
 		while(true) {
 			// :D
 			//System.out.println("Hello from a thread!");
-			
 			 // Counter variable to track where in the packet we are
 			int a = 0;
 			

@@ -17,7 +17,6 @@ public class BRight_CenterPos_Autonomous extends CommandGroup {
         
     	//UPDATED WITH RETRY CODE
     	
-    	System.out.println("creating auto left 2");
     	addSequential(new DriveStraightSetDistance(-54));
     	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());

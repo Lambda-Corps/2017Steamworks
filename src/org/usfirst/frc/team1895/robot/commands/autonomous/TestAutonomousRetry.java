@@ -13,7 +13,6 @@ public class TestAutonomousRetry extends CommandGroup {
 
     public TestAutonomousRetry() {
     	
-    	System.out.println("TAR");
     	addSequential(new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
     	
         // Add Commands here:

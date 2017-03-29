@@ -42,7 +42,6 @@ public class BLeft_CenterPos_Autonomous extends CommandGroup {
     	
     	//addSequential(new TurnWithoutPID(45.0, 0.5));
     	//mock autonomous
-    	System.out.println("creating auto left 2");
     	addSequential(new DriveStraightSetDistance(-54));
     	//addSequential(new DriveToObstacle(24, 0.6));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());

@@ -56,11 +56,7 @@ public class GearHolder extends Subsystem {
     
     public void moveGearHolder(){
     	if(isGearPresent() == true) {
-    		System.out.println("Gear is in the slot");
     		gearholder_solenoid.set(Value.kForward);
-    	}
-    	else {
-    		System.out.println("");
     	}
 	}
     
@@ -69,7 +65,6 @@ public class GearHolder extends Subsystem {
     		gearholder_solenoid.set(DoubleSolenoid.Value.kForward);	
     		gearHOut = true;
     	}
-    	System.out.println("gear out: " + gearHOut);
     	return gearHOut;
 	}
     
@@ -85,31 +80,31 @@ public class GearHolder extends Subsystem {
 		double outputValue = variablerangeFinder.getVoltage(); //gets sensor voltage
 		if (outputValue>1.6){
 			M = -.175;
-			distance = 10; //System.out.println("10 cm");
+			distance = 10; 
 		}
 		if (outputValue>1.3 && outputValue<=1.6){
 			M = -.075;
-			distance = 10;//System.out.println("10 cm");
+			distance = 10;
 		}
 		if (outputValue>0.9 && outputValue<=1.3){
 			M = -.04;
-			distance = 20;//System.out.println("20 cm");
+			distance = 20;
 		}
 		if (outputValue>0.7 && outputValue<=0.9){
 			M = -0.02;
-			distance = 30;//System.out.println("30 cm");
+			distance = 30;
 		}
 		if (outputValue>0.6 && outputValue<=0.7){
 			M = -0.01;
-			distance = 40;//System.out.println("40 cm");
+			distance = 40;
 		}
 		if (outputValue>0.5 && outputValue<=0.6){
 			M =-0.01;
-			distance = 50; //System.out.println("50cm");
+			distance = 50; 
 		}
 		if (outputValue>0.4 && outputValue<=0.5){
 			M=-0.01;
-			distance = 60;//System.out.println("60cm");
+			distance = 60;
 		}
 		return distance;
     }
@@ -121,7 +116,6 @@ public class GearHolder extends Subsystem {
 	public boolean isGearPresent() {
 		boolean bReturn = false;
 		double distance = inslot_short_rangefinder.getVoltage();
-		//System.out.println("-------------------------voltaeg of rangefinder: " + distance);
 		if (distance > GEARISINVOLTAGE){ //Gear is captured
 				bReturn = true; //insert code once gear was captured	
 		}

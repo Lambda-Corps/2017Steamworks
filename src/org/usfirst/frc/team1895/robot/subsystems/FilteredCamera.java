@@ -72,39 +72,47 @@ public class FilteredCamera extends Subsystem {
 	// write the image to the output stream that should be available for display
 	// on the smart dashboard.
 	private void startGearVisionThread() {
+		UsbCamera liftPegCamera = CameraServer.getInstance().startAutomaticCapture();
+		
+		exposure = SmartDashboard.getNumber("Exposure: ");
+		SmartDashboard.putNumber("Read Exposure: ", exposure);
+		
+		liftPegCamera.setExposureManual(150);
 
+		visionThread = setUpVisionThread();
+		visionThread.setDaemon(true);
+
+	}
+
+	public void startVisionThread() {
+		visionThread.start();
+	}
+	
+	private Thread setUpVisionThread() {
+		
+		CvSink cvSink = CameraServer.getInstance().getVideo(); // capture mats
+																// from camera
 		Mat mat = new Mat(); // define mat in order to reuse it
+		CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle Stream", 640, 480); // send
+																									// stream
+																									// to
+																									// CameraServer
+		//instantiates and returns Thread object
+		return new Thread(() -> {
 
-		visionThread = new Thread(() -> {
-			// Get the UsbCamera from CameraServer
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-			// Set the resolution
-			camera.setResolution(640, 480);
-			camera.setExposureManual(25);
-			
-			mask = new Mat();
-			hsvImage = new Mat();
-			frame = new Mat();
-			morphOutput = new Mat();
-
-			// Get a CvSink. This will capture Mats from the camera
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			// Setup a CvSource. This will send images back to the Dashboard
-			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
-
-
-			// This cannot be 'true'. The program will never exit if it is. This
-			// lets the robot stop this thread when restarting robot code or
-			// deploying.
-			while (!Thread.interrupted()) {
-				
-				// Tell the CvSink to grab a frame from the camera and put it
-				// in the source mat.  If there is an error notify the output.
-				if (cvSink.grabFrame(frame) == 0) {
-					// Send the output the error.
-					outputStream.notifyError(cvSink.getError());
-					// skip the rest of the current iteration
-					continue;
+			while (!Thread.interrupted()) { // this should only be false when
+											// shutting down
+				if (cvSink.grabFrame(mat) == 0) { // fill mat with image from
+													// camera TODO exception
+													// handling (there is an
+													// error if it returns 0)
+					outputStream.notifyError(cvSink.getError());    // send an
+																	// error
+																	// instead
+																	// of the
+																	// mat
+					SmartDashboard.putString("Vision State", "Couldn't grab frame");
+					continue; // skip to the next iteration of the thread
 				}
 				
 				
@@ -169,16 +177,14 @@ public class FilteredCamera extends Subsystem {
 				outputStream.putFrame(mask);
 			}
 		});
-		visionThread.setDaemon(true);
-
-	}
-
-	public void startVisionThread() {
-		visionThread.start();
 	}
 
 	public void stopVisionThread() {
 		visionThread.suspend();
+	}
+	
+	public void stopThread() {
+		visionThread.stop();
 	}
 
 	public void resumeVisionThread() {
