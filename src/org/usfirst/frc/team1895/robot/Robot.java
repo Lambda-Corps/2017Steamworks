@@ -17,6 +17,7 @@ import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
 import org.usfirst.frc.team1895.robot.testcommands.TestAlignToPeg;
+import org.usfirst.frc.team1895.robot.testcommands.TestCameraCalibration;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveToObstacle;
 import org.usfirst.frc.team1895.robot.testcommands.TestEmptyCommand;
@@ -38,7 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  * 
- *  List of all sensors used:
+ *  List of all sensors used: 
  *  
  *  List of what's displayed to SmartDashboard:
  *  
@@ -178,10 +179,9 @@ public class Robot extends IterativeRobot {
 	        
 	        Robot.gear_camera.startVisionThread();
 	        
-	        System.out.println("------------HERE------------");
-	        
+	       
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
-	        
+	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here
 		}

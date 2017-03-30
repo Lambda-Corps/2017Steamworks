@@ -20,7 +20,7 @@ public class CommandGroupTrue extends CommandGroup {
     	addSequential(new AlignToPeg());					//includes driving forward
     	addSequential(new DriveToObstacle(14, 0.5));
     	addSequential(new DeployGearHolder());
-    	addSequential(new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
+//    	addSequential(new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
     	addSequential(new WaitCommandForAuto2());
 
     }
