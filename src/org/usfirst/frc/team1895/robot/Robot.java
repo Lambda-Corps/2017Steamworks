@@ -8,8 +8,8 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_LeftPos_Autonom
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupFalse;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupTrue;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -79,6 +79,7 @@ public class Robot extends IterativeRobot {
 		retryButton = new InternalButton();
 		
 		//choices for the user to pick autonomouses in smart dashboard
+		System.out.println("I'm initializing yay");
 		chooser.addObject("RED Left Position Autonomous", new BLeft_LeftPos_Autonomous());
 		chooser.addObject("RED Center Position Autonomous", new BLeft_CenterPos_Autonomous());
 		chooser.addObject("RED Right Position Autonomous", new BLeft_RightPos_Autonomous());
@@ -87,7 +88,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject( "BLUE Right Position Autonomous", new BRight_RightPos_Autonomous());
 		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
-		
+		System.out.println("I'm done initializing yay");
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -121,6 +122,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
+		System.out.println("I chose a chooser yay");
 		//autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -145,14 +147,14 @@ public class Robot extends IterativeRobot {
 			// Testing Turning
 			SmartDashboard.putNumber("Turn P value: ", .025);
 	    	SmartDashboard.putNumber("Turn I value: ", 0.0);
-	    	SmartDashboard.putNumber("Turn D value: ", -.005);
+	    	SmartDashboard.putNumber("Turn D value: ", -.01);
 	    	SmartDashboard.putNumber("Test Turn Angle: ", 90.0);
 	    	SmartDashboard.putNumber("Test Turn NP Speed: ", .4);
 	    	
 			SmartDashboard.putData("Test PID Turn", new TestTurnWithGyro());
 	        SmartDashboard.putData("Test Turn - NO PID", new TestTurnWithoutPID());
 	        
-			SmartDashboard.putData("Test Conditional Command", new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
+			SmartDashboard.putData("Test Conditional Command", new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
 
 	        
 	        
@@ -164,12 +166,16 @@ public class Robot extends IterativeRobot {
 	    	SmartDashboard.putNumber("Test Drive Tank Speed: ", .4);
 	    	SmartDashboard.putNumber("Test Drive Tank Scalar:", .94);
 	    	
+
+	    	
 	        SmartDashboard.putData("Test Drive PID Distance", new TestDriveStraightSetDistance());
 	        SmartDashboard.putData("Test Drive RangeFinder", new TestDriveToObstacle());
 	        
 	        // Gear Holder Related Testing
 	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
-	        
+	        //Vision Related testing
+			SmartDashboard.putNumber("Farthest Left Exceptable: ", 375);
+			SmartDashboard.putNumber("Farthest Right Exceptable: ", 405);
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
 	        

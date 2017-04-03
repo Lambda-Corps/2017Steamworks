@@ -12,6 +12,7 @@ public class MyPIDOutput implements PIDOutput {
 	
     @Override
     public void pidWrite(double output) {
+    	System.out.println("pidOutput" + output);
     	pidOutput = output;
     }
     

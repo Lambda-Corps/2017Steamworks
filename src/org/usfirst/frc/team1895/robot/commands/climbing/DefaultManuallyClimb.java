@@ -23,15 +23,15 @@ public class DefaultManuallyClimb extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute
-    () {
-    	//drives up
-    	if(Robot.oi.gamepad2.getAxis(F310.LT) > Robot.oi.gamepad2.getAxis(F310.RT) && Robot.oi.gamepad2.getAxis(F310.LT) > 0.2) {
-    		Robot.winch.manualClimbing(Robot.oi.gamepad2.getAxis(F310.LT)); //for gamepad2
-    	} else if(Robot.oi.gamepad2.getAxis(F310.RT) > Robot.oi.gamepad2.getAxis(F310.LT) && 
-    			Robot.oi.gamepad2.getAxis(F310.RT) > 0.2 && Robot.oi.gamepad2.getButton(F310.BACK)) {
-    		Robot.winch.manualClimbing(-Robot.oi.gamepad2.getAxis(F310.RT)); //for gamepad2
+    protected void execute() {
+    	//climb up
+    	if(Robot.oi.gamepad2.getAxis(F310.LY) > 0.2) {
+    		Robot.winch.manualClimbing(Robot.oi.gamepad2.getAxis(F310.LY)); //for gamepad2
+    	} else if(Robot.oi.gamepad2.getAxis(F310.LY) < -0.2 && Robot.oi.gamepad2.getButton(F310.START)) {
+    		//climb down 
+    		Robot.winch.manualClimbing(-Robot.oi.gamepad2.getAxis(F310.LY)); //for gamepad2
     	} else {
+    		//just don't move
     		Robot.winch.manualClimbing(0.0);
     	}
     }

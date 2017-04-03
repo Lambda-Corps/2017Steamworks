@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1895.robot;
 
+import org.usfirst.frc.team1895.robot.commands.drivetrain.FineTuningLowGear;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideHighGear;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideLowGear;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.oi.F310;
@@ -63,6 +63,7 @@ public class OI {
 	public JoystickButton gearOut;
 	public JoystickButton overrideHigh;
 	public JoystickButton overrideLow;
+	public JoystickButton fineTuning;
 	
 	public OI() {
 		leftArcadeJoystick = new Joystick(RobotMap.LEFT_JOYSTICK_PORT);
@@ -75,12 +76,12 @@ public class OI {
 		gearIn.whenPressed(new DeployGearHolder());
 		gearOut.whenPressed(new RetractGearHolder());
 		
-		overrideHigh = new JoystickButton(gamepad2, F310.RB);
+		overrideHigh = new JoystickButton(gamepad2, F310.LB);
 		overrideHigh.whenPressed(new ManualOverrideHighGear(true));
 		overrideHigh.whenReleased(new ManualOverrideHighGear(false));
 		
-		overrideLow = new JoystickButton(gamepad2, F310.LB);
-		overrideLow.whenPressed(new ManualOverrideLowGear(true));
-		overrideLow.whenReleased(new ManualOverrideLowGear(false));
+		fineTuning = new JoystickButton(gamepad2, F310.RB);
+		fineTuning.whenPressed(new FineTuningLowGear(true));
+		fineTuning.whenReleased(new FineTuningLowGear(false));
 	}
 }

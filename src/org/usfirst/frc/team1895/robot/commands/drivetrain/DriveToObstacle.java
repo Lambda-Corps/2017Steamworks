@@ -30,6 +30,7 @@ public class DriveToObstacle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.println("I'm trying to drive to the obstacle");
     	done = Robot.drivetrain.driveRangeFinderDistance(goalDistance, speed);
     }
 

@@ -36,9 +36,11 @@ public class AlignToPeg extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		System.out.println("Aligning to peg");
 		centerX = Robot.gear_camera.getAvgCenterX();
-		
-		//Robot.drivetrain.driveToPeg(centerX);
+		boolean placeholder = Robot.drivetrain.driveToPeg(centerX);
+		System.out.println("this is stopVision"+ placeholder);
+		stopVision = Robot.drivetrain.driveToPeg(centerX);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

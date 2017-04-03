@@ -1,43 +1,40 @@
 package org.usfirst.frc.team1895.robot.commands.shooter;
 
 import org.usfirst.frc.team1895.robot.Robot;
+import org.usfirst.frc.team1895.robot.oi.F310;
+import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Set flywheel_motor on but indexer_motor off so fuel isn't shot
- * 			- Desired arguments: flywheel_speed, indexer_speed
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ * This command will set the shooter speed and the regulator speed.
  */
 public class DefaultShooter extends Command {
 
+	// Cast the variables from outside the class, since it
+	// is easier and looks nicer then typing it out each time.
+	private Shooter shooter = Robot.shooter;
+	private F310 driverTwo = Robot.oi.gamepad2;
+	
     public DefaultShooter() {
-        requires(Robot.shooter);
+        requires(shooter);
     }
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
-
-    // Called repeatedly when this Command is scheduled to run
+    /**
+     * Set the shooter and regulator to the desired speed from the
+     * second driver's controller.
+     * */
+    @Override
     protected void execute() {
+    	shooter.setRegulator(driverTwo.getAxis(F310.RY));
+    	shooter.setShooterSpeed(driverTwo.getAxis(F310.LT));
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    /**
+     * Since we never want this command to end, return false.
+     * */
+    @Override
     protected boolean isFinished() {
         return false;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
     }
 }

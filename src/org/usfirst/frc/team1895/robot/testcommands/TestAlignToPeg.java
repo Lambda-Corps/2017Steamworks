@@ -31,12 +31,14 @@ public class TestAlignToPeg extends Command {
 		lowS = SmartDashboard.getNumber("lowSpeed: ", 0.2);
 		highS = SmartDashboard.getNumber("highSpeed: ", 0.3);
 		neutralS = SmartDashboard.getNumber("neutralSpeed: ", 0.3);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		centerX = Robot.gear_camera.getAvgCenterX();
-		stopVision = Robot.drivetrain.testDriveToPeg(centerX, lowS, highS, neutralS);
+		stopVision = Robot.drivetrain.driveToPeg(centerX);
+		//stopVision = Robot.drivetrain.testDriveToPeg(centerX, lowS, highS, neutralS);
 
 	}
 

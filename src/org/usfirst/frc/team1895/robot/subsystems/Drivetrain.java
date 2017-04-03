@@ -109,7 +109,8 @@ public class Drivetrain extends Subsystem {
 	private PIDController pidControllerTurning;
 
 	// final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
-	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
+	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
+	//final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; FOR REAL ROBOT
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005; // d
 																		// smaller
 																		// =
@@ -208,13 +209,7 @@ public class Drivetrain extends Subsystem {
 		myPIDOutputDriving = new MyPIDOutput();
 		myPIDOutputTurning = new MyPIDOutput();
 		pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving); // Input
-																														// are
-																														// P,
-																														// I,
-																														// D,
-																														// Input
-																														// ,
-																														// output
+																												// output
 		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
 		// pidControllerTurning = new PIDController(pGainTurn, iGainTurn,
 		// dGainTurn, ahrs, myPIDOutputTurning);
@@ -314,6 +309,7 @@ public class Drivetrain extends Subsystem {
 		// are backward, so I'm
 		// going to invert them.
 		yaw *= -1.0;
+		trans_speed *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to
 		// go different speeds.
 		// Since motors physically are turned around, then setting both motors
@@ -360,7 +356,7 @@ public class Drivetrain extends Subsystem {
 									// between encoders values to the motor
 									// drive bias
 		double maxErrorValue = 0.01; // Limits the control the error has on
-										// driving
+									// driving
 		double error = speedfactor * (left_encoder.getDistance() - right_encoder.getDistance());
 		if (error >= maxErrorValue)
 			error = maxErrorValue;
@@ -368,15 +364,15 @@ public class Drivetrain extends Subsystem {
 			error = -maxErrorValue;
 
 		pidControllerDriving.setAbsoluteTolerance(1);
-		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		if(++printCounter % 10 == 0){
 		}
 
 		double pidOutput = myPIDOutputDriving.get();
+		System.out.println("pidOutput " + pidOutput);
 		if(Double.isNaN(pidOutput)){
 		}
 		else{
-			arcadeDrive((myPIDOutputDriving.get()), error);
+				arcadeDrive(0.5*(pidOutput), error);
 		}
 
 		pid_done = pidControllerDriving.onTarget();
@@ -562,7 +558,6 @@ public class Drivetrain extends Subsystem {
 
 	public boolean driveRangeFinderDistance(double goaldistance, double speed) {
 		// SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
-		// System.out.println("Range finder Distance-=-=-=-=-=-=" +
 		// fineDistanceFinder());
 		// SmartDashboard.putNumber("goalDistance in method", goaldistance);
 		double left_speed = speed * TANK_DRIVE_SCALAR;
@@ -596,37 +591,42 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveToPeg(double heading) {
-		final double DISTANCE_TO_PEG = 16.0;
+		final double DISTANCE_TO_PEG = 23.0;
 		double distanceToGo = fineDistanceFinder();
-
-		if (distanceToGo < 16) {
-			tankDrive(0.0, 0.0);
+//
+//		if (distanceToGo < DISTANCE_TO_PEG) {
+//			tankDrive(0.0, 0.0);
+//			return true;
+//		} 
+//		else {
+		
+		System.out.println(heading);
+		if (heading < 475) {
+			tankDrive(-.3, .3);
+		} 
+		else if (heading < 300) {
+			tankDrive(0.4, -0.4);
+		} 
+		else {
 			return true;
-		} else {
-			if (heading < 375) {
-				tankDrive(0.3, 0.4);
-			} else if (heading >= 405) {
-				tankDrive(0.4, 0.3);
-			} else {
-				tankDrive(0.3, 0.3);
-			}
-			return false;
 		}
+		return false;
 
 	}
 
 	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {
 		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
-
+		double leftExceptable = SmartDashboard.getNumber("Farthest Left Exceptable: ");
+		double rightExceptable = SmartDashboard.getNumber("Farthest Right Exceptable: ");
 		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
-			if (heading < 375) {
+			if (heading < 490) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
-			} else if (heading >= 405) {
+			} else if (heading >= 510) {
 				tankDrive(highSpeed, lowSpeed);
 				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {
@@ -823,6 +823,7 @@ public class Drivetrain extends Subsystem {
 			tankDrive(v, v);
 		} else {
 			tankDrive(0.0, 0.0);
+			returnValue = true;
 		}
 
 		// return boolean

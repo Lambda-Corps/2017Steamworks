@@ -1,39 +1,39 @@
-package org.usfirst.frc.team1895.robot.commands.gears;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
+import org.usfirst.frc.team1895.robot.oi.F310;
+import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Moves the gear holder from its deployed position to its retracted position using pneumatics. 
- * 		Is the default command of the gearholder subsystem.
- * 			- Desired arguments: speed? (or do we want it to be hardcoded)
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ *
  */
-public class RetractGearHolder extends Command {
-	boolean done;
-    public RetractGearHolder() {
+public class FineTuningLowGear extends Command {
+
+	private final Drivetrain drivetrain = Robot.drivetrain;
+	private boolean test;
+	
+    public FineTuningLowGear(boolean test) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.gearholder);
-        done = false;
+        requires(drivetrain);
+    	this.test = test;
     }
+
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if( test) Robot.drivetrain.manualOverride( true, false);
+    	if(!test) Robot.drivetrain.manualOverride(false, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Retract gearholder woo");
-    	done = !Robot.gearholder.retractGear();
+    	Robot.drivetrain.arcadeDrive((0.5)*Robot.oi.gamepad.getAxis(F310.RY), (0.5)*Robot.oi.gamepad.getAxis(F310.LX));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return done;
+        return true;
     }
 
     // Called once after isFinished returns true
