@@ -591,27 +591,34 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveToPeg(double heading) {
-		final double DISTANCE_TO_PEG = 23.0;
+		final double DISTANCE_TO_PEG = 20.0;
 		double distanceToGo = fineDistanceFinder();
-//
-//		if (distanceToGo < DISTANCE_TO_PEG) {
-//			tankDrive(0.0, 0.0);
-//			return true;
-//		} 
-//		else {
-		
-		System.out.println(heading);
-		if (heading < 475) {
-			tankDrive(-.3, .3);
-		} 
-		else if (heading < 300) {
-			tankDrive(0.4, -0.4);
+
+		if (distanceToGo < DISTANCE_TO_PEG) {
+			tankDrive(0.0, 0.0);
+			return true;
 		} 
 		else {
-			return true;
-		}
-		return false;
+		
+//			System.out.println(heading);
 
+			if ((heading < 490) && (heading >=300)) {
+				System.out.println("turn to left");
+				tankDrive(.3, .4);
+			} 
+			else if((heading>200)&&(heading<300)){
+				System.out.println("turn to right");
+				tankDrive(0.3, 0.2);
+			}
+			else if (heading > 520) {
+				System.out.println("turn to right");
+				tankDrive(0.4, 0.3);
+			} 
+			else {
+				return true;
+			}
+		return false;
+		}
 	}
 
 	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {

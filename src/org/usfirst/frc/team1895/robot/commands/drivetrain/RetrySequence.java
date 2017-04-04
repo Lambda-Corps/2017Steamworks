@@ -15,10 +15,10 @@ public class RetrySequence extends CommandGroup {
     	
     	//addSequential(new RetractGearHolder());
     	addSequential(new DriveStraightSetDistance(-10));  //reverse
-    	addSequential(new WaitCommand(1.0));
-    	addSequential(new DriveStraightSetDistance(6));
+    	//addSequential(new WaitCommand(1.0));
     	addSequential(new AlignToPeg());					//includes driving forward
-    	//addSequential(new DriveToObstacle(14, 0.5));
+    	//addSequential(new DriveStraightSetDistance(10));
+    	addSequential(new DriveToObstacle(20, 0.2));
     	//addSequential(new DeployGearHolder());
     	//addSequential(new WaitCommandForAuto());
     	addSequential(new PrintCommand("about to wait"));
