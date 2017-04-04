@@ -600,18 +600,13 @@ public class Drivetrain extends Subsystem {
 		} 
 		else {
 		
-//			System.out.println(heading);
-
 			if ((heading < 490) && (heading >=300)) {
-				System.out.println("turn to left");
 				tankDrive(.3, .4);
 			} 
 			else if((heading>200)&&(heading<300)){
-				System.out.println("turn to right");
 				tankDrive(0.3, 0.2);
 			}
 			else if (heading > 520) {
-				System.out.println("turn to right");
 				tankDrive(0.4, 0.3);
 			} 
 			else {
@@ -624,8 +619,7 @@ public class Drivetrain extends Subsystem {
 	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {
 		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
-		double leftExceptable = SmartDashboard.getNumber("Farthest Left Exceptable: ");
-		double rightExceptable = SmartDashboard.getNumber("Farthest Right Exceptable: ");
+		
 		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
