@@ -19,7 +19,6 @@ public class AutonomousGearCondition extends ConditionalCommand {
     protected boolean condition() {
     	
     	if (!Robot.gearholder.isGearPresent()){
-    		System.out.println("_)_-----------------------------------------------------------------------");
     		return true;
     	}
     	else{

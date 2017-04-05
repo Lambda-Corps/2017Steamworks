@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DefaultGearInOrOut extends Command {
+    int counter;
 
     public DefaultGearInOrOut() {
         // Use requires() here to declare subsystem dependencies
@@ -21,7 +22,9 @@ public class DefaultGearInOrOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putBoolean("Is the gearholder out?", Robot.gearholder.getGearState());
+        if(counter%25==0) {
+    	   SmartDashboard.putBoolean("Is the gearholder out?", Robot.gearholder.getGearState());
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

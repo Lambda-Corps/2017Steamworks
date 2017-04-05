@@ -32,7 +32,7 @@ public class WaitUntilGearGone extends Command {
         retryGearDeployment = false;
         retryButton = new InternalButton();
         retryButton.whenPressed(new RetryGearDeploymentCommandGroup());
-        SmartDashboard.putData("button", retryButton);
+        // SmartDashboard.putData("button", retryButton);
 
     }
 

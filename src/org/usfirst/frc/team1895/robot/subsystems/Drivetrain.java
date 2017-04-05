@@ -222,18 +222,6 @@ public class Drivetrain extends Subsystem {
 		// DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT,
 		// RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
 
-		// SmartDashboard things
-		// SmartDashboard.putData("PID Controller for Driving",
-		// pidControllerDriving);
-		// SmartDashboard.putData("PID Controller for Turning",
-		// pidControllerTurning);
-		// SmartDashboard.putNumber("PID Output Driving: ",
-		// myPIDOutputDriving.get());
-		// SmartDashboard.putData("LeftEncoder: ", left_encoder);
-		// SmartDashboard.putData("RightEncoder: ", right_encoder);
-		// SmartDashboard.putData("Voltage middle_fr_short_rangefinder",
-		// middle_fr_short_rangefinder);
-		// smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
 		right_encoder.setDistancePerPulse(0.0225);
 
@@ -368,7 +356,7 @@ public class Drivetrain extends Subsystem {
 		}
 
 		double pidOutput = myPIDOutputDriving.get();
-		System.out.println("pidOutput " + pidOutput);
+//		System.out.println("pidOutput " + pidOutput);
 		if(Double.isNaN(pidOutput)){
 		}
 		else{
@@ -452,8 +440,6 @@ public class Drivetrain extends Subsystem {
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;
 		double d = voltage * coefficient;
-		// SmartDashboard.putNumber("Distance frobm findDistancecFinder", d);
-		// SmartDashboard.putNumber("Drivetrain", outputValue);
 		return d;
 	}
 
@@ -490,7 +476,7 @@ public class Drivetrain extends Subsystem {
 			bFirstcall_to_Swerve = false;
 		}
 		// does gyro equal the angle if it does reverse
-		System.out.println("setangleforgyro: " + setangleforgyro + "\t getangle: " + ahrs.getAngle());
+		// System.out.println("setangleforgyro: " + setangleforgyro + "\t getangle: " + ahrs.getAngle());
 		double left_speed = 0.0;
 		double right_speed = 0.0;
 		if (angletoPeg > 0) {
@@ -513,7 +499,7 @@ public class Drivetrain extends Subsystem {
 			}
 		}
 
-		System.out.println("leftspeed: " + left_speed + "rightspeed: " + right_speed);
+//		System.out.println("leftspeed: " + left_speed + "rightspeed: " + right_speed);
 		tankDrive(left_speed / 4, right_speed / 4);
 		return false;
 	}
@@ -557,9 +543,6 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveRangeFinderDistance(double goaldistance, double speed) {
-		// SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
-		// fineDistanceFinder());
-		// SmartDashboard.putNumber("goalDistance in method", goaldistance);
 		double left_speed = speed * TANK_DRIVE_SCALAR;
 		double right_speed = speed;
 		if (fineDistanceFinder() <= (goaldistance)) {// if the robot crossed the
@@ -567,7 +550,6 @@ public class Drivetrain extends Subsystem {
 														// buffer then the code
 														// will stop
 			tankDrive(0, 0);
-			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
 			return true;
 		} else {// if it hasn't crossed it will run at a determined speed
 			tankDrive(left_speed, right_speed);

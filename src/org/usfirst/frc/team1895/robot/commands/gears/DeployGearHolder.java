@@ -29,7 +29,6 @@ public class DeployGearHolder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("I'm trying to deploy gearholder");
     	gearPresence = Robot.gearholder.isGearPresent();
     	if(gearPresence == true) {
     		done = Robot.gearholder.extendGear(); //returns boolean
