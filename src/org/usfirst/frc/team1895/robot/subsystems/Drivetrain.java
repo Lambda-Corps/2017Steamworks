@@ -341,7 +341,7 @@ public class Drivetrain extends Subsystem {
 		// right_motor1.set(right_speed);
 
 		// Check to see if gear shifting is necessary. if it is, then shift
-		shiftGears();
+		//shiftGears();
 	}
 
 	// ==FOR PID
@@ -680,7 +680,7 @@ public class Drivetrain extends Subsystem {
 
 		case 1:
 
-			// If we are over a even higher speed, we are definetly in high gear
+			// If we are over an even higher speed, we are definitely in high gear
 			if (max > 70.0) {
 				transmission_state = 2;
 				transmissionTimer = 0;

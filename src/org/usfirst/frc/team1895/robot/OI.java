@@ -83,4 +83,8 @@ public class OI {
 		overrideLow.whenPressed(new ManualOverrideLowGear(true));
 		overrideLow.whenReleased(new ManualOverrideLowGear(false));
 	}
+	
+	public double getGainOI() {
+		return F310.getGain();
+	}
 }
