@@ -55,7 +55,7 @@ public class TestDriveStraightSetDistance extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("interupted cries");
+    	System.out.println("interrupted cries");
     	end();
     }
 }

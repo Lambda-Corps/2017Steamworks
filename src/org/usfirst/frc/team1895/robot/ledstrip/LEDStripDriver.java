@@ -63,7 +63,6 @@ public class LEDStripDriver extends Thread {
 	public void run() {
 		while(true) {
 			// :D
-			//System.out.println("Hello from a thread!");
 			 // Counter variable to track where in the packet we are
 			int a = 0;
 			
@@ -74,7 +73,6 @@ public class LEDStripDriver extends Thread {
 			
 			// Gather the data from each strip and put it in the packet array.
 //			for(int led = 0; led < ledStrips.size(); led++) {
-//				//System.out.println(led);
 //				byte[] data = ledStrips.get(led).update();
 //				for(int i = 0; i < data.length; i++, a++) {
 //					packet[a] = data[i];

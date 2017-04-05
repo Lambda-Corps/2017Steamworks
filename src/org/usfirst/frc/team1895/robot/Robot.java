@@ -10,6 +10,8 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
@@ -79,7 +81,6 @@ public class Robot extends IterativeRobot {
 		retryButton = new InternalButton();
 		
 		//choices for the user to pick autonomouses in smart dashboard
-		System.out.println("I'm initializing yay");
 		chooser.addObject("RED Left Position Autonomous", new BLeft_LeftPos_Autonomous());
 		chooser.addObject("RED Center Position Autonomous", new BLeft_CenterPos_Autonomous());
 		chooser.addObject("RED Right Position Autonomous", new BLeft_RightPos_Autonomous());
@@ -88,7 +89,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject( "BLUE Right Position Autonomous", new BRight_RightPos_Autonomous());
 		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
-		System.out.println("I'm done initializing yay");
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -123,7 +123,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-		System.out.println("I chose a chooser yay");
 		//autonomousCommand = new BLeft_Position2_Autonomous();
 		/* String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -172,11 +171,22 @@ public class Robot extends IterativeRobot {
 	        SmartDashboard.putData("Test Drive PID Distance", new TestDriveStraightSetDistance());
 	        SmartDashboard.putData("Test Drive RangeFinder", new TestDriveToObstacle());
 	        
+	        //Sensor testing
+	        SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
+	        SmartDashboard.putNumber("Left Encoder: ", Robot.drivetrain.getLEncoderValues());
+	        SmartDashboard.putNumber("Right Encoder: ", Robot.drivetrain.getREncoderValues());
+	        SmartDashboard.putNumber("Rangefinder: ", Robot.drivetrain.fineDistanceFinder());
+	        SmartDashboard.putNumber("Left Encoder: ", Robot.gear_camera.getAvgCenterX());
+
+
+	        
+	        
 	        // Gear Holder Related Testing
-	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
+	        SmartDashboard.putData("Deploy Gearholder", new DeployGearHolder()); 
+	        SmartDashboard.putData("Retract Gearholder", new RetractGearHolder()); 
 	        //Vision Related testing
-			SmartDashboard.putNumber("Farthest Left Exceptable: ", 375);
-			SmartDashboard.putNumber("Farthest Right Exceptable: ", 405);
+			SmartDashboard.putNumber("Farthest Left Acceptable: ", 375);
+			SmartDashboard.putNumber("Farthest Right Acceptable: ", 405);
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
 	        
@@ -199,9 +209,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		SmartDashboard.putNumber("avgCenterX: ", Robot.gear_camera.getAvgCenterX());
-		
+	public void autonomousPeriodic() {	
 		Scheduler.getInstance().run();
 	}
  
@@ -215,7 +223,6 @@ public class Robot extends IterativeRobot {
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
-        //SmartDashboard.putData("AlignToPeg ", new AlignToPeg());
 	}
  
 	@Override
@@ -236,15 +243,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-//		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
-//		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
-//		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
-//		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
-//		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
-//		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
-		SmartDashboard.putNumber("Range Finder: ", Robot.drivetrain.fineDistanceFinder());
-		SmartDashboard.putNumber("Range finder voltage: ", Robot.drivetrain.getVoltage());
 		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second

@@ -27,7 +27,6 @@ public class RetractGearHolder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Retract gearholder woo");
     	done = !Robot.gearholder.retractGear();
     }
 

@@ -84,4 +84,8 @@ public class OI {
 		fineTuning.whenPressed(new FineTuningLowGear(true));
 		fineTuning.whenReleased(new FineTuningLowGear(false));
 	}
+	
+	public double getGainOI() {
+		return F310.getGain();
+	}
 }

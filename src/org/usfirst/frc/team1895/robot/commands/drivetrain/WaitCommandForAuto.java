@@ -27,8 +27,6 @@ public class WaitCommandForAuto extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("I'm in wait command for auto -- 3 seconds");
-    	System.out.println(counterforgear);
 			if (counterforgear >= gearNotTakenTimeout){ // wait 3 seconds
 				done = true;
 			}
