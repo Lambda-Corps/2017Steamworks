@@ -100,6 +100,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledInit() {
         drivetrain.setRobotTeleop(false);
+        gear_camera.stopVisionThread();
     }
 
     @Override
