@@ -1,24 +1,24 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
-import org.usfirst.frc.team1895.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class SetRetryButton extends Command {
-	double counter;
+public class WaitCommandForAuto extends Command {
 	boolean done;
-	int number;
-	boolean state;
+	double counter;
+	double counterforgear;
+	double gearNotTakenTimeout;
+	double time;
 
-    public SetRetryButton(boolean state) {
+    public WaitCommandForAuto() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	this.state = state;
-    	counter = 0.0;
+    	counterforgear = 0.0;
     	done = false;
+    	time = 3;  //seconds
+    	gearNotTakenTimeout = 50 * time; // time before geargonesequence returns completed and robot goes to next instruction, 20 ms per count increment
     }
 
     // Called just before this Command runs the first time
@@ -27,7 +27,10 @@ public class SetRetryButton extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.setRetryButton(state);
+			if (counterforgear >= gearNotTakenTimeout){ // wait 3 seconds
+				done = true;
+			}
+			counterforgear++;      		// Counter for delay after taken
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,6 +40,8 @@ public class SetRetryButton extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	counterforgear = 0.0;
+    	done = false;
     }
 
     // Called when another command which requires one or more of the same

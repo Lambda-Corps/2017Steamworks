@@ -21,8 +21,8 @@ public class GetAverageVoltage extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("AvgVoltage", Robot.gearholder.getAverageVoltage());
-    	SmartDashboard.putNumber("DistToObstacle", Robot.drivetrain.fineDistanceFinder());
+    	// SmartDashboard.putNumber("AvgVoltage", Robot.gearholder.getAverageVoltage());
+    	// SmartDashboard.putNumber("DistToObstacle", Robot.drivetrain.fineDistanceFinder());
 
     }
 

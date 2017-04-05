@@ -1,41 +1,39 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
+import org.usfirst.frc.team1895.robot.oi.F310;
+import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *Changelog:
- * (Zach)
- * 		Description: 
- * 			- Desired arguments: speed, distance
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 			- Add arcade drive and gamepad use
+ *
  */
-public class SwerveDriveSecondTurn extends Command {
-	boolean done;
-	double distancetoPeg;
-	double angletoPeg;
-    public SwerveDriveSecondTurn(double distancetoLift,double angletoLift) {
-    	distancetoPeg=distancetoLift;
-    	angletoPeg=angletoLift;
-    	done = false;
-    	requires(Robot.drivetrain);
+public class FineTuningLowGear extends Command {
+
+	private final Drivetrain drivetrain = Robot.drivetrain;
+	private boolean test;
+	
+    public FineTuningLowGear(boolean test) {
+        // Use requires() here to declare subsystem dependencies
+        requires(drivetrain);
+    	this.test = test;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if( test) Robot.drivetrain.manualOverride( true, false);
+    	if(!test) Robot.drivetrain.manualOverride(false, false);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	done = Robot.drivetrain.swervetoPeg2(distancetoPeg, angletoPeg);
+    	Robot.drivetrain.arcadeDrive((0.5)*Robot.oi.gamepad.getAxis(F310.RY), (0.5)*Robot.oi.gamepad.getAxis(F310.LX));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return done;
+        return true;
     }
 
     // Called once after isFinished returns true

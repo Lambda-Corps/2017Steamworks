@@ -1,36 +1,37 @@
-package org.usfirst.frc.team1895.robot.commands.shooter;
+package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Changelog:
- * 2/4/2017 (Maddy Seputro)
- * 		Description: Set indexer_motor and flywheel_motor to desired speed. It will be called when the robot presses the 
- * 		button for shooting (which is still TBD)
- * 			- Desired arguments: flywheel_speed, indexer_speed
- * 		To do still:
- * 			- Fill in execute method and other methods if needed
- * 	Added: requires statement
+ *
  */
-public class Shoot extends Command {
+public class DriveStraightWithoutPID extends Command {
 
-    public Shoot() {
-    	requires(Robot.shooter);
+	double distance;
+	double speed;
+	boolean finished = false;
+    public DriveStraightWithoutPID(double v, double disToTravel) {
+        requires(Robot.drivetrain);
+        speed = v;
+        distance = disToTravel;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.resetEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	finished = Robot.drivetrain.driveWithEncoders(speed, distance);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     // Called once after isFinished returns true

@@ -8,8 +8,8 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_LeftPos_Autonom
 import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupFalse;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupTrue;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
 import org.usfirst.frc.team1895.robot.oi.F310;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
@@ -18,6 +18,7 @@ import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
 import org.usfirst.frc.team1895.robot.testcommands.TestAlignToPeg;
+import org.usfirst.frc.team1895.robot.testcommands.TestCameraCalibration;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveToObstacle;
 import org.usfirst.frc.team1895.robot.testcommands.TestEmptyCommand;
@@ -39,7 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  * 
- *  List of all sensors used:
+ *  List of all sensors used: 
  *  
  *  List of what's displayed to SmartDashboard:
  *  
@@ -87,7 +88,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject( "BLUE Right Position Autonomous", new BRight_RightPos_Autonomous());
 		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
-		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -145,14 +145,14 @@ public class Robot extends IterativeRobot {
 			// Testing Turning
 			SmartDashboard.putNumber("Turn P value: ", .025);
 	    	SmartDashboard.putNumber("Turn I value: ", 0.0);
-	    	SmartDashboard.putNumber("Turn D value: ", -.005);
+	    	SmartDashboard.putNumber("Turn D value: ", -.01);
 	    	SmartDashboard.putNumber("Test Turn Angle: ", 90.0);
 	    	SmartDashboard.putNumber("Test Turn NP Speed: ", .4);
 	    	
 			SmartDashboard.putData("Test PID Turn", new TestTurnWithGyro());
 	        SmartDashboard.putData("Test Turn - NO PID", new TestTurnWithoutPID());
 	        
-			SmartDashboard.putData("Test Conditional Command", new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
+			SmartDashboard.putData("Test Conditional Command", new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
 
 	        
 	        
@@ -164,12 +164,16 @@ public class Robot extends IterativeRobot {
 	    	SmartDashboard.putNumber("Test Drive Tank Speed: ", .4);
 	    	SmartDashboard.putNumber("Test Drive Tank Scalar:", .94);
 	    	
+
+	    	
 	        SmartDashboard.putData("Test Drive PID Distance", new TestDriveStraightSetDistance());
 	        SmartDashboard.putData("Test Drive RangeFinder", new TestDriveToObstacle());
 	        
 	        // Gear Holder Related Testing
 	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
-	        
+	        //Vision Related testing
+			SmartDashboard.putNumber("Farthest Left Acceptable: ", 375);
+			SmartDashboard.putNumber("Farthest Right Acceptable: ", 405);
 	        // Camera Alignment Testing
 	        // Add Relevant Dashboard values and Commands here
 	        
@@ -179,10 +183,9 @@ public class Robot extends IterativeRobot {
 	        
 	        Robot.gear_camera.startVisionThread();
 	        
-	        System.out.println("------------HERE------------");
-	        
+	       
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
-	        
+	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here
 		}
@@ -193,9 +196,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		SmartDashboard.putNumber("avgCenterX: ", Robot.gear_camera.getAvgCenterX());
-		
+	public void autonomousPeriodic() {	
 		Scheduler.getInstance().run();
 	}
  
@@ -209,7 +210,6 @@ public class Robot extends IterativeRobot {
         
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
-        //SmartDashboard.putData("AlignToPeg ", new AlignToPeg());
 	}
  
 	@Override
@@ -230,15 +230,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-//		SmartDashboard.putNumber("Motor current left: ", drivetrain.lMCurrent());
-//		SmartDashboard.putNumber("motor current right: ", drivetrain.rMCurrent());
-//		SmartDashboard.putNumber("LeftEncoder: ", drivetrain.getLEncoderValues());
-//		SmartDashboard.putNumber("RightEncoder: ", drivetrain.getREncoderValues());
-//		SmartDashboard.putNumber("Gyro Value: ", drivetrain.getAngle());
-//		SmartDashboard.putNumber("AHRS turning value", Robot.drivetrain.getAngleAHRS());
-		SmartDashboard.putNumber("Range Finder: ", Robot.drivetrain.fineDistanceFinder());
-		SmartDashboard.putNumber("Range finder voltage: ", Robot.drivetrain.getVoltage());
 		
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second

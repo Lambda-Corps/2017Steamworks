@@ -109,7 +109,8 @@ public class Drivetrain extends Subsystem {
 	private PIDController pidControllerTurning;
 
 	// final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
-	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01;
+	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
+	//final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; FOR REAL ROBOT
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005; // d
 																		// smaller
 																		// =
@@ -208,13 +209,7 @@ public class Drivetrain extends Subsystem {
 		myPIDOutputDriving = new MyPIDOutput();
 		myPIDOutputTurning = new MyPIDOutput();
 		pidControllerDriving = new PIDController(pGainDriv, iGainTurn, dGainDriv, left_encoder, myPIDOutputDriving); // Input
-																														// are
-																														// P,
-																														// I,
-																														// D,
-																														// Input
-																														// ,
-																														// output
+																												// output
 		pidControllerTurning = new PIDController(pGainTurn, iGainTurn, dGainTurn, gyro, myPIDOutputTurning);
 		// pidControllerTurning = new PIDController(pGainTurn, iGainTurn,
 		// dGainTurn, ahrs, myPIDOutputTurning);
@@ -227,18 +222,6 @@ public class Drivetrain extends Subsystem {
 		// DoubleSolenoid(RobotMap.R_DRIVETRAIN_SOLENOID_A_PORT,
 		// RobotMap.R_DRIVETRAIN_SOLENOID_B_PORT);
 
-		// SmartDashboard things
-		// SmartDashboard.putData("PID Controller for Driving",
-		// pidControllerDriving);
-		// SmartDashboard.putData("PID Controller for Turning",
-		// pidControllerTurning);
-		// SmartDashboard.putNumber("PID Output Driving: ",
-		// myPIDOutputDriving.get());
-		// SmartDashboard.putData("LeftEncoder: ", left_encoder);
-		// SmartDashboard.putData("RightEncoder: ", right_encoder);
-		// SmartDashboard.putData("Voltage middle_fr_short_rangefinder",
-		// middle_fr_short_rangefinder);
-		// smaller = farther
 		left_encoder.setDistancePerPulse(0.0225);
 		right_encoder.setDistancePerPulse(0.0225);
 
@@ -314,6 +297,7 @@ public class Drivetrain extends Subsystem {
 		// are backward, so I'm
 		// going to invert them.
 		yaw *= -1.0;
+		trans_speed *= -1.0;
 		// If yaw is at full, and transitional is at 0, then we want motors to
 		// go different speeds.
 		// Since motors physically are turned around, then setting both motors
@@ -360,7 +344,7 @@ public class Drivetrain extends Subsystem {
 									// between encoders values to the motor
 									// drive bias
 		double maxErrorValue = 0.01; // Limits the control the error has on
-										// driving
+									// driving
 		double error = speedfactor * (left_encoder.getDistance() - right_encoder.getDistance());
 		if (error >= maxErrorValue)
 			error = maxErrorValue;
@@ -368,15 +352,15 @@ public class Drivetrain extends Subsystem {
 			error = -maxErrorValue;
 
 		pidControllerDriving.setAbsoluteTolerance(1);
-		//SmartDashboard.putNumber("MyPIDOutput.get value", myPIDOutputDriving.get());
 		if(++printCounter % 10 == 0){
 		}
 
 		double pidOutput = myPIDOutputDriving.get();
+//		System.out.println("pidOutput " + pidOutput);
 		if(Double.isNaN(pidOutput)){
 		}
 		else{
-			arcadeDrive((myPIDOutputDriving.get()), error);
+				arcadeDrive(0.5*(pidOutput), error);
 		}
 
 		pid_done = pidControllerDriving.onTarget();
@@ -456,8 +440,6 @@ public class Drivetrain extends Subsystem {
 		double voltage = Math.pow(outputValue, -1.16);
 		double coefficient = 10.298;
 		double d = voltage * coefficient;
-		// SmartDashboard.putNumber("Distance frobm findDistancecFinder", d);
-		// SmartDashboard.putNumber("Drivetrain", outputValue);
 		return d;
 	}
 
@@ -494,7 +476,7 @@ public class Drivetrain extends Subsystem {
 			bFirstcall_to_Swerve = false;
 		}
 		// does gyro equal the angle if it does reverse
-		System.out.println("setangleforgyro: " + setangleforgyro + "\t getangle: " + ahrs.getAngle());
+		// System.out.println("setangleforgyro: " + setangleforgyro + "\t getangle: " + ahrs.getAngle());
 		double left_speed = 0.0;
 		double right_speed = 0.0;
 		if (angletoPeg > 0) {
@@ -517,7 +499,7 @@ public class Drivetrain extends Subsystem {
 			}
 		}
 
-		System.out.println("leftspeed: " + left_speed + "rightspeed: " + right_speed);
+//		System.out.println("leftspeed: " + left_speed + "rightspeed: " + right_speed);
 		tankDrive(left_speed / 4, right_speed / 4);
 		return false;
 	}
@@ -561,10 +543,6 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveRangeFinderDistance(double goaldistance, double speed) {
-		// SmartDashboard.putNumber("Range Finder ", fineDistanceFinder());
-		// System.out.println("Range finder Distance-=-=-=-=-=-=" +
-		// fineDistanceFinder());
-		// SmartDashboard.putNumber("goalDistance in method", goaldistance);
 		double left_speed = speed * TANK_DRIVE_SCALAR;
 		double right_speed = speed;
 		if (fineDistanceFinder() <= (goaldistance)) {// if the robot crossed the
@@ -572,7 +550,6 @@ public class Drivetrain extends Subsystem {
 														// buffer then the code
 														// will stop
 			tankDrive(0, 0);
-			SmartDashboard.putNumber("Rangefinder value from method1", middle_fr_short_rangefinder.getAverageVoltage());
 			return true;
 		} else {// if it hasn't crossed it will run at a determined speed
 			tankDrive(left_speed, right_speed);
@@ -596,37 +573,43 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveToPeg(double heading) {
-		final double DISTANCE_TO_PEG = 16.0;
+		final double DISTANCE_TO_PEG = 20.0;
 		double distanceToGo = fineDistanceFinder();
 
-		if (distanceToGo < 16) {
+		if (distanceToGo < DISTANCE_TO_PEG) {
 			tankDrive(0.0, 0.0);
 			return true;
-		} else {
-			if (heading < 375) {
-				tankDrive(0.3, 0.4);
-			} else if (heading >= 405) {
-				tankDrive(0.4, 0.3);
-			} else {
-				tankDrive(0.3, 0.3);
+		} 
+		else {
+		
+			if ((heading < 490) && (heading >=300)) {
+				tankDrive(.3, .4);
+			} 
+			else if((heading>200)&&(heading<300)){
+				tankDrive(0.3, 0.2);
 			}
-			return false;
+			else if (heading > 520) {
+				tankDrive(0.4, 0.3);
+			} 
+			else {
+				return true;
+			}
+		return false;
 		}
-
 	}
 
 	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {
 		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
-
+		
 		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
-			if (heading < 375) {
+			if (heading < 490) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
-			} else if (heading >= 405) {
+			} else if (heading >= 510) {
 				tankDrive(highSpeed, lowSpeed);
 				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {
@@ -823,6 +806,7 @@ public class Drivetrain extends Subsystem {
 			tankDrive(v, v);
 		} else {
 			tankDrive(0.0, 0.0);
+			returnValue = true;
 		}
 
 		// return boolean

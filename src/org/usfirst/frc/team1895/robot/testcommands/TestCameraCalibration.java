@@ -1,46 +1,37 @@
-package org.usfirst.frc.team1895.robot.commands.drivetrain;
+package org.usfirst.frc.team1895.robot.testcommands;
 
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class RetryDeployGearHolder1 extends Command {
-	double counter;
-	boolean done;
-	int attempt;
-	
-	boolean retryGearDeployment;
+public class TestCameraCalibration extends Command {
 
-    public RetryDeployGearHolder1() {
+    public TestCameraCalibration() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	counter = 0.0;
-    	done = false;
-    	attempt = 0;
-    	
-    	retryGearDeployment = false;
-//        Robot.retryButton.whenPressed(new DeployGearHolderDummyCommandGroup());
-
+    	requires(Robot.gear_camera);
+    	requires(Robot.drivetrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	attempt ++;
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	new RetryGearDeploymentCommandGroup();
-    	
+    	SmartDashboard.putNumber("CenterX value", Robot.gear_camera.getAvgCenterX());
+    	SmartDashboard.putNumber("Distance Away", Robot.drivetrain.fineDistanceFinder());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return !Robot.retryButton.get();
+    	//Returning false to continuously try the command. This command will be stopped by disabling.
+        return false;
     }
 
     // Called once after isFinished returns true

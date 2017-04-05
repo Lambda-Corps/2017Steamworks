@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1895.robot.commands.autonomous;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupFalse;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.CommandGroupTrue;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -13,7 +13,7 @@ public class TestAutonomousRetry extends CommandGroup {
 
     public TestAutonomousRetry() {
     	
-    	addSequential(new AutonomousGearCondition(new CommandGroupTrue(), new CommandGroupFalse()));
+    	addSequential(new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());

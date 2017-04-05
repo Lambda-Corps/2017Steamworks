@@ -18,14 +18,15 @@ public class AutonomousGearCondition extends ConditionalCommand {
     
     protected boolean condition() {
     	
-//    	if (Robot.gearholder.isGearPresent())
+    	if (!Robot.gearholder.isGearPresent()){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+//    	if (var==1)
 //    		return true;
 //    	else
 //    		return false;
-    	
-    	if (var==1)
-    		return true;
-    	else
-    		return false;
     }
 }
