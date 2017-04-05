@@ -10,8 +10,9 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
-import org.usfirst.frc.team1895.robot.oi.F310;
 import org.usfirst.frc.team1895.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
@@ -169,8 +170,19 @@ public class Robot extends IterativeRobot {
 	        SmartDashboard.putData("Test Drive PID Distance", new TestDriveStraightSetDistance());
 	        SmartDashboard.putData("Test Drive RangeFinder", new TestDriveToObstacle());
 	        
+	        //Sensor testing
+	        SmartDashboard.putNumber("Gyro Angle: ", Robot.drivetrain.getAngle());
+	        SmartDashboard.putNumber("Left Encoder: ", Robot.drivetrain.getLEncoderValues());
+	        SmartDashboard.putNumber("Right Encoder: ", Robot.drivetrain.getREncoderValues());
+	        SmartDashboard.putNumber("Rangefinder: ", Robot.drivetrain.fineDistanceFinder());
+	        SmartDashboard.putNumber("Left Encoder: ", Robot.gear_camera.getAvgCenterX());
+
+
+	        
+	        
 	        // Gear Holder Related Testing
-	        //SmartDashboard.putData("deploy", new DeployGearHolder()); 
+	        SmartDashboard.putData("Deploy Gearholder", new DeployGearHolder()); 
+	        SmartDashboard.putData("Retract Gearholder", new RetractGearHolder()); 
 	        //Vision Related testing
 			SmartDashboard.putNumber("Farthest Left Acceptable: ", 375);
 			SmartDashboard.putNumber("Farthest Right Acceptable: ", 405);

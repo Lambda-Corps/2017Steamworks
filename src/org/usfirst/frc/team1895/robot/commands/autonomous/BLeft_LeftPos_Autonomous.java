@@ -5,7 +5,6 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,7 +26,6 @@ public class BLeft_LeftPos_Autonomous extends CommandGroup {
     	addSequential(new DeployGearHolder());
     	//addSequential(new AlignToPeg());
     	//WAIT TILL GEAR IS GONE
-    	addSequential(new WaitUntilGearGone());
     	
     	//RETRACT GEAR HOLDER AND DRIVE BACK
     	addSequential(new RetractGearHolder());

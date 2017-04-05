@@ -778,9 +778,6 @@ public class Drivetrain extends Subsystem {
 		return ahrs.getAngle();
 	}
 
-	public double getAngleAHRS() {
-		return ahrs.getAngle();
-	}
 	// public void printTelemetry() {
 	// System.out.println("Left encoder: " + left_encoder.getDistance());
 	// System.out.println("Right encoderL " + right_encoder.getDistance());

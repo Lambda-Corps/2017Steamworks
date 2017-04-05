@@ -4,7 +4,6 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.WaitUntilGearGone;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -23,7 +22,6 @@ public class BRight_CenterPos_Autonomous extends CommandGroup {
     	//should re-adjust if necessary
     	addSequential(new DriveToObstacle(14, 0.15)); 		//should this be larger and then replace with driveStraight?
     	addSequential(new DeployGearHolder());
-    	addSequential(new WaitUntilGearGone());
     	addSequential(new DriveStraightSetDistance(54));
     	
     	
