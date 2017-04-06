@@ -19,7 +19,7 @@ public class TurnOnLEDRing extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	ledRing.set(Relay.Value.kOn);
+    	ledRing.set(Relay.Value.kReverse);
     }
 
     // Called repeatedly when this Command is scheduled to run

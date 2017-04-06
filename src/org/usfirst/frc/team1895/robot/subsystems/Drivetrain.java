@@ -108,8 +108,8 @@ public class Drivetrain extends Subsystem {
 	private PIDController pidControllerTurning;
 
 	// final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
-	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
-	//final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; FOR REAL ROBOT
+	//final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
+	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; //FOR REAL ROBOT
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005; // d
 																		// smaller
 																		// =
@@ -324,7 +324,7 @@ public class Drivetrain extends Subsystem {
 		// right_motor1.set(right_speed);
 
 		// Check to see if gear shifting is necessary. if it is, then shift
-		//shiftGears();
+		shiftGears();
 	}
 
 	// ==FOR PID
