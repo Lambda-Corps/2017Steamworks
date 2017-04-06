@@ -109,7 +109,7 @@ public class Drivetrain extends Subsystem {
 
 	// final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
 	//final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
-	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; //FOR REAL ROBOT
+	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR REAL ROBOT
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005; // d
 																		// smaller
 																		// =
@@ -359,7 +359,7 @@ public class Drivetrain extends Subsystem {
 		if(Double.isNaN(pidOutput)){
 		}
 		else{
-				arcadeDrive(-0.5*(pidOutput), error);
+				arcadeDrive(-0.8*(pidOutput), error);
 		}
 
 		pid_done = pidControllerDriving.onTarget();
@@ -740,10 +740,12 @@ public class Drivetrain extends Subsystem {
 	// ==METHODS FOR ACCESSING VALUES AND TESTING
 	// THINGS========================================================
 	public void makeNewPidDriving(double p, double i, double d) {
+		myPIDOutputDriving = new MyPIDOutput();
 		pidControllerDriving = new PIDController(p, i, d, left_encoder, myPIDOutputDriving);
 	}
 
 	public void makeNewPidTurning(double p, double i, double d) {
+		myPIDOutputTurning = new MyPIDOutput();
 		pidControllerTurning = new PIDController(p, i, d, ahrs, myPIDOutputTurning);
 	}
 
@@ -772,19 +774,19 @@ public class Drivetrain extends Subsystem {
 		return ahrs.getAngle();
 	}
 
-	// public void printTelemetry() {
-	// System.out.println("Left encoder: " + left_encoder.getDistance());
-	// System.out.println("Right encoderL " + right_encoder.getDistance());
-	//
-	// System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
-	// System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
-	//
-	// System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
-	// System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
-	//
-	// System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
-	// System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
-	// }
+	 public void printTelemetry() {
+		 System.out.println("Left encoder: " + left_encoder.getDistance());
+		 System.out.println("Right encoderL " + right_encoder.getDistance());
+		
+		 System.out.println("\nLM1_cur: " + left_motor1.getOutputCurrent());
+		 System.out.println("LM2_cur: " + left_motor2.getOutputCurrent());
+		
+		 System.out.println("RM1_cur: " + right_motor1.getOutputCurrent());
+		 System.out.println("RM2_cur: " + right_motor2.getOutputCurrent());
+		
+		 System.out.println("Joy Y: " + Robot.oi.gamepad.getAxis(F310.RY));
+		 System.out.println("Joy X" + Robot.oi.gamepad.getAxis(F310.LX));
+	 }
 
 	public boolean driveWithEncoders(double v, double distancetoTravel) {
 		// sets initial return value as false

@@ -253,7 +253,7 @@ public class Robot extends IterativeRobot {
 		drive_encoder_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(drive_encoder_counter == 10) {
-    		//drivetrain.printTelemetry();
+    		drivetrain.printTelemetry();
     		drive_encoder_counter = 0;
     	}
 		
