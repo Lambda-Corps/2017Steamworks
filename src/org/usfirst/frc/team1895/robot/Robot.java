@@ -10,6 +10,7 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.ledstrip.LEDSubsystem;
@@ -199,6 +200,7 @@ public class Robot extends IterativeRobot {
 	       
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
+	        SmartDashboard.putData("Test TurnLEDRingOn ", new TurnOnLEDRing());
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here
 		}
