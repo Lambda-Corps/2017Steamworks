@@ -53,6 +53,10 @@ public class FilteredCamera extends Subsystem {
 	boolean readyToPutVideo;
 
 	static double centerX;
+	static double expectedCenterX;
+
+	double y1, y2, y3;
+
 	static double lengthBetweenTargets;
 	static double angleToTarget;
 	static double horizontalOffset;
@@ -130,23 +134,23 @@ public class FilteredCamera extends Subsystem {
 				// hue", 255), SmartDashboard.getNumber("max sat", 255),
 				// SmartDashboard.getNumber("max val", 255));
 
-//				minHue = (int) SmartDashboard.getNumber("min hue", 0);
-//				minSat = (int) SmartDashboard.getNumber("min sat", 0);
-//				minVal = (int) SmartDashboard.getNumber("min val", 0);
-//				maxHue = (int) SmartDashboard.getNumber("max hue", 255);
-//				maxSat = (int) SmartDashboard.getNumber("max sat", 255);
-//				maxVal = (int) SmartDashboard.getNumber("max val", 255);
+				// minHue = (int) SmartDashboard.getNumber("min hue", 0);
+				// minSat = (int) SmartDashboard.getNumber("min sat", 0);
+				// minVal = (int) SmartDashboard.getNumber("min val", 0);
+				// maxHue = (int) SmartDashboard.getNumber("max hue", 255);
+				// maxSat = (int) SmartDashboard.getNumber("max sat", 255);
+				// maxVal = (int) SmartDashboard.getNumber("max val", 255);
 
 				Scalar minValues = new Scalar(minHue, minSat, minVal);
 				Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
 
-//				// Ethan's gets
-//				SmartDashboard.putNumber("max hue", maxHue);
-//				SmartDashboard.putNumber("max sat", maxSat);
-//				SmartDashboard.putNumber("max val", maxVal);
-//				SmartDashboard.putNumber("min hue", minHue);
-//				SmartDashboard.putNumber("min sat", minSat);
-//				SmartDashboard.putNumber("min val", minVal);
+				// // Ethan's gets
+				// SmartDashboard.putNumber("max hue", maxHue);
+				// SmartDashboard.putNumber("max sat", maxSat);
+				// SmartDashboard.putNumber("max val", maxVal);
+				// SmartDashboard.putNumber("min hue", minHue);
+				// SmartDashboard.putNumber("min sat", minSat);
+				// SmartDashboard.putNumber("min val", minVal);
 
 				// Scalar minValues = new Scalar(minHue, minSat, minVal);
 				// Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
@@ -167,25 +171,33 @@ public class FilteredCamera extends Subsystem {
 					}
 				}
 
-				centerX = 0.0;
-				try {
-					Rect r1 = Imgproc.boundingRect(contours.get(0));
-					centerX += (r1.x + r1.width / 2);
-				} catch (Exception e) {
-				}
+				int xMax = 9876587;
 
-				if (contours.size() < 2) {
-					centerX *= 2;
-				} else {
-
+				for (int i = 0; i < contours.size(); i++) {
 					try {
-						Rect r2 = Imgproc.boundingRect(contours.get(1));
-						centerX += (r2.x + r2.width / 2);
+						Rect r1 = Imgproc.boundingRect(contours.get(i));
+						int rectCenter = (r1.x + r1.width / 2);
+						if (rectCenter < xMax) {
+							xMax = rectCenter;
+						}
 					} catch (Exception e) {
-					}			
+					}
 				}
-				
-				centerX /= 2;
+
+				 centerX = xMax;
+
+				// if (contours.size() < 2) {
+				// centerX *= 2;
+				// } else {
+				//
+				// try {
+				// Rect r2 = Imgproc.boundingRect(contours.get(1));
+				// centerX += (r2.x + r2.width / 2);
+				// y2 = r2.y;
+				// } catch (Exception e) {
+				// }
+				// }
+
 				//////////////////////////////////////////////
 
 				if (readyToPutVideo) {
@@ -220,8 +232,8 @@ public class FilteredCamera extends Subsystem {
 	public void startLights() {
 		ledRing.set(Relay.Value.kReverse);
 	}
-	
-	public void setThresholdVals (int minHue, int maxHue, int minSat, int maxSat, int minVal, int maxVal) {
+
+	public void setThresholdVals(int minHue, int maxHue, int minSat, int maxSat, int minVal, int maxVal) {
 		this.minHue = minHue;
 		this.maxHue = maxHue;
 		this.minSat = minSat;

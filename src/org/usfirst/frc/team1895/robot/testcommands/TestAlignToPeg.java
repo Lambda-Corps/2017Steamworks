@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TestAlignToPeg extends Command {
 	public boolean stopVision;
 	public double centerX;
+	double desiredHeading;
 	double lowS;
 	double highS;
 	double neutralS;
@@ -20,6 +21,8 @@ public class TestAlignToPeg extends Command {
 	public TestAlignToPeg() {
 		requires(Robot.drivetrain);
 		requires(Robot.gear_camera);
+		
+		SmartDashboard.putNumber("DesiredHeading: ", 400);
 		
 		stopVision = false;
 	}
@@ -31,12 +34,14 @@ public class TestAlignToPeg extends Command {
 		lowS = SmartDashboard.getNumber("lowSpeed: ", 0.2);
 		highS = SmartDashboard.getNumber("highSpeed: ", 0.3);
 		neutralS = SmartDashboard.getNumber("neutralSpeed: ", 0.3);
+		desiredHeading = SmartDashboard.getNumber("DesiredHeading: ", 400);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		centerX = Robot.gear_camera.getAvgCenterX();
-		stopVision = Robot.drivetrain.driveToPeg(centerX, 0.3, 0.2, 0.3);
+		stopVision = Robot.drivetrain.testDriveToPeg(centerX, desiredHeading, 0.3, 0.2, 0.3);
 		//stopVision = Robot.drivetrain.testDriveToPeg(centerX, lowS, highS, neutralS);
 
 	}

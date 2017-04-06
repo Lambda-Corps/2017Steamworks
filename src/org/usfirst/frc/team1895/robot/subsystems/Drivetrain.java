@@ -592,7 +592,7 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 
-	public boolean testDriveToPeg(double heading, double lowSpeed, double highSpeed, double neutralSpeed) {
+	public boolean testDriveToPeg(double heading, double desiredHeading, double lowSpeed, double highSpeed, double neutralSpeed) {
 		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
 		
@@ -600,10 +600,10 @@ public class Drivetrain extends Subsystem {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
-			if (heading < 490) {
+			if (heading < desiredHeading - 30) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
-			} else if (heading >= 510) {
+			} else if (heading >= desiredHeading + 30) {
 				tankDrive(highSpeed, lowSpeed);
 				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {

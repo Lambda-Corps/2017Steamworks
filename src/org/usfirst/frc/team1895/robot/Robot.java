@@ -199,9 +199,7 @@ public class Robot extends IterativeRobot {
 	        SmartDashboard.putNumber("lowSpeed: ", 0.2);
 			SmartDashboard.putNumber("highSpeed: ", 0.3);
 			SmartDashboard.putNumber("neutralSpeed: ", 0.3);	        
-	       
-			SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getAvgCenterX());
-			
+	       			
 			Robot.gear_camera.putVideo(true);
 			
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
@@ -220,7 +218,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {	
 		Scheduler.getInstance().run();
-//		SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getAvgCenterX());
+		SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getAvgCenterX());
 	}
  
 	@Override
