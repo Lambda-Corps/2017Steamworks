@@ -21,7 +21,7 @@ public class BLUE_CenterPos_Autonomous extends CommandGroup {
         
     	//UPDATED WITH RETRY CODE
     	
-    	addSequential(new DriveStraightSetDistance(54));
+    	addSequential(new DriveStraightSetDistance(-54));
     	addSequential(new PrintCommand("Done driving straight with PID"));
     	//addSequential(new WaitCommand(1.0));
     	addSequential(new AlignToPeg());

@@ -342,7 +342,7 @@ public class Drivetrain extends Subsystem {
 		double speedfactor = 0.1; // This is the "P" factor to scale the error
 									// between encoders values to the motor
 									// drive bias
-		double maxErrorValue = 0.01; // Limits the control the error has on
+		double maxErrorValue = 0.005; // Limits the control the error has on
 									// driving
 		double error = speedfactor * (left_encoder.getDistance() - right_encoder.getDistance());
 		if (error >= maxErrorValue)
@@ -372,12 +372,12 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public double getGyroAngle() {
-		return gyro.getAngle();
+		return ahrs.getAngle();
 	}
 
 	public void resetGyro() {
-		gyro.reset();
-		// ahrs.zeroYaw();
+		//gyro.reset();
+		ahrs.zeroYaw();
 	}
  
 	public void setUpPIDTurning(double angle) {
@@ -571,29 +571,24 @@ public class Drivetrain extends Subsystem {
 		}
 	}
 
-	public boolean driveToPeg(double heading) {
-		final double DISTANCE_TO_PEG = 20.0;
+	public boolean driveToPeg(double heading, double highSpeed, double lowSpeed, double neutralSpeed) {
+		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
-
-		if (distanceToGo < DISTANCE_TO_PEG) {
+		
+		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
-		} 
-		else {
-		
-			if ((heading < 490) && (heading >=300)) {
-				tankDrive(.3, .4);
-			} 
-			else if((heading>200)&&(heading<300)){
-				tankDrive(0.3, 0.2);
+		} else {
+			if (heading < 220) {
+				tankDrive(lowSpeed, highSpeed);
+				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+			} else if (heading >= 240) {
+				tankDrive(highSpeed, lowSpeed);
+				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+			} else {
+				tankDrive(neutralSpeed, neutralSpeed);
 			}
-			else if (heading > 520) {
-				tankDrive(0.4, 0.3);
-			} 
-			else {
-				return true;
-			}
-		return false;
+			return false;
 		}
 	}
 

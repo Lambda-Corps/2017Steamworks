@@ -36,7 +36,7 @@ public class TestAlignToPeg extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		centerX = Robot.gear_camera.getAvgCenterX();
-		stopVision = Robot.drivetrain.driveToPeg(centerX);
+		stopVision = Robot.drivetrain.driveToPeg(centerX, 0.3, 0.2, 0.3);
 		//stopVision = Robot.drivetrain.testDriveToPeg(centerX, lowS, highS, neutralS);
 
 	}

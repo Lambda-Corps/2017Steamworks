@@ -16,6 +16,7 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -40,12 +41,14 @@ public class FilteredCamera extends Subsystem {
 	Mat frame;
 	Mat morphOutput;
 	
-	int minHue =  90;
-	int minSat = 190;
-	int minVal = 200;
-	int maxHue = 190;
-	int maxSat = 220;
-	int maxVal = 235;
+	Relay ledRing;
+	
+	int minHue =  0;
+	int minSat = 0;
+	int minVal = 0;
+	int maxHue = 255;
+	int maxSat = 255;
+	int maxVal = 255;
 
 	boolean readyToPutVideo;
 	
@@ -60,6 +63,8 @@ public class FilteredCamera extends Subsystem {
 	public static final double WIDTH_OF_TAPE = 2; // INCHES
 
 	public FilteredCamera() {
+		ledRing = new Relay(0);
+		
 		startGearVisionThread();
 	}
 
@@ -74,7 +79,14 @@ public class FilteredCamera extends Subsystem {
 	// write the image to the output stream that should be available for display
 	// on the smart dashboard.
 	private void startGearVisionThread() {
-
+//
+//		SmartDashboard.getNumber("minHue: ", 0.0);
+//		SmartDashboard.getNumber("maxHue: ", 255.0);
+//		SmartDashboard.getNumber("minSat: ", 0.0);
+//		SmartDashboard.getNumber("maxSat: ", 255.0);
+//		SmartDashboard.getNumber("minVal: ", 0.0);
+//		SmartDashboard.tNumber("maxVal: ", 255.0);
+//		
 		Mat mat = new Mat(); // define mat in order to reuse it
 
 		visionThread = new Thread(() -> {
@@ -164,12 +176,12 @@ public class FilteredCamera extends Subsystem {
 
 				try {
 					Rect r2 = Imgproc.boundingRect(contours.get(1));
-					centerX += (r2.x + r2.width / 2);
+					//centerX += (r2.x + r2.width / 2);
 				} catch (Exception e) {
 				}
 
 				//////////////////////////////////////////////
-				centerX /= 2;
+//				 /= 2;
 
 				if (readyToPutVideo) {
 					outputStream.putFrame(mask);
@@ -206,5 +218,9 @@ public class FilteredCamera extends Subsystem {
 
 	public void putVideo(boolean bool) {
 		readyToPutVideo = bool;
+	}
+	
+	public void startLights() {
+		ledRing.set(Relay.Value.kReverse);
 	}
 }

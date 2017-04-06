@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1895.robot.commands.drivetrain;
 
+import org.usfirst.frc.team1895.robot.Robot;
+
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -7,19 +9,16 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class TurnOnLEDRing extends Command {
-
-	final Relay ledRing;
 	
     public TurnOnLEDRing() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	
-    	ledRing = new Relay(0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	ledRing.set(Relay.Value.kReverse);
+    	Robot.gear_camera.startLights();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -13,11 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AlignToPeg extends Command {
 	public boolean stopVision;
 	double centerX;
-	double offset;
-	double angle;
-	double distance;
-	double hypotenuse;
-	double counter;
 	
 	public AlignToPeg() {
 		requires(Robot.drivetrain);
@@ -29,15 +24,13 @@ public class AlignToPeg extends Command {
 	// Called just before this Command runs the first time
 	// Since it is in the initialize, it will only be called once instead of it being in the constructor,
 	// where everytime the command is instantiated you'd start the vision thread
-	protected void initialize() {
-		Robot.drivetrain.resetGyro();
-		
+	protected void initialize() {		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		centerX = Robot.gear_camera.getAvgCenterX();
-		stopVision = Robot.drivetrain.driveToPeg(centerX);
+		stopVision = Robot.drivetrain.driveToPeg(centerX, 0.3, 0.2, 0.3);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -47,13 +40,10 @@ public class AlignToPeg extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.drivetrain.resetGyro();
-		Robot.gear_camera.stopVisionThread();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.gear_camera.stopVisionThread();
 	}
 }

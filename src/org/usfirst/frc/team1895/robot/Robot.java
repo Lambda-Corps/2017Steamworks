@@ -216,6 +216,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {	
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getAvgCenterX());
 	}
  
 	@Override
