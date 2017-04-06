@@ -40,12 +40,12 @@ public class FilteredCamera extends Subsystem {
 	Mat frame;
 	Mat morphOutput;
 	
-	int minHue =   0;
-	int minSat =   0;
-	int minVal =   0;
-	int maxHue = 255;
-	int maxSat = 255;
-	int maxVal = 255;
+	int minHue =  90;
+	int minSat = 190;
+	int minVal = 200;
+	int maxHue = 190;
+	int maxSat = 220;
+	int maxVal = 235;
 	
 	static double centerX;
 	static double lengthBetweenTargets;

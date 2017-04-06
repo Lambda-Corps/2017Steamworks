@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_CenterPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_LeftPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BLeft_RightPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_CenterPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_LeftPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.BRight_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_CenterPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_LeftPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_CenterPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_LeftPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
@@ -82,12 +82,12 @@ public class Robot extends IterativeRobot {
 		retryButton = new InternalButton();
 		
 		//choices for the user to pick autonomouses in smart dashboard
-		chooser.addObject("RED Left Position Autonomous", new BLeft_LeftPos_Autonomous());
-		chooser.addObject("RED Center Position Autonomous", new BLeft_CenterPos_Autonomous());
-		chooser.addObject("RED Right Position Autonomous", new BLeft_RightPos_Autonomous());
-		chooser.addObject( "BLUE Left Position Autonomous", new BRight_LeftPos_Autonomous());
-		chooser.addDefault("BLUE Center Position Autonomous", new BRight_CenterPos_Autonomous());
-		chooser.addObject( "BLUE Right Position Autonomous", new BRight_RightPos_Autonomous());
+		chooser.addObject("RED Left Position Autonomous", new RED_LeftPos_Autonomous());
+		chooser.addObject("RED Center Position Autonomous", new RED_CenterPos_Autonomous());
+		chooser.addObject("RED Right Position Autonomous", new RED_RightPos_Autonomous());
+		chooser.addObject( "BLUE Left Position Autonomous", new BLUE_LeftPos_Autonomous());
+		chooser.addDefault("BLUE Center Position Autonomous", new BLUE_CenterPos_Autonomous());
+		chooser.addObject( "BLUE Right Position Autonomous", new BLUE_RightPos_Autonomous());
 		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
 		SmartDashboard.putData("Auto mode", chooser);

@@ -16,9 +16,9 @@ import edu.wpi.first.wpilibj.command.PrintCommand;
 /**
  *
  */
-public class BLeft_RightPos_Autonomous extends CommandGroup {
+public class RED_RightPos_Autonomous extends CommandGroup {
 
-    public BLeft_RightPos_Autonomous() {
+    public RED_RightPos_Autonomous() {
     	//UPDATED WITH RETRY CODE
     	
     	//mock autonomous

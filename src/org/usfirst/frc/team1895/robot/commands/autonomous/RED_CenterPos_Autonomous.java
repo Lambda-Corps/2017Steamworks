@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.PrintCommand;
@@ -38,9 +39,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  * 		To do still:
  * 			- TEST TEST TEST
  */
-public class BLeft_CenterPos_Autonomous extends CommandGroup {
+public class RED_CenterPos_Autonomous extends CommandGroup {
   
-    public BLeft_CenterPos_Autonomous() {
+    public RED_CenterPos_Autonomous() {
  	
     	//UPDATED WITH RETRY CODE
     	
@@ -62,7 +63,7 @@ public class BLeft_CenterPos_Autonomous extends CommandGroup {
     	addSequential(new AlignToPeg());
     	addSequential(new PrintCommand("I'm Aligned!"));
     	//addSequential(new WaitCommand(1.0));
-    	addSequential(new DriveToObstacle(20, 0.2));
+    	addSequential(new DeployGearHolder());
     	addSequential(new PrintCommand("About to start retry"));
     	addSequential(new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
     	addSequential(new PrintCommand("done with retry"));
