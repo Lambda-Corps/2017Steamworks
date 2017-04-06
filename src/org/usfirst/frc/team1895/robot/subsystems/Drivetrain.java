@@ -380,7 +380,7 @@ public class Drivetrain extends Subsystem {
 		gyro.reset();
 		// ahrs.zeroYaw();
 	}
-
+ 
 	public void setUpPIDTurning(double angle) {
 		pidControllerTurning.setSetpoint(angle);
 		pidControllerTurning.enable();
@@ -822,10 +822,11 @@ public class Drivetrain extends Subsystem {
 			tankDrive(-s, s);
 		}
 		// turning left
-		else if (turnAngle < 0 && currentAngle > turnAngle) {
+		else {
 			difference = -turnAngle - -currentAngle;
 			tankDrive(s, -s);
 		}
+		
 		if (difference <= tolerance) {
 			tankDrive(0.0, 0.0);
 			return true;
