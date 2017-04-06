@@ -324,7 +324,7 @@ public class Drivetrain extends Subsystem {
 		// right_motor1.set(right_speed);
 
 		// Check to see if gear shifting is necessary. if it is, then shift
-		shiftGears();
+		//shiftGears();
 	}
 
 	// ==FOR PID
@@ -359,7 +359,7 @@ public class Drivetrain extends Subsystem {
 		if(Double.isNaN(pidOutput)){
 		}
 		else{
-				arcadeDrive(0.5*(pidOutput), error);
+				arcadeDrive(-0.5*(pidOutput), error);
 		}
 
 		pid_done = pidControllerDriving.onTarget();
@@ -627,7 +627,7 @@ public class Drivetrain extends Subsystem {
 	 * large acceleration time required for high gear. if less than 3.7 ft/s,
 	 * shift back into low gear.
 	 */
-	public void shiftGears() {
+	/*public void shiftGears() {
 		// Disabling shifting for the rest of competiton
 		// If Teleop is not enabled, skip. Autonomos doesn't work with shifting
 		if (!teleopEnabled)
@@ -687,7 +687,7 @@ public class Drivetrain extends Subsystem {
 			}
 			break;
 		}
-	}
+	} */
 
 	/**
 	 * 
@@ -702,7 +702,7 @@ public class Drivetrain extends Subsystem {
 	}
 
 	/**
-	 * This method is used to enable or diable manual control. If the first
+	 * This method is used to enable or disable manual control. If the first
 	 * param is false, the second param has no effect.
 	 * 
 	 * @param manualOverride

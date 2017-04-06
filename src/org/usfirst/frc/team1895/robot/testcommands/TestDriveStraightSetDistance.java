@@ -21,7 +21,7 @@ public class TestDriveStraightSetDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	m_p = SmartDashboard.getNumber("Distance P value: ", .1);
+    	m_p = SmartDashboard.getNumber("Distance P value: ", .025);
     	m_i = SmartDashboard.getNumber("Distance I value: ", 0.0);
     	m_d = SmartDashboard.getNumber("Distance D value: ", -.01);
     	m_Distance = SmartDashboard.getNumber("Test Drive Distance: ", 20.0);
