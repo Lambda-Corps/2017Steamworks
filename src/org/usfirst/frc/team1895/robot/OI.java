@@ -2,6 +2,7 @@ package org.usfirst.frc.team1895.robot;
 
 import org.usfirst.frc.team1895.robot.commands.drivetrain.FineTuningLowGear;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideHighGear;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.ManualOverrideLowGear;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 import org.usfirst.frc.team1895.robot.oi.F310;
@@ -77,12 +78,11 @@ public class OI {
 		gearOut.whenPressed(new RetractGearHolder());
 		
 		overrideHigh = new JoystickButton(gamepad2, F310.LB);
-		overrideHigh.whenPressed(new ManualOverrideHighGear(true));
-		overrideHigh.whenReleased(new ManualOverrideHighGear(false));
+		overrideHigh.whenPressed(new ManualOverrideHighGear());
+		overrideHigh.whenReleased(new ManualOverrideLowGear());
 		
 		fineTuning = new JoystickButton(gamepad2, F310.RB);
-		fineTuning.whenPressed(new FineTuningLowGear(true));
-		fineTuning.whenReleased(new FineTuningLowGear(false));
+		fineTuning.whileHeld(new FineTuningLowGear());
 	}
 	
 	public double getGainOI() {

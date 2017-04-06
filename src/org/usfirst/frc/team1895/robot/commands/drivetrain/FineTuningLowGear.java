@@ -12,18 +12,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FineTuningLowGear extends Command {
 
 	private final Drivetrain drivetrain = Robot.drivetrain;
-	private boolean test;
 	
-    public FineTuningLowGear(boolean test) {
+    public FineTuningLowGear() {
         // Use requires() here to declare subsystem dependencies
         requires(drivetrain);
-    	this.test = test;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if( test) Robot.drivetrain.manualOverride( true, false);
-    	if(!test) Robot.drivetrain.manualOverride(false, false);
+    	drivetrain.shiftHighGear(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +30,7 @@ public class FineTuningLowGear extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

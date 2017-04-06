@@ -11,19 +11,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualOverrideLowGear extends Command {
 
 	private final Drivetrain drivetrain = Robot.drivetrain;
-	private boolean test;
 	
-    public ManualOverrideLowGear(boolean test) {
+    public ManualOverrideLowGear() {
         // Use requires() here to declare subsystem dependencies
         requires(drivetrain);
-        
-    	this.test = test;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if( test) Robot.drivetrain.manualOverride( true, false);
-    	if(!test) Robot.drivetrain.manualOverride(false, true );
+    	drivetrain.shiftHighGear(false);
     }
 
     // Called repeatedly when this Command is scheduled to run
