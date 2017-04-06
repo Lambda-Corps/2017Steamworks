@@ -94,8 +94,7 @@ public class Drivetrain extends Subsystem {
 	private Encoder right_encoder;
 
 	// Analog sensors
-	// AHRS ahrs;
-	AnalogGyro ahrs;
+	AHRS ahrs;
 	private AnalogGyro gyro;
 	private AnalogInput middle_fr_short_rangefinder;
 	// if the plan on using three rangefinders to align to boiler is confirmed
@@ -187,17 +186,17 @@ public class Drivetrain extends Subsystem {
 
 		// Analog IO
 		gyro = new AnalogGyro(RobotMap.GYRO_PORT);
-		// try {
-		// /* Communicate w/navX-MXP via the MXP SPI Bus. */
-		// /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or
-		// SerialPort.Port.kUSB */
-		// /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/
-		// for details. */
-		// ahrs = new AHRS(SPI.Port.kMXP);
-		// } catch (RuntimeException ex ) {
-		// DriverStation.reportError("Error instantiating navX-MXP: " +
-		// ex.getMessage(), true);
-		// }
+		 try {
+		 /* Communicate w/navX-MXP via the MXP SPI Bus. */
+		 /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or
+		 SerialPort.Port.kUSB */
+		 /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/
+		 for details. */
+		 ahrs = new AHRS(SPI.Port.kMXP);
+		 } catch (RuntimeException ex ) {
+		 DriverStation.reportError("Error instantiating navX-MXP: " +
+		 ex.getMessage(), true);
+		 }
 		middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
 		// if the plan on using three rangefinders to align to boiler is
 		// confirmed
