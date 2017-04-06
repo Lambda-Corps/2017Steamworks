@@ -40,18 +40,18 @@ public class FilteredCamera extends Subsystem {
 	Mat hsvImage;
 	Mat frame;
 	Mat morphOutput;
-	
+
 	Relay ledRing;
-	
-	int minHue =  0;
+
+	int minHue = 30;
 	int minSat = 0;
-	int minVal = 0;
-	int maxHue = 255;
+	int minVal = 230;
+	int maxHue = 130;
 	int maxSat = 255;
 	int maxVal = 255;
 
 	boolean readyToPutVideo;
-	
+
 	static double centerX;
 	static double lengthBetweenTargets;
 	static double angleToTarget;
@@ -64,7 +64,7 @@ public class FilteredCamera extends Subsystem {
 
 	public FilteredCamera() {
 		ledRing = new Relay(0);
-		
+
 		startGearVisionThread();
 	}
 
@@ -79,14 +79,14 @@ public class FilteredCamera extends Subsystem {
 	// write the image to the output stream that should be available for display
 	// on the smart dashboard.
 	private void startGearVisionThread() {
-//
-//		SmartDashboard.getNumber("minHue: ", 0.0);
-//		SmartDashboard.getNumber("maxHue: ", 255.0);
-//		SmartDashboard.getNumber("minSat: ", 0.0);
-//		SmartDashboard.getNumber("maxSat: ", 255.0);
-//		SmartDashboard.getNumber("minVal: ", 0.0);
-//		SmartDashboard.tNumber("maxVal: ", 255.0);
-//		
+		//
+		// SmartDashboard.getNumber("minHue: ", 0.0);
+		// SmartDashboard.getNumber("maxHue: ", 255.0);
+		// SmartDashboard.getNumber("minSat: ", 0.0);
+		// SmartDashboard.getNumber("maxSat: ", 255.0);
+		// SmartDashboard.getNumber("minVal: ", 0.0);
+		// SmartDashboard.tNumber("maxVal: ", 255.0);
+		//
 		Mat mat = new Mat(); // define mat in order to reuse it
 
 		visionThread = new Thread(() -> {
@@ -130,23 +130,23 @@ public class FilteredCamera extends Subsystem {
 				// hue", 255), SmartDashboard.getNumber("max sat", 255),
 				// SmartDashboard.getNumber("max val", 255));
 
-				minHue = (int) SmartDashboard.getNumber("min hue", 0);
-				minSat = (int) SmartDashboard.getNumber("min sat", 0);
-				minVal = (int) SmartDashboard.getNumber("min val", 0);
-				maxHue = (int) SmartDashboard.getNumber("max hue", 255);
-				maxSat = (int) SmartDashboard.getNumber("max sat", 255);
-				maxVal = (int) SmartDashboard.getNumber("max val", 255);
+//				minHue = (int) SmartDashboard.getNumber("min hue", 0);
+//				minSat = (int) SmartDashboard.getNumber("min sat", 0);
+//				minVal = (int) SmartDashboard.getNumber("min val", 0);
+//				maxHue = (int) SmartDashboard.getNumber("max hue", 255);
+//				maxSat = (int) SmartDashboard.getNumber("max sat", 255);
+//				maxVal = (int) SmartDashboard.getNumber("max val", 255);
 
 				Scalar minValues = new Scalar(minHue, minSat, minVal);
 				Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
 
-				// Ethan's gets
-				SmartDashboard.putNumber("max hue", maxHue);
-				SmartDashboard.putNumber("max sat", maxSat);
-				SmartDashboard.putNumber("max val", maxVal);
-				SmartDashboard.putNumber("min hue", minHue);
-				SmartDashboard.putNumber("min sat", minSat);
-				SmartDashboard.putNumber("min val", minVal);
+//				// Ethan's gets
+//				SmartDashboard.putNumber("max hue", maxHue);
+//				SmartDashboard.putNumber("max sat", maxSat);
+//				SmartDashboard.putNumber("max val", maxVal);
+//				SmartDashboard.putNumber("min hue", minHue);
+//				SmartDashboard.putNumber("min sat", minSat);
+//				SmartDashboard.putNumber("min val", minVal);
 
 				// Scalar minValues = new Scalar(minHue, minSat, minVal);
 				// Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
@@ -174,14 +174,19 @@ public class FilteredCamera extends Subsystem {
 				} catch (Exception e) {
 				}
 
-				try {
-					Rect r2 = Imgproc.boundingRect(contours.get(1));
-					//centerX += (r2.x + r2.width / 2);
-				} catch (Exception e) {
-				}
+				if (contours.size() < 2) {
+					centerX *= 2;
+				} else {
 
+					try {
+						Rect r2 = Imgproc.boundingRect(contours.get(1));
+						centerX += (r2.x + r2.width / 2);
+					} catch (Exception e) {
+					}			
+				}
+				
+				centerX /= 2;
 				//////////////////////////////////////////////
-//				 /= 2;
 
 				if (readyToPutVideo) {
 					outputStream.putFrame(mask);
@@ -189,7 +194,7 @@ public class FilteredCamera extends Subsystem {
 			}
 		});
 		visionThread.setDaemon(true);
-
+		//
 	}
 
 	public void startVisionThread() {
@@ -219,7 +224,7 @@ public class FilteredCamera extends Subsystem {
 	public void putVideo(boolean bool) {
 		readyToPutVideo = bool;
 	}
-	
+
 	public void startLights() {
 		ledRing.set(Relay.Value.kReverse);
 	}
