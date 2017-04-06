@@ -94,8 +94,7 @@ public class Drivetrain extends Subsystem {
 	private Encoder right_encoder;
 
 	// Analog sensors
-	// AHRS ahrs;
-	AnalogGyro ahrs;
+	AHRS ahrs;
 	private AnalogGyro gyro;
 	private AnalogInput middle_fr_short_rangefinder;
 	// if the plan on using three rangefinders to align to boiler is confirmed
@@ -109,8 +108,8 @@ public class Drivetrain extends Subsystem {
 	private PIDController pidControllerTurning;
 
 	// final double pGainDriv = .00075, iGainDriv = 0, dGainDriv = -.0015;
-	final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
-	//final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; FOR REAL ROBOT
+	//final double pGainDriv = .1, iGainDriv = 0, dGainDriv = -.01; //FOR LOWRIDER
+	final double pGainDriv = .025, iGainDriv = 0, dGainDriv = -.01; //FOR REAL ROBOT
 	final double pGainTurn = .025, iGainTurn = 0, dGainTurn = -.005; // d
 																		// smaller
 																		// =
@@ -187,17 +186,17 @@ public class Drivetrain extends Subsystem {
 
 		// Analog IO
 		gyro = new AnalogGyro(RobotMap.GYRO_PORT);
-		// try {
-		// /* Communicate w/navX-MXP via the MXP SPI Bus. */
-		// /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or
-		// SerialPort.Port.kUSB */
-		// /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/
-		// for details. */
-		// ahrs = new AHRS(SPI.Port.kMXP);
-		// } catch (RuntimeException ex ) {
-		// DriverStation.reportError("Error instantiating navX-MXP: " +
-		// ex.getMessage(), true);
-		// }
+		 try {
+		 /* Communicate w/navX-MXP via the MXP SPI Bus. */
+		 /* Alternatively: I2C.Port.kMXP, SerialPort.Port.kMXP or
+		 SerialPort.Port.kUSB */
+		 /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/
+		 for details. */
+		 ahrs = new AHRS(SPI.Port.kMXP);
+		 } catch (RuntimeException ex ) {
+		 DriverStation.reportError("Error instantiating navX-MXP: " +
+		 ex.getMessage(), true);
+		 }
 		middle_fr_short_rangefinder = new AnalogInput(RobotMap.MIDDLE_FR_SHORT_RANGEFINER_PORT);
 		// if the plan on using three rangefinders to align to boiler is
 		// confirmed
@@ -325,7 +324,7 @@ public class Drivetrain extends Subsystem {
 		// right_motor1.set(right_speed);
 
 		// Check to see if gear shifting is necessary. if it is, then shift
-		//shiftGears();
+		shiftGears();
 	}
 
 	// ==FOR PID

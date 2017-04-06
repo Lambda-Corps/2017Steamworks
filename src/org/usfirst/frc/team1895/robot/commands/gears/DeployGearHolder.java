@@ -29,10 +29,7 @@ public class DeployGearHolder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	gearPresence = Robot.gearholder.isGearPresent();
-    	if(gearPresence == true) {
-    		done = Robot.gearholder.extendGear(); //returns boolean
-    	}
+    	done = Robot.gearholder.extendGear();
     }
 
     // Make this return true when this Command no longer needs to run execute()

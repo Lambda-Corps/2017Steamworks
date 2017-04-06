@@ -47,7 +47,8 @@ public class BLeft_CenterPos_Autonomous extends CommandGroup {
     	//addSequential(new DriveStraightWithoutPID(0.5, -20));
     	//addSequential(new TurnWithoutPID(45.0, 0.5));
     	//mock autonomous
-    	addSequential(new DriveStraightSetDistance(20));
+    	addSequential(new DriveStraightSetDistance(54));
+    	addSequential(new PrintCommand("Done driving straight with PID"));
     	//addSequential(new DriveToObstacle(24, 0.2));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
     	//addSequential(new WaitCommand(1.0));
@@ -62,8 +63,9 @@ public class BLeft_CenterPos_Autonomous extends CommandGroup {
     	addSequential(new PrintCommand("I'm Aligned!"));
     	//addSequential(new WaitCommand(1.0));
     	addSequential(new DriveToObstacle(20, 0.2));
-    	addSequential(new WaitCommand(3.0));
+    	addSequential(new PrintCommand("About to start retry"));
     	addSequential(new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
+    	addSequential(new PrintCommand("done with retry"));
 //    	addSequential(new DriveStraightSetDistance(50));
 
      	/*addSequential(new DriveStraightSetDistance(30));
