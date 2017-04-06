@@ -24,13 +24,14 @@ public class Shooter extends Subsystem {
     	
     	// Creates the CANTalon, and sets it into speed control mode. Also,
     	// this sets the PID values for velocity control. Here, the F term
-    	// is the most important, and MUST be tuned first!!!
+    	// is the most important, and MUST be tuned first!!! Calculate F
+    	// by (100% * 1023) / encoderFullSpeed, then tune.
     	shooter = new CANTalon(RobotMap.SHOOTER_MOTOR_PORT);
+    	shooter.setInverted(true);
     	shooter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-    	shooter.setVoltageRampRate(12.0);
     	shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooter.setProfile(0);
-    	shooter.setF(1.0);
+    	shooter.setF(0.03747);
     	shooter.setP(0.0);
     	shooter.setI(0.0);
     	shooter.setD(0.0);
