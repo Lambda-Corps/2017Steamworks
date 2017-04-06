@@ -1,11 +1,11 @@
 package org.usfirst.frc.team1895.robot;
 
-import org.usfirst.frc.team1895.robot.commands.autonomous.RED_CenterPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.RED_LeftPos_Autonomous;
-import org.usfirst.frc.team1895.robot.commands.autonomous.RED_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_CenterPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_LeftPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.BLUE_RightPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_CenterPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_LeftPos_Autonomous;
+import org.usfirst.frc.team1895.robot.commands.autonomous.RED_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
@@ -26,6 +26,7 @@ import org.usfirst.frc.team1895.robot.testcommands.TestDriveToObstacle;
 import org.usfirst.frc.team1895.robot.testcommands.TestEmptyCommand;
 import org.usfirst.frc.team1895.robot.testcommands.TestTurnWithGyro;
 import org.usfirst.frc.team1895.robot.testcommands.TestTurnWithoutPID;
+import org.usfirst.frc.team1895.robot.testcommands.TestVision;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.buttons.InternalButton;
@@ -199,11 +200,14 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("highSpeed: ", 0.3);
 			SmartDashboard.putNumber("neutralSpeed: ", 0.3);	        
 	       
+			SmartDashboard.putNumber("CenterX: ", Robot.gear_camera.getAvgCenterX());
+			
 			Robot.gear_camera.putVideo(true);
 			
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
 	        SmartDashboard.putData("Test TurnLEDRingOn ", new TurnOnLEDRing());
+	        SmartDashboard.putData("TestVision ", new TestVision());
 	        // Shooter Testing
 	        // Add relevant Dashboard values and Commands here
 		}

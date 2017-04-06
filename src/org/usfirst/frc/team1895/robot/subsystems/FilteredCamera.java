@@ -209,16 +209,8 @@ public class FilteredCamera extends Subsystem {
 		visionThread.resume();
 	}
 
-	public double angleToTarget() {
-		return angleToTarget;
-	}
-
 	public double getAvgCenterX() {
 		return centerX;
-	}
-
-	public double getOffset() {
-		return horizontalOffset;
 	}
 
 	public void putVideo(boolean bool) {
@@ -227,5 +219,14 @@ public class FilteredCamera extends Subsystem {
 
 	public void startLights() {
 		ledRing.set(Relay.Value.kReverse);
+	}
+	
+	public void setThresholdVals (int minHue, int maxHue, int minSat, int maxSat, int minVal, int maxVal) {
+		this.minHue = minHue;
+		this.maxHue = maxHue;
+		this.minSat = minSat;
+		this.maxSat = maxSat;
+		this.minVal = minVal;
+		this.maxVal = maxVal;
 	}
 }
