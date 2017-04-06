@@ -39,14 +39,16 @@ public class FilteredCamera extends Subsystem {
 	Mat hsvImage;
 	Mat frame;
 	Mat morphOutput;
-	
-	int minHue =   0;
-	int minSat =   0;
-	int minVal =   0;
+
+	int minHue = 0;
+	int minSat = 0;
+	int minVal = 0;
 	int maxHue = 255;
 	int maxSat = 255;
 	int maxVal = 255;
-	
+
+	boolean readyToPutVideo;
+
 	static double centerX;
 	static double lengthBetweenTargets;
 	static double angleToTarget;
@@ -56,8 +58,8 @@ public class FilteredCamera extends Subsystem {
 	double exposure;
 	public static final double WIDTH_BETWEEN_TARGET = 8;
 	public static final double WIDTH_OF_TAPE = 2; // INCHES
-	
-	public FilteredCamera() {		
+
+	public FilteredCamera() {
 		startGearVisionThread();
 	}
 
@@ -81,7 +83,7 @@ public class FilteredCamera extends Subsystem {
 			// Set the resolution
 			camera.setResolution(640, 480);
 			camera.setExposureManual(25);
-			
+
 			mask = new Mat();
 			hsvImage = new Mat();
 			frame = new Mat();
@@ -92,81 +94,86 @@ public class FilteredCamera extends Subsystem {
 			// Setup a CvSource. This will send images back to the Dashboard
 			CvSource outputStream = CameraServer.getInstance().putVideo("Rectangle", 640, 480);
 
-
 			// This cannot be 'true'. The program will never exit if it is. This
 			// lets the robot stop this thread when restarting robot code or
 			// deploying.
 			while (!Thread.interrupted()) {
-				
+
 				// Tell the CvSink to grab a frame from the camera and put it
-				// in the source mat.  If there is an error notify the output.
+				// in the source mat. If there is an error notify the output.
 				if (cvSink.grabFrame(frame) == 0) {
 					// Send the output the error.
 					outputStream.notifyError(cvSink.getError());
 					// skip the rest of the current iteration
 					continue;
 				}
-				
-				
+
 				////////////////////////////////////////////////////////////////////////////////
 				Imgproc.cvtColor(frame, hsvImage, Imgproc.COLOR_BGR2HSV);
-				
-				//Scalar minValues = new Scalar(SmartDashboard.getNumber("min hue",   0), SmartDashboard.getNumber("min sat",   0), SmartDashboard.getNumber("min val",   0));
-				//Scalar maxValues = new Scalar(SmartDashboard.getNumber("max hue", 255), SmartDashboard.getNumber("max sat", 255), SmartDashboard.getNumber("max val", 255));
-				
-				minHue = (int) SmartDashboard.getNumber("min hue",   0);
-				minSat = (int) SmartDashboard.getNumber("min sat",   0);
-				minVal = (int) SmartDashboard.getNumber("min val",   0);
+
+				// Scalar minValues = new Scalar(SmartDashboard.getNumber("min
+				// hue", 0), SmartDashboard.getNumber("min sat", 0),
+				// SmartDashboard.getNumber("min val", 0));
+				// Scalar maxValues = new Scalar(SmartDashboard.getNumber("max
+				// hue", 255), SmartDashboard.getNumber("max sat", 255),
+				// SmartDashboard.getNumber("max val", 255));
+
+				minHue = (int) SmartDashboard.getNumber("min hue", 0);
+				minSat = (int) SmartDashboard.getNumber("min sat", 0);
+				minVal = (int) SmartDashboard.getNumber("min val", 0);
 				maxHue = (int) SmartDashboard.getNumber("max hue", 255);
 				maxSat = (int) SmartDashboard.getNumber("max sat", 255);
 				maxVal = (int) SmartDashboard.getNumber("max val", 255);
-				
-				
+
 				Scalar minValues = new Scalar(minHue, minSat, minVal);
 				Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
-				
-				//Ethan's gets
+
+				// Ethan's gets
 				SmartDashboard.putNumber("max hue", maxHue);
 				SmartDashboard.putNumber("max sat", maxSat);
 				SmartDashboard.putNumber("max val", maxVal);
 				SmartDashboard.putNumber("min hue", minHue);
 				SmartDashboard.putNumber("min sat", minSat);
 				SmartDashboard.putNumber("min val", minVal);
-				
-				//Scalar minValues = new Scalar(minHue, minSat, minVal);
-				//Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
+
+				// Scalar minValues = new Scalar(minHue, minSat, minVal);
+				// Scalar maxValues = new Scalar(maxHue, maxSat, maxVal);
 				Core.inRange(hsvImage, minValues, maxValues, mask);
-				
-				Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8,8));
-				Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8,8));
+
+				Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8, 8));
+				Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8, 8));
 				Imgproc.erode(mask, morphOutput, erodeElement);
 				Imgproc.dilate(morphOutput, mask, dilateElement);
-				
+
 				ArrayList<MatOfPoint> contours = new ArrayList<>();
 				Mat hierarchy = new Mat();
 				Imgproc.findContours(mask, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-				
-				if (hierarchy.size().height > 0 && hierarchy.size().width > 0){
+
+				if (hierarchy.size().height > 0 && hierarchy.size().width > 0) {
 					for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
 						Imgproc.drawContours(mask, contours, idx, new Scalar(250, 0, 0));
 					}
-				}  
-				
+				}
+
 				centerX = 0.0;
 				try {
 					Rect r1 = Imgproc.boundingRect(contours.get(0));
-					centerX += (r1.x + r1.width/2);
-				} catch(Exception e) {}
-				
+					centerX += (r1.x + r1.width / 2);
+				} catch (Exception e) {
+				}
+
 				try {
 					Rect r2 = Imgproc.boundingRect(contours.get(1));
-					centerX += (r2.x + r2.width/2);
-				} catch(Exception e) {}
-				
+					centerX += (r2.x + r2.width / 2);
+				} catch (Exception e) {
+				}
+
 				//////////////////////////////////////////////
 				centerX /= 2;
-				
-				outputStream.putFrame(mask);
+
+				if (readyToPutVideo) {
+					outputStream.putFrame(mask);
+				}
 			}
 		});
 		visionThread.setDaemon(true);
@@ -195,5 +202,9 @@ public class FilteredCamera extends Subsystem {
 
 	public double getOffset() {
 		return horizontalOffset;
+	}
+
+	public void putVideo(boolean bool) {
+		readyToPutVideo = bool;
 	}
 }

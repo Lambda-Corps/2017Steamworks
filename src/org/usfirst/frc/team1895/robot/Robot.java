@@ -91,6 +91,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("TestAutonomous Autonomous", new TestAutonomousRetry());
 		chooser.addObject("Test Commands", new TestEmptyCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+        Robot.gear_camera.startVisionThread();
+
 	}
 
     /**
@@ -101,7 +104,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledInit() {
         drivetrain.setRobotTeleop(false);
-        gear_camera.stopVisionThread();
+		Robot.gear_camera.putVideo(false);
+
     }
 
     @Override
@@ -193,11 +197,10 @@ public class Robot extends IterativeRobot {
 	        
 	        SmartDashboard.putNumber("lowSpeed: ", 0.2);
 			SmartDashboard.putNumber("highSpeed: ", 0.3);
-			SmartDashboard.putNumber("neutralSpeed: ", 0.3);
-	        
-	        Robot.gear_camera.startVisionThread();
-	        
+			SmartDashboard.putNumber("neutralSpeed: ", 0.3);	        
 	       
+			Robot.gear_camera.putVideo(true);
+			
 	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
 	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
 	        SmartDashboard.putData("Test TurnLEDRingOn ", new TurnOnLEDRing());
