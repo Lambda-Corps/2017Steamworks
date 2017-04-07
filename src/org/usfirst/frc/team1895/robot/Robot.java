@@ -107,6 +107,9 @@ public class Robot extends IterativeRobot {
     public void disabledInit() {
         drivetrain.setRobotTeleop(false);
 		Robot.gear_camera.putVideo(false);
+		
+        //to turn off LED ring when tele-op begins
+      new TurnOffLEDRing().start();
 
     }
 
@@ -230,8 +233,6 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
         
-        //to turn off LED ring when tele-op begins
-//        new TurnOffLEDRing().start();
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}

@@ -7,6 +7,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithoutPID;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -25,7 +26,7 @@ public class RED_RightPos_Autonomous extends CommandGroup {
     	addSequential(new TurnOnLEDRing());
     	addSequential(new DriveStraightSetDistance(-83));
     	//TURN TOWARD TO AIRSHIP'S LIFT
-    	addSequential(new TurnWithGyro(-60)); //this angle depends on where we are on the field
+    	addSequential(new TurnWithoutPID(-60, 0.4)); //this angle depends on where we are on the field
     	//DEPLOY GEARHOLDER [DRIVE UP A LITTLE IF NEEDED, OR ELSE USE DRIVETOOBSTACLE, DEPENDS ON DISTANCE
     	//addSequential(new DriveStraightSetDistance(-3)); //driving the hypotenuse
     	//ALIGN TO LIFT
@@ -37,7 +38,7 @@ public class RED_RightPos_Autonomous extends CommandGroup {
     	addSequential(new AutonomousGearCondition(new RetrySequence(), new GearGoneSequence()));
     	addSequential(new DriveStraightSetDistance(31));
     	//TURN
-    	addSequential(new TurnWithGyro(60.0));
+    	addSequential(new TurnWithoutPID(60.0, 0.4));
     	//DRIVE FORWARD INTO NEUTRAL ZONE
     	addSequential(new DriveStraightSetDistance(-50));	//drives into the neutral zone
 
