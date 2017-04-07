@@ -34,7 +34,7 @@ public class TestAlignToPeg extends Command {
 		lowS = SmartDashboard.getNumber("lowSpeed: ", 0.2);
 		highS = SmartDashboard.getNumber("highSpeed: ", 0.3);
 		neutralS = SmartDashboard.getNumber("neutralSpeed: ", 0.3);
-		desiredHeading = SmartDashboard.getNumber("DesiredHeading: ", 400);
+		desiredHeading = SmartDashboard.getNumber("DesiredHeading: ", 345);
 
 	}
 

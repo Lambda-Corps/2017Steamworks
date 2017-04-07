@@ -600,14 +600,14 @@ public class Drivetrain extends Subsystem {
 		} else {
 			if (heading < desiredHeading - 30) {
 				tankDrive(lowSpeed, highSpeed);
-				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+				//SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else if (heading >= desiredHeading + 20) {
 				tankDrive(highSpeed, lowSpeed);
-				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
+				//SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {
 				tankDrive(neutralSpeed, neutralSpeed);
 			}
-			SmartDashboard.putNumber("desiredHeading read: ", desiredHeading);
+			//SmartDashboard.putNumber("desiredHeading read: ", desiredHeading);
 			return false;
 		}
 

@@ -7,6 +7,7 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.RED_CenterPos_Autonomo
 import org.usfirst.frc.team1895.robot.commands.autonomous.RED_LeftPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.RED_RightPos_Autonomous;
 import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
@@ -20,7 +21,6 @@ import org.usfirst.frc.team1895.robot.subsystems.FilteredCamera;
 import org.usfirst.frc.team1895.robot.subsystems.GearHolder;
 import org.usfirst.frc.team1895.robot.subsystems.Shooter;
 import org.usfirst.frc.team1895.robot.subsystems.Winch;
-import org.usfirst.frc.team1895.robot.testcommands.TestAlignToPeg;
 import org.usfirst.frc.team1895.robot.testcommands.TestCameraCalibration;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveStraightSetDistance;
 import org.usfirst.frc.team1895.robot.testcommands.TestDriveToObstacle;
@@ -109,7 +109,7 @@ public class Robot extends IterativeRobot {
 		Robot.gear_camera.putVideo(false);
 		
         //to turn off LED ring when tele-op begins
-      new TurnOffLEDRing().start();
+        new TurnOffLEDRing().start();
 
     }
 
@@ -206,7 +206,7 @@ public class Robot extends IterativeRobot {
 	       			
 			Robot.gear_camera.putVideo(true);
 			
-	        SmartDashboard.putData("Test AlignToPeg ", new TestAlignToPeg());
+	        SmartDashboard.putData("Test AlignToPeg ", new AlignToPeg());
 	        SmartDashboard.putData("TestCameraCalibration", new TestCameraCalibration());
 	        SmartDashboard.putData("Test TurnLEDRingOn ", new TurnOnLEDRing());
 	        SmartDashboard.putData("TestVision ", new TestVision());
