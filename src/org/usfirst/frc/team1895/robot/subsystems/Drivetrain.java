@@ -594,7 +594,7 @@ public class Drivetrain extends Subsystem {
 	public boolean testDriveToPeg(double heading, double desiredHeading, double lowSpeed, double highSpeed, double neutralSpeed) {
 		double distanceToGo = fineDistanceFinder();
 		
-		if (distanceToGo < 14) {
+		if (distanceToGo < 16) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
@@ -743,6 +743,9 @@ public class Drivetrain extends Subsystem {
 		pidControllerDriving = new PIDController(p, i, d, left_encoder, myPIDOutputDriving);
 	}
 
+	public void resetPIDOutput() {
+		myPIDOutputDriving.reset();
+	}
 	public void makeNewPidTurning(double p, double i, double d) {
 		myPIDOutputTurning = new MyPIDOutput();
 		pidControllerTurning = new PIDController(p, i, d, ahrs, myPIDOutputTurning);

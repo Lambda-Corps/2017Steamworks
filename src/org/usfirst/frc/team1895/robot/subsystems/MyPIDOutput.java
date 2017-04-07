@@ -15,6 +15,10 @@ public class MyPIDOutput implements PIDOutput {
     	pidOutput = output;
     }
     
+    public void reset() {
+    	pidOutput = 0.0;
+    }
+    
     public double get() {
     	return pidOutput;
     }    

@@ -25,7 +25,7 @@ public class FineTuningLowGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.arcadeDrive(-1*(0.5)*Robot.oi.gamepad.getAxis(F310.RY), (0.5)*Robot.oi.gamepad.getAxis(F310.LX));
+    	Robot.drivetrain.arcadeDrive(-1*(0.5)*Robot.oi.gamepad.getAxis(F310.RY), (0.3)*Robot.oi.gamepad.getAxis(F310.LX));
     }
 
     // Make this return true when this Command no longer needs to run execute()
