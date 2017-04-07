@@ -233,6 +233,10 @@ public class FilteredCamera extends Subsystem {
 		ledRing.set(Relay.Value.kReverse);
 	}
 
+	public void stopLights() {
+		ledRing.set(Relay.Value.kForward);
+	}
+	
 	public void setThresholdVals(int minHue, int maxHue, int minSat, int maxSat, int minVal, int maxVal) {
 		this.minHue = minHue;
 		this.maxHue = maxHue;

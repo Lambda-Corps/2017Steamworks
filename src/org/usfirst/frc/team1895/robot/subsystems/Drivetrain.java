@@ -572,14 +572,13 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean driveToPeg(double heading, double highSpeed, double lowSpeed, double neutralSpeed) {
-		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
 		
-		if (distanceToGo < 16) {
+		if (distanceToGo < 14) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
-			if (heading < 370) {
+			if (heading < 380) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else if (heading >= 430) {
@@ -593,22 +592,22 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public boolean testDriveToPeg(double heading, double desiredHeading, double lowSpeed, double highSpeed, double neutralSpeed) {
-		final double DISTANCE_TO_PEG = 16.0;
 		double distanceToGo = fineDistanceFinder();
 		
-		if (distanceToGo < 16) {
+		if (distanceToGo < 14) {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
 			if (heading < desiredHeading - 30) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
-			} else if (heading >= desiredHeading + 30) {
+			} else if (heading >= desiredHeading + 20) {
 				tankDrive(highSpeed, lowSpeed);
 				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {
 				tankDrive(neutralSpeed, neutralSpeed);
 			}
+			SmartDashboard.putNumber("desiredHeading read: ", desiredHeading);
 			return false;
 		}
 

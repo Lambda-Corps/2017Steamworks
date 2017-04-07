@@ -50,7 +50,7 @@ public class RED_CenterPos_Autonomous extends CommandGroup {
     	//addSequential(new TurnWithoutPID(45.0, 0.5));
     	//mock autonomous
     	addSequential(new TurnOnLEDRing());
-    	addSequential(new DriveStraightSetDistance(-54));
+    	addSequential(new DriveStraightSetDistance(-34));
     	addSequential(new PrintCommand("Done driving straight with PID"));
     	//addSequential(new DriveToObstacle(24, 0.2));		//should be 110 inches forward now
     	//addSequential(new AlignToPeg());
