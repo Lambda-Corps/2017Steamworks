@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
@@ -22,6 +23,7 @@ public class RED_LeftPos_Autonomous extends CommandGroup {
     	
     	//UPDATED WITH RETRY CODE
     	
+    	addSequential(new TurnOnLEDRing());
     	addSequential(new DriveStraightSetDistance(-83)); //117
     	//TURN TOWARD TO AIRSHIP'S LIFT
     	addSequential(new TurnWithGyro(60)); //this angle depends on where we are on the field

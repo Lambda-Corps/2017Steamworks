@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -48,6 +49,7 @@ public class RED_CenterPos_Autonomous extends CommandGroup {
     	//addSequential(new DriveStraightWithoutPID(0.5, -20));
     	//addSequential(new TurnWithoutPID(45.0, 0.5));
     	//mock autonomous
+    	addSequential(new TurnOnLEDRing());
     	addSequential(new DriveStraightSetDistance(-54));
     	addSequential(new PrintCommand("Done driving straight with PID"));
     	//addSequential(new DriveToObstacle(24, 0.2));		//should be 110 inches forward now

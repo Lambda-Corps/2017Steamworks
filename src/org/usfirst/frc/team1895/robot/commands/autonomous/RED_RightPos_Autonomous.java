@@ -3,12 +3,11 @@ package org.usfirst.frc.team1895.robot.commands.autonomous;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AlignToPeg;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistance;
-import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnWithGyro;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.PrintCommand;
@@ -23,6 +22,7 @@ public class RED_RightPos_Autonomous extends CommandGroup {
     	
     	//mock autonomous
     	//DRIVE UP
+    	addSequential(new TurnOnLEDRing());
     	addSequential(new DriveStraightSetDistance(-83));
     	//TURN TOWARD TO AIRSHIP'S LIFT
     	addSequential(new TurnWithGyro(-60)); //this angle depends on where we are on the field

@@ -10,6 +10,7 @@ import org.usfirst.frc.team1895.robot.commands.autonomous.TestAutonomousRetry;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.AutonomousGearCondition;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOffLEDRing;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
@@ -229,6 +230,8 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
         
+        //to turn off LED ring when tele-op begins
+//        new TurnOffLEDRing().start();
         drivetrain.resetEncoders();
         drivetrain.setRobotTeleop(true);
 	}

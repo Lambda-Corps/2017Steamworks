@@ -579,10 +579,10 @@ public class Drivetrain extends Subsystem {
 			tankDrive(0.0, 0.0);
 			return true;
 		} else {
-			if (heading < 405) {
+			if (heading < 370) {
 				tankDrive(lowSpeed, highSpeed);
 				SmartDashboard.putString("Turning left with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
-			} else if (heading >= 465) {
+			} else if (heading >= 430) {
 				tankDrive(highSpeed, lowSpeed);
 				SmartDashboard.putString("Turning right with: ", "lowSpeed: " + lowSpeed + " highSpeed: " + highSpeed);
 			} else {

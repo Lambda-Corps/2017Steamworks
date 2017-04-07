@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveStraightSetDistan
 import org.usfirst.frc.team1895.robot.commands.drivetrain.DriveToObstacle;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.GearGoneSequence;
 import org.usfirst.frc.team1895.robot.commands.drivetrain.RetrySequence;
+import org.usfirst.frc.team1895.robot.commands.drivetrain.TurnOnLEDRing;
 import org.usfirst.frc.team1895.robot.commands.gears.DeployGearHolder;
 import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
 
@@ -20,7 +21,7 @@ public class BLUE_CenterPos_Autonomous extends CommandGroup {
     public BLUE_CenterPos_Autonomous() {
         
     	//UPDATED WITH RETRY CODE
-    	
+    	addSequential(new TurnOnLEDRing());
     	addSequential(new DriveStraightSetDistance(-54));
     	addSequential(new PrintCommand("Done driving straight with PID"));
     	//addSequential(new WaitCommand(1.0));
