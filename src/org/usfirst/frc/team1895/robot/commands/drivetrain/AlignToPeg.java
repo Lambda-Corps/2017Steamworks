@@ -23,7 +23,7 @@ public class AlignToPeg extends Command {
 
 	// Called just before this Command runs the first time
 	// Since it is in the initialize, it will only be called once instead of it being in the constructor,
-	// where everytime the command is instantiated you'd start the vision thread
+	// where every time the command is instantiated you'd start the vision thread
 	protected void initialize() {		
 	}
 
