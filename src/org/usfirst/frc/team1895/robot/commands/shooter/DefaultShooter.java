@@ -27,7 +27,7 @@ public class DefaultShooter extends Command {
     @Override
     protected void execute() {
     	shooter.setRegulator(driverTwo.getAxis(F310.RY));
-    	shooter.setShooterSpeed(driverTwo.getAxis(F310.LT));
+    	shooter.setShooterSpeed(1.0);
     }
 
     /**

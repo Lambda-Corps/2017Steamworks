@@ -17,7 +17,7 @@ public class Shooter extends Subsystem {
     
     // This is a measured value, of the max encoder speed in native units per
     // second. This value is about 2273 RPM.
-    private static final double encoderFullSpeed = 38800;
+    private static final double encoderFullSpeed = 29000;
     
     public Shooter() {
     	regulator = new CANTalon(RobotMap.REGULATOR_MOTOR_PORT);
@@ -29,12 +29,12 @@ public class Shooter extends Subsystem {
     	shooter = new CANTalon(RobotMap.SHOOTER_MOTOR_PORT);
     	shooter.setInverted(true);
     	shooter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-    	shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	//shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooter.setProfile(0);
-    	shooter.setF(0.03747);
-    	shooter.setP(0.0);
+    	shooter.setF(0.025); //.03747
+    	shooter.setP(1.35);
     	shooter.setI(0.0);
-    	shooter.setD(0.0);
+    	shooter.setD(-0.135);
     }
     
     /**
@@ -45,7 +45,8 @@ public class Shooter extends Subsystem {
     public void setShooterSpeed(double speed) {
     	if(speed < 0) speed = 0;
     	if(speed > 1) speed = 1; 
-    	shooter.set(speed * encoderFullSpeed);
+    	shooter.set(speed);// * encoderFullSpeed);
+    	System.out.println(shooter.getEncVelocity());
     }
     
     /**

@@ -273,8 +273,12 @@ public class Drivetrain extends Subsystem {
 			right = 1.0;
 		if (right < -1.0)
 			right = -1.0;
-		left_motorgroup.set(left);
-		right_motorgroup.set(-right);
+//		left_motorgroup.set(left);
+//		right_motorgroup.set(-right);
+		
+		//SCALAR ADDED: set motors at half of speed that would have been given
+		left_motorgroup.set(0.5*left);
+		right_motorgroup.set(-0.5*right);
 
 		// Check to see if gear shifting is necessary. if it is, then shift
 		// shiftGears();
