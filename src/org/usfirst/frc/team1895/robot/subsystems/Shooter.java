@@ -31,10 +31,11 @@ public class Shooter extends Subsystem {
     	shooter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
     	//shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooter.setProfile(0);
-    	shooter.setF(0.025); //.03747
-    	shooter.setP(1.35);
-    	shooter.setI(0.0);
-    	shooter.setD(-0.135);
+    	shooter.setF(0.03747); //.03747
+    	shooter.setP(1.15);
+    	shooter.setI(0.01);
+    	shooter.setD(0.0);
+    	
     }
     
     /**
