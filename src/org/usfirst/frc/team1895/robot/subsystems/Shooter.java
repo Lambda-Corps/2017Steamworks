@@ -6,6 +6,7 @@ import org.usfirst.frc.team1895.robot.commands.shooter.DefaultShooter;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  *
@@ -26,15 +27,20 @@ public class Shooter extends Subsystem {
     	// this sets the PID values for velocity control. Here, the F term
     	// is the most important, and MUST be tuned first!!! Calculate F
     	// by (100% * 1023) / encoderFullSpeed, then tune.
+		
     	shooter = new CANTalon(RobotMap.SHOOTER_MOTOR_PORT);
     	shooter.setInverted(true);
     	shooter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
-    	//shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooter.setProfile(0);
     	shooter.setF(0.03747); //.03747
     	shooter.setP(1.15);
-    	shooter.setI(0.01);
-    	shooter.setD(0.0);
+    	shooter.setI(0.0105);
+    	shooter.setD(-0.0);
+    	
+
+    	LiveWindow.addActuator("Shooter", "Flywheel", shooter);
+		LiveWindow.addActuator("Shooter", "Regulator", regulator);
     	
     }
     
