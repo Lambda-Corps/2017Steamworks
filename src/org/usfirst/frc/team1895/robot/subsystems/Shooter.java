@@ -4,63 +4,71 @@ import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.shooter.DefaultShooter;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/** ChangeLog: 
- * 	2/4/2017 (Maddy Seputro)
- * 		Description: Subsystem for the shooter and the intake system, which will be
- * 		used in the Shooter Command package. Flywheel should always be on, so the indexer
- * 		motor will determine whether balls are shot or not.
- *			Will need:
- *			- 2 encoders (so four digital IO ports)
- *			- motor
- *			- 1 solenoid
- *			- camera (but it's in drivetrain)
- *		To do still:
- *			- Finish methods alignToHighGoal, moveIntake, shoot
- *			- Add comments when you're done writing and as you write
- *			- Add cameras if you want them
- *			- Test 
+/**
+ *
  */
 public class Shooter extends Subsystem {
-
-	private CANTalon indexer_motor;		//smaller wheel
-	private CANTalon flywheel_motor; 	//larger wheel -- speed will be PID controlled
-	private Encoder indexer_encoder;
-	private Encoder flywheel_encoder;
-	//private DoubleSolenoid shooter_solenoid;
 	
+    private final TalonSRX regulator;
+    private final TalonSRX shooter;
+    
+    // This is a measured value, of the max encoder speed in native units per
+    // second. This value is about 2273 RPM.
+    private static final double encoderFullSpeed = 38800;
+    
     public Shooter() {
-    	indexer_motor = new CANTalon(RobotMap.INDEXER_MOTOR_PORT);
-    	flywheel_motor = new CANTalon(RobotMap.FLYWHEEL_MOTOR_PORT);
-    	indexer_encoder = new Encoder(RobotMap.INDEXER_ENCODER_A_PORT, RobotMap.INDEXER_ENCODER_B_PORT);
-    	flywheel_encoder = new Encoder(RobotMap.FLYWHEEL_ENCODER_A_PORT, RobotMap.FLYWHEEL_ENCODER_B_PORT);
-    	//shooter_solenoid = new DoubleSolenoid(RobotMap.SHOOTER_SOLENOID_A_PORT, RobotMap.SHOOTER_SOLENOID_B_PORT);
-    }
-    
-    // For: Climb and DefaultWinch Commands 
-    // Sensors: indexer_encoder
-    // Description: will move the indexer to allow fuel to be shot one at a time. Encoders could be used to 
-    // control how much the indexer motor moves when shooting or count revolutions needed to shoot one fuel
-    public void moveIntake() {
-    	//Show maddy some cool shtuffs //yayyyyyy
-    }
-    
-    // For: DefaultShooter and Shoot Commands
-    // Sensors: indexer_encoder (maybe)
-    // Description: for the DefaultShooter Command, set flywheel_motor on but indexer_motor off so fuel isn't shot
-    // As for the Shoot Command, set indexer_motor and flywheel_motor to desired speed. It will be called when the
-    // robot presses the button for shooting (which is still TBD)
-    public void shoot() {
     	
+    	regulator = new TalonSRX(RobotMap.REGULATOR_MOTOR_PORT);
+    	
+    	// Creates the CANTalon, and sets it into speed control mode. Also,
+    	// this sets the PID values for velocity control. Here, the F term
+    	// is the most important, and MUST be tuned first!!! Calculate F
+    	// by (100% * 1023) / encoderFullSpeed, then tune.
+    	shooter = new TalonSRX(RobotMap.FLYWHEEL_MOTOR_PORT);
+    	shooter.setInverted(true);
+//    	shooter.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
+//    	shooter.changeControlMode(CANTalon.TalonControlMode.Speed);
+//    	shooter.setProfile(0);
+//    	shooter.setF(0.03747);
+//    	shooter.setP(0.0);
+//    	shooter.setI(0.0);
+//    	shooter.setD(0.0);
     }
     
+    /**
+     * Set the desired speed of the shooter. Since we are shooting forward,
+     * the given argument must be 0.0 to 1.0 (which is the percentage of
+     * the max speed).
+     * */
+    public void setShooterSpeed(double speed) {
+    	if(speed < 0) speed = 0;
+    	if(speed > 1) speed = 1; 
+    	shooter.set(ControlMode.PercentOutput, speed * encoderFullSpeed);
+//    	System.out.println("setting shooter " + speed * encoderFullSpeed);
+    }
     
+    /**
+     * Set the speed of the regulator. ThIs does allow back drive, for any case
+     * where it is necessary. If this proves to be negatively affecting fuel
+     * shooting, then this will change.
+     * */
+    public void setRegulator(double speed) {
+    	if(speed < -1) speed = -1;
+    	if(speed >  1) speed =  1;
+    	regulator.set(ControlMode.PercentOutput, -speed);
+//    	System.out.println("setting regulator " + speed);
+    }
+    
+    /**
+     * Set the default command to the DefaultShooter command, which deals with
+     * setting the regulator speed and the shooter speed.
+     * */
     public void initDefaultCommand() {
-    	// set flywheel_motor on but indexer_motor off so fuel isn't shot
         setDefaultCommand(new DefaultShooter());
     }
 }

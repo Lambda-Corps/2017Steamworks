@@ -1,14 +1,13 @@
 package org.usfirst.frc.team1895.robot.subsystems;
 
 import org.usfirst.frc.team1895.robot.RobotMap;
-import org.usfirst.frc.team1895.robot.commands.gears.RetractGearHolder;
+import org.usfirst.frc.team1895.robot.commands.gears.DefaultGearInOrOut;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -35,7 +34,7 @@ public class GearHolder extends Subsystem {
     double[] lastFive = new double[listLength];
     double M;//slope
 	private final Compressor compressor;
-	private final double GEARISINVOLTAGE = 1.1;
+	private final double GEARISINVOLTAGE = 1.15;
 	boolean gearHOut;
 	
     public GearHolder() {
@@ -65,13 +64,16 @@ public class GearHolder extends Subsystem {
     		gearholder_solenoid.set(DoubleSolenoid.Value.kForward);	
     		gearHOut = true;
     	}
-    	System.out.println("gear out: " + gearHOut);
     	return gearHOut;
 	}
     
     public boolean retractGear() {
     	gearholder_solenoid.set(DoubleSolenoid.Value.kReverse);
     	gearHOut = false;
+    	return gearHOut;
+    }
+    
+    public boolean getGearState() {
     	return gearHOut;
     }
 	
@@ -131,7 +133,7 @@ public class GearHolder extends Subsystem {
 
     public void initDefaultCommand() {
         // To keep the gear holder retracted when not in use. 
-        //setDefaultCommand(new RetractGearHolder());
+        setDefaultCommand(new DefaultGearInOrOut());
     }
 }
 

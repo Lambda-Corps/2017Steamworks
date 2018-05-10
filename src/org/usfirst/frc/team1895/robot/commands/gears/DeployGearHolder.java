@@ -3,6 +3,7 @@ package org.usfirst.frc.team1895.robot.commands.gears;
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -29,11 +30,7 @@ public class DeployGearHolder extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	gearPresence = Robot.gearholder.isGearPresent();
-    	if(gearPresence == true) {
-    		System.out.println("gearholder done");
-    		done = Robot.gearholder.extendGear(); //returns boolean
-    	}
+		done = Robot.gearholder.extendGear(); //returns boolean
     }
 
     // Make this return true when this Command no longer needs to run execute()

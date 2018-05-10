@@ -33,7 +33,7 @@ public class F310 extends Joystick {
 	
 	public F310(int port) {
 		//needed to call super constructor in order for F310 to extend Joystick
-		super(port, numAxes, numButtons);	
+		super(port);	
 		for(double i : scalar) {
 			i = 1.0;
 		}

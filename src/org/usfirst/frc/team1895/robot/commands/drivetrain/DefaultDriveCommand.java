@@ -28,7 +28,7 @@ public class DefaultDriveCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.drivetrain.setBrake(true);
+//		Robot.drivetrain.setBrake(true);
 	}
 
 	@Override
@@ -37,8 +37,8 @@ public class DefaultDriveCommand extends Command {
 		// value of the left joystick and the y-axis value of the right joystick
 		// Joystick.getY() returns the Z axis, so use getRawAxis(1) (the y axis)
 		// until the custom classes are implemented.
-		Robot.drivetrain.arcadeDrive(Robot.oi.gamepad.getAxis(F310.RY), Robot.oi.gamepad.getAxis(F310.LX));
-		//Robot.drivetrain.tankDrive(-Robot.oi.gamepad.getAxis(F310.LY)*0.75, Robot.oi.gamepad.getAxis(F310.RY)*0.75);
+//		Robot.drivetrain.arcadeDrive(-Robot.oi.gamepad.getAxis(F310.RY), Robot.oi.gamepad.getAxis(F310.LX));
+		Robot.drivetrain.arcadeDrive(-Robot.oi.gamepad.getAxis(F310.LY), Robot.oi.gamepad.getAxis(F310.RX));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -61,6 +61,6 @@ public class DefaultDriveCommand extends Command {
 	// subsystems is scheduled to run.
 	@Override
 	protected void interrupted() {
-		Robot.drivetrain.setBrake(false);
+//		Robot.drivetrain.setBrake(false);
 	}
 }

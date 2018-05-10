@@ -23,7 +23,7 @@ public class ManualOverrideLowGear extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if( test) Robot.drivetrain.manualOverride( true, false);
-    	if(!test) Robot.drivetrain.manualOverride(false, true );
+    	if(!test) Robot.drivetrain.manualOverride(false, false);
     }
 
     // Called repeatedly when this Command is scheduled to run

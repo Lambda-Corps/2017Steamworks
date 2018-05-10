@@ -21,7 +21,7 @@ public class ArcadeJoystick extends Joystick {
 	//constructor -- takes the joystick's port value as an argument
 	public ArcadeJoystick(int port) {
 		//super class needed in order for ArcadeJoystick to extend Joystick
-		super(port, numButtons, numAxes);
+		super(port);
 		for(double i : scalar) { 		//for the length of scalar, to each i, set = 1.0
 			i = 1.0;
 		}

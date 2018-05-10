@@ -30,15 +30,13 @@ public class RobotMap {
 		public static final int RIGHT_FR_LONG_RANGEFINDER_PORT = 4;
 	
 	//CAN Bus
-		public static final int LEFT_MOTOR1_PORT = 4;
-		public static final int LEFT_MOTOR2_PORT = 5;
-		public static final int LEFT_MOTOR3_PORT = 6;
-		public static final int RIGHT_MOTOR1_PORT = 1;
-		public static final int RIGHT_MOTOR2_PORT = 2;
-		public static final int RIGHT_MOTOR3_PORT = 3;
+		public static final int LEFT_DT_MOTOR1_PORT = 1;
+		public static final int LEFT_DT_MOTOR2_PORT = 2;
+		public static final int RIGHT_DT_MOTOR1_PORT = 4;
+		public static final int RIGHT_DT_MOTOR2_PORT = 5;
 		public static final int WINCH_MOTOR_PORT = 7;
-		public static final int INDEXER_MOTOR_PORT = 8;
-		public static final int FLYWHEEL_MOTOR_PORT = 9;
+		public static final int REGULATOR_MOTOR_PORT = 3;
+		public static final int FLYWHEEL_MOTOR_PORT = 8;
 		
 	//Solenoids
 		public static final int SHOOTER_SOLENOID_A_PORT = -1;
@@ -57,8 +55,11 @@ public class RobotMap {
 		public static final int WINCH_ENCODER_B_PORT = 5;
 		public static final int INDEXER_ENCODER_A_PORT = 6;
 		public static final int INDEXER_ENCODER_B_PORT = 7;
-		public static final int FLYWHEEL_ENCODER_A_PORT = 8;
-        public static final int FLYWHEEL_ENCODER_B_PORT = 9;
+//		public static final int FLYWHEEL_ENCODER_A_PORT = 8;
+//        public static final int FLYWHEEL_ENCODER_B_PORT = 9;
+        
+    //Relay
+        public static final int CAMERA_RING = 0;
 	
 	//Driver's Station IO
 		public static final int  LEFT_JOYSTICK_PORT = 0;

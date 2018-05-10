@@ -3,8 +3,9 @@ package org.usfirst.frc.team1895.robot.subsystems;
 import org.usfirst.frc.team1895.robot.RobotMap;
 import org.usfirst.frc.team1895.robot.commands.climbing.DefaultManuallyClimb;
 
-
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,14 +33,19 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Winch extends Subsystem {
 
-	private CANTalon winch_motor;
+	private TalonSRX winch_motor;
 	private Encoder winch_encoder;
 	private int cl_counter;
 	
     public Winch() {
-    	winch_motor = new CANTalon(RobotMap.WINCH_MOTOR_PORT);
+    	winch_motor = new TalonSRX(RobotMap.WINCH_MOTOR_PORT);
     	winch_encoder = new Encoder(RobotMap.WINCH_ENCODER_A_PORT, RobotMap.WINCH_ENCODER_B_PORT);
     	cl_counter = 0;
+    	
+    	winch_motor.configForwardSoftLimitThreshold(50, 0);
+    	winch_motor.configReverseSoftLimitThreshold(-50, 0);
+    	winch_motor.configReverseSoftLimitEnable(false, 0);
+    	winch_motor.configForwardSoftLimitEnable(false, 0);
     }
 //==MANUAL MOVEMENT=================================================================================================================
     
@@ -50,8 +56,8 @@ public class Winch extends Subsystem {
     public void manualClimbing(double velocity) {
     	if(velocity >  1.0) velocity =  1.0;
     	//if(velocity < 0) velocity = 0.0; //robot will never climb down
-    	if(velocity < -1.0) velocity = -1.0; //robot will never climb down
-    	winch_motor.set(velocity);
+    	if(velocity < -1.0) velocity = -1.0;
+    	winch_motor.set(ControlMode.PercentOutput, velocity);
     }
     
     
@@ -71,7 +77,7 @@ public class Winch extends Subsystem {
     	//0.5 needs to be changed to the current drawn when the robot first touches the touchpad
     	
     	//if the motor hasn't reached the touchpad yet, continue at max speed and increment counter
-    	winch_motor.set(speed);
+    	winch_motor.set(ControlMode.PercentOutput, speed);
     	cl_counter++;
     	//so that the counter will print the current and encoder values only 5 times a second
     	if(cl_counter == 10) {
@@ -80,10 +86,10 @@ public class Winch extends Subsystem {
     		cl_counter = 0;
     	}
     	//winch motors are set to zero once the touchpad has been reached
-    	if(current > touchpad_reached) {
-    		winch_motor.set(0.0);
-    		return true;
-    	}
+//    	if(current > touchpad_reached) {
+//    		winch_motor.set(ControlMode.PercentOutput, 0.0);
+//    		return true;
+//    	}
     	return false;
     }
     
@@ -100,7 +106,7 @@ public class Winch extends Subsystem {
     	int counter = 0;
     	int second = 50;
     	
-    	winch_motor.set(speed);
+    	winch_motor.set(ControlMode.PercentOutput, speed);
     	cl_counter++;
     	//for printing values, will print the current and encoder values only 5 times a second
     	if(cl_counter == 10) {
@@ -110,7 +116,7 @@ public class Winch extends Subsystem {
     	}
     	//winch motors are set to zero once the rope has been caught
     	if(current > ropeCaught && counter > second) {
-    		winch_motor.set(0.0);
+//    		winch_motor.set(ControlMode.PercentOutput, 0);
     		return true;
     	}
     	else if(counter <= second ) {

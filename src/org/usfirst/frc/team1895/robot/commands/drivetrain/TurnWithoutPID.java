@@ -28,7 +28,6 @@ public class TurnWithoutPID extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	finished = Robot.drivetrain.turnWithGyroNP(angle, speed);
-    	SmartDashboard.putNumber("Our Current Angle:", Robot.drivetrain.getAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()

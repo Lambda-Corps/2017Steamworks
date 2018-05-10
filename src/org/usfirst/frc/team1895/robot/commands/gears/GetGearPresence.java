@@ -3,6 +3,7 @@
 import org.usfirst.frc.team1895.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Changelog:
@@ -28,7 +29,7 @@ public class GetGearPresence extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	gear_state = Robot.gearholder.isGearPresent();
-    	
+    	SmartDashboard.putBoolean("Is Gear in the gearholder?", gear_state);
     }
 
     // Make this return true when this Command no longer needs to run execute()
